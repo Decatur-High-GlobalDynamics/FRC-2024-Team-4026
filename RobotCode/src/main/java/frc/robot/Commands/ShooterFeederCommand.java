@@ -6,17 +6,22 @@ import frc.robot.Subsystems.ShooterSubsystem;
 public class ShooterFeederCommand extends CommandBase
 {
 
-	private ShooterSubsystem shooter;
+	private ShooterSubsystem feeder;
 
-	public ShooterFeederCommand(ShooterSubsystem shoot)
+	public ShooterFeederCommand(ShooterSubsystem feed)
 	{
 
-		shooter = shoot;
-		addRequirements(shooter);
+		feeder = feed;
+		addRequirements(feeder);
 	}
 
 	public void execute()
 	{
-		shooter.setPreMotorPower(1, "Feed the ring");
+		feeder.setPreMotorPower(1, "Feed the ring");
+	}
+
+	public void end(boolean interrupted)
+	{
+		feeder.setPreMotorPower(0, "command finished");
 	}
 }

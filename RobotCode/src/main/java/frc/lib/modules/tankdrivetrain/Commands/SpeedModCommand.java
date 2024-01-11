@@ -1,30 +1,35 @@
 package frc.lib.modules.tankdrivetrain.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.modules.tankdrivetrain.TankDrivetrainSubsystem;
 
-public class SpeedModCommand extends Command {
-    
-    private TankDrivetrainSubsystem drivetrain;
-    private double speedMod;
+public class SpeedModCommand extends CommandBase
+{
 
-    public SpeedModCommand(double speedMod, TankDrivetrainSubsystem drivetrain) {
-        this.speedMod = speedMod;
-        this.drivetrain = drivetrain;
+	private TankDrivetrainSubsystem drivetrain;
+	private double speedMod;
 
-        addRequirements(drivetrain);
-    }
+	public SpeedModCommand(double speedMod, TankDrivetrainSubsystem drivetrain)
+	{
+		this.speedMod = speedMod;
+		this.drivetrain = drivetrain;
 
-    @Override
-    public void initialize() {
-        // Set the speed mod in the drivetrain subsystem
-        drivetrain.setSpeedMod(speedMod);
-    }
+		addRequirements(drivetrain);
+	}
 
-    @Override
-    public boolean isFinished() {
-        // End the command immediately after being called
-        return true;
-    }
-    
+	@Override
+	public void initialize()
+	{
+		// Set the speed mod in the drivetrain subsystem
+		drivetrain.setSpeedMod(speedMod);
+	}
+
+	@Override
+	public boolean isFinished()
+	{
+		// End the command immediately after being called
+		return true;
+	}
+
 }

@@ -1,5 +1,9 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax.IdleMode;
+
+import frc.robot.constants.Ports;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.core.motors.TeamSparkMAX;
 
@@ -12,10 +16,13 @@ public class ShooterSubsystem extends SubsystemBase
 	public ShooterSubsystem()
 	{
 
-		shooterMotor = new TeamSparkMAX("Shooter Motor", 0);
-		preMotor = new TeamSparkMAX("preMotor", 0);
+		shooterMotor = new TeamSparkMAX("Shooter Motor", Ports.SHOOTER_MOTOR);
+		preMotor = new TeamSparkMAX("preMotor", Ports.PRE_MOTOR);
 		shooterMotor.enableVoltageCompensation(voltage);
 		preMotor.enableVoltageCompensation(voltage);
+
+		shooterMotor.setIdleMode(IdleMode.kBrake);
+		preMotor.setIdleMode(IdleMode.kBrake);
 
 	}
 
