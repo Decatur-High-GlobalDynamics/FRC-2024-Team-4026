@@ -3,60 +3,81 @@ package frc.robot.Subsystems;
 // import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import frc.robot.constants.Constants;
 import frc.robot.constants.Ports;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.core.motors.TeamSparkMAX;
 
 public class ShooterSubsystem extends SubsystemBase
 {
-	public TeamSparkMAX leftShooterMotorMain, rightShooterMotorMain, leftShooterMotorSub,
-			rightShooterMotorSub;
+	private double shooterMotorPower;
+	private double feederMotorPower;
+	
+	private PIDController shooterPID;
+	private PIDController feederPID;
+	public TeamSparkMAX shooterMotorMain, shooterMotorSub, feederMotorMain,
+			feederMotorSub;
 
 	private static double voltage = 12;
 
 	public ShooterSubsystem()
 	{
+		shooterMotorPower = 0.25;
+		feederMotorPower =  0;
+		
+		shooterPID = new PIDController(Constants.SHOOTER_KP, Constants.SHOOTER_KI,
+				Constants.SHOOTER_KD);
+		feederPID = new PIDController(Constants.FEEDER_KP, Constants.FEEDER_KI,
+				Constants.FEEDER_KD);
 
-		leftShooterMotorMain = new TeamSparkMAX("Left Shooter Motor Main",
+		shooterMotorMain = new TeamSparkMAX("Left Shooter Motor Main",
 				Ports.LEFT_SHOOTER_MOTOR_MAIN);
-		rightShooterMotorMain = new TeamSparkMAX("Right Shooter Motor Main",
+		shooterMotorSub = new TeamSparkMAX("Right Shooter Motor Main",
 				Ports.RIGHT_SHOOTER_MOTOR_MAIN);
-		leftShooterMotorSub = new TeamSparkMAX("Left Shooter Motor Sub",
+		feederMotorMain = new TeamSparkMAX("Left Shooter Motor Sub",
 				Ports.LEFT_SHOOTER_MOTOR_SUB);
-		rightShooterMotorSub = new TeamSparkMAX("Right Shooter Motor Sub",
+		feederMotorSub = new TeamSparkMAX("Right Shooter Motor Sub",
 				Ports.RIGHT_SHOOTER_MOTOR_SUB);
 
-		leftShooterMotorMain.enableVoltageCompensation(voltage);
-		rightShooterMotorMain.enableVoltageCompensation(voltage);
-		leftShooterMotorSub.enableVoltageCompensation(voltage);
-		rightShooterMotorSub.enableVoltageCompensation(voltage);
+		shooterMotorMain.enableVoltageCompensation(voltage);
+		shooterMotorSub.enableVoltageCompensation(voltage);
+		feederMotorMain.enableVoltageCompensation(voltage);
+		feederMotorSub.enableVoltageCompensation(voltage);
 
-		leftShooterMotorSub.follow(rightShooterMotorSub);
-		leftShooterMotorMain.follow(rightShooterMotorMain);
+		feederMotorSub.follow(feederMotorMain);
+		shooterMotorSub.follow(shooterMotorMain);
 
-		rightShooterMotorMain.setInverted(true);
-		rightShooterMotorSub.setInverted(true);
+		shooterMotorSub.setInverted(true);
+		feederMotorSub.setInverted(true);
 
-		rightShooterMotorMain.setIdleMode(IdleMode.kBrake);
-		rightShooterMotorSub.setIdleMode(IdleMode.kBrake);
-		leftShooterMotorMain.setIdleMode(IdleMode.kBrake);
-		leftShooterMotorSub.setIdleMode(IdleMode.kBrake);
+		shooterMotorSub.setIdleMode(IdleMode.kBrake);
+		feederMotorSub.setIdleMode(IdleMode.kBrake);
+		shooterMotorMain.setIdleMode(IdleMode.kBrake);
+		feederMotorMain.setIdleMode(IdleMode.kBrake);
 	}
 
 	public double getShooterMotorPower()
 	{
-		return rightShooterMotorMain.get();
+		return shooterMotorMain.get();
 	}
 
 	public void setShooterMotorPower(double power, String reason)
 	{
-		rightShooterMotorMain.set(power, reason);
+		shooterMotorPower = Math.max(Math.min(1, power), -1);
 
 	}
 
 	public void setFeedMotorPower(double power, String reason)
 	{
-		rightShooterMotorSub.set(power, reason);
+		feederMotorPower = Math.max(Math.min(1, power), -1);
 	}
+	public void periodic()
+	{
+		double newShooterPower = shooterPID.calculate(shooterMotorSub.get(), shooterMotorPower);
+		shooterMotorMain.set(newShooterPower);
 
+		double newFeederPower = shooterPID.calculate(feederMotorSub.get(), feederMotorPower);
+		feederMotorMain.set(newFeederPower);
+	}
 }
