@@ -18,10 +18,20 @@ public class ShooterCommand extends CommandBase
 	public void execute()
 	{
 		shooter.setShooterMotorPower(1.0, "joystick said to shoot");
+
+		if (shooter.getShooterMotorPower() >= 0.95)
+		{
+			shooter.setFeedMotorPower(1.0, "motor is spun");
+		}
+		else
+		{
+			shooter.setFeedMotorPower(0, "motor is not spun");
+		}
 	}
 
 	public void end(boolean interrupted)
 	{
-		shooter.setShooterMotorPower(0, "command is over");
+		shooter.setShooterMotorPower(0.25, "command is over");
+		shooter.setFeedMotorPower(0, "Command is over");
 	}
 }

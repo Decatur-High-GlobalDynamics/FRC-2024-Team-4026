@@ -90,12 +90,14 @@ public class TeamUtils
 				String[] array = line.split(",", 2);
 				data.put(Double.parseDouble(array[0]), Double.parseDouble(array[1]));
 			}
+			br.close();
 		}
 		catch (Exception e)
 		{
 			System.out.println("Failed to load file (file name is prob wrong)");
 		}
 		return data;
+
 	}
 
 	static public int LowerBound(double n, Double[] array)
