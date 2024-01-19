@@ -45,8 +45,8 @@ public class RobotContainer
 
 	private void configureSecondaryBindings()
 	{
+		// makes the bindings for the controllers
 		secondaryController = new Joystick(1);
-		JoystickButton x = new JoystickButton(secondaryController, LogitechControllerButtons.x);
 		JoystickButton rightTrigger = new JoystickButton(secondaryController,
 				LogitechControllerButtons.triggerRight);
 
