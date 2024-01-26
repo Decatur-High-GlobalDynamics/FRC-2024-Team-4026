@@ -11,6 +11,7 @@ import frc.lib.core.motors.TeamSparkMAX;
 
 public class ShooterSubsystem extends SubsystemBase
 {
+	
 	// Creates objects
 	private double shooterMotorPower, feederMotorPower;
 
