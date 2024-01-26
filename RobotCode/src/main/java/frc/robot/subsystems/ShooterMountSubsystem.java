@@ -75,4 +75,5 @@ public class ShooterMountSubsystem extends SubsystemBase
 		mainMotor.set(Math.max(-1, Math.min(power, 1)) * SPEED, reason);
 	}
 
+	
 }

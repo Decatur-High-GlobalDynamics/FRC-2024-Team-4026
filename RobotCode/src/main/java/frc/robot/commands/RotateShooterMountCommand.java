@@ -9,6 +9,7 @@ import frc.robot.subsystems.ShooterMountSubsystem;
 public class RotateShooterMountCommand extends Command
 {
 
+	
 	/** In degrees per {@link #execute()} call (20 ms) */
 	private DoubleSupplier getSpeed;
 
