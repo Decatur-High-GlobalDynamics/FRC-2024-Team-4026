@@ -51,7 +51,10 @@ public class ShooterMountSubsystem extends SubsystemBase
 
 	public void setGoalRotation(double degrees)
 	{
+		degrees = Math.max(ShooterMountConstants.MINIMUM_ANGLE,
+				Math.min(degrees, ShooterMountConstants.MAXIMUM_ANGLE));
 		distance = degrees - getCurrentRotation();
+
 		goalRotation = degrees;
 	}
 
