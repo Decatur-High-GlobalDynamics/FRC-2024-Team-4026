@@ -3,13 +3,13 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.ShooterMountConstants;
 import frc.robot.subsystems.ShooterMountSubsystem;
 
 /** Continuously rotates based on a speed */
 public class RotateShooterMountCommand extends Command
 {
 
-	
 	/** In degrees per {@link #execute()} call (20 ms) */
 	private DoubleSupplier getSpeed;
 
@@ -40,8 +40,9 @@ public class RotateShooterMountCommand extends Command
 
 	public void execute()
 	{
-		double rotation = Math.max(0,
-				Math.min(180, shooterMountSubsystem.getCurrentRotation() + getSpeed.getAsDouble()));
+		double rotation = Math.max(ShooterMountConstants.MINIMUM_ANGLE,
+				Math.min(ShooterMountConstants.MAXIMUM_ANGLE,
+						shooterMountSubsystem.getCurrentRotation() + getSpeed.getAsDouble()));
 		shooterMountSubsystem.setGoalRotation(rotation);
 	}
 

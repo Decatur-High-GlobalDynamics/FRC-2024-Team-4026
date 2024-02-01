@@ -13,8 +13,6 @@ public class ShooterMountSubsystem extends SubsystemBase
 	/** In degrees */
 	private double goalRotation, distance;
 
-	public static final double DEADBAND = 0.5;
-
 	public ShooterMountSubsystem()
 	{
 		mainMotor = new TeamSparkMAX("SHOOTER_MOUNT_MOTOR_LEFT", Ports.SHOOTER_MOUNT_MOTOR_LEFT);
@@ -37,7 +35,7 @@ public class ShooterMountSubsystem extends SubsystemBase
 	{
 		double difference = goalRotation - getCurrentRotation();
 
-		if (Math.abs(difference) < DEADBAND)
+		if (Math.abs(difference) < ShooterMountConstants.DEADBAND)
 		{
 			setMotors(0, "Shooter Mount (Deadbanded): Difference: " + difference + ", Distance: "
 					+ distance);
