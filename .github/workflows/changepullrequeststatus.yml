@@ -37,7 +37,7 @@ jobs:
 
           echo "$pr_project_id"
           echo 'PR_ITEM_ID='$pr_project_id >> $GITHUB.ENV
-          echo ${{ env.PR_ITEM_ID }}
+          echo PR_ITEM_ID
           
   
       # - name: Authenticate with Project scopes
@@ -51,9 +51,8 @@ jobs:
       - name: Update status to "Awaiting Review"
         env:
           GH_TOKEN: ${{ secrets.WORKFLOWSAUTH }}
-          PR_PROJECT_ID: "${{ env.PR_ITEM_ID }}"
         run: |
-          gh api graphql -f pr_id=$PR_PROJECT_ID -f query='
+          gh api graphql -f pr_id=$PR_ITEM_ID -f query='
             mutation($pr_id: ID!) {
               updateProjectV2ItemFieldValue(
                 input: {
