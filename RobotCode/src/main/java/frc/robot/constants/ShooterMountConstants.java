@@ -9,4 +9,10 @@ public class ShooterMountConstants
 	public static final double MINIMUM_ANGLE = 20;
 	public static final double DEADBAND = 0.5;
 
+	public static final double KP = 0.1;
+	public static final double KI = 0.0;
+	public static final double KD = 0.0;
+	public static final double K_MAX_VELOCITy = 1.0;
+	public static final double K_MAX_ACCELERATION = 0.5;
+
 }

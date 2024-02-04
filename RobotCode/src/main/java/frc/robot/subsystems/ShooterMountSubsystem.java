@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.core.motors.TeamSparkMAX;
 import frc.robot.constants.Ports;
@@ -11,7 +13,9 @@ public class ShooterMountSubsystem extends SubsystemBase
 	private TeamSparkMAX mainMotor, followMotor;
 
 	/** In degrees */
-	private double goalRotation, distance;
+	private double goalRotation;
+
+	private ProfiledPIDController pidController;
 
 	public ShooterMountSubsystem()
 	{
@@ -28,31 +32,22 @@ public class ShooterMountSubsystem extends SubsystemBase
 		mainMotor.set(0);
 
 		goalRotation = 0.0;
+
+		pidController = new ProfiledPIDController(ShooterMountConstants.KP,
+				ShooterMountConstants.KI, ShooterMountConstants.KD,
+				new TrapezoidProfile.Constraints(ShooterMountConstants.K_MAX_VELOCITy,
+						ShooterMountConstants.K_MAX_ACCELERATION));
 	}
 
 	@Override
 	public void periodic()
 	{
-		double difference = goalRotation - getCurrentRotation();
-
-		if (Math.abs(difference) < ShooterMountConstants.DEADBAND)
-		{
-			setMotors(0, "Shooter Mount (Deadbanded): Difference: " + difference + ", Distance: "
-					+ distance);
-			return;
-		}
-
-		double power = distance * Math.sin(difference * Math.PI / distance);
-		power = Math.max(-1, Math.min(power, 1));
-		setMotors(power, "Shooter Mount: Difference: " + difference + ", Distance: " + distance);
+		mainMotor.set(pidController.calculate(mainMotor.getCurrentEncoderValue(),
+				degreesToTicks(goalRotation)));
 	}
 
 	public void setGoalRotation(double degrees)
 	{
-		degrees = Math.max(ShooterMountConstants.MINIMUM_ANGLE,
-				Math.min(degrees, ShooterMountConstants.MAXIMUM_ANGLE));
-		distance = degrees - getCurrentRotation();
-
 		goalRotation = degrees;
 	}
 
@@ -69,11 +64,6 @@ public class ShooterMountSubsystem extends SubsystemBase
 	public static double ticksToDegrees(double ticks)
 	{
 		return ticks * ShooterMountConstants.DEGREES_IN_ONE_TICK;
-	}
-
-	public void setMotors(double power, String reason)
-	{
-		mainMotor.set(Math.max(-1, Math.min(power, 1)) * ShooterMountConstants.SPEED, reason);
 	}
 
 }
