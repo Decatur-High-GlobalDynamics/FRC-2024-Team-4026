@@ -111,14 +111,14 @@ public class Autonomous implements ILogSource
         switch (AutoMode)
         {
         case DoNothing:
-            logFinest("Do nothing");
+            logFine("Do nothing");
             return Optional.empty();
             
         case Leave:
             AutoMain.addCommands(new ShooterInstantCommand(Shooter));
             AutoMain.addCommands(new DriveDistanceAuto(AutoConstants.LEAVE_DISTANCE,
                     SwerveConstants.AutoConstants.MAX_SPEED, SwerveDrive));
-            logFinest("Leave auto");
+            logFine("Leave auto");
             
             break;
             
@@ -126,7 +126,7 @@ public class Autonomous implements ILogSource
             AutoMain.addCommands(new ShooterInstantCommand(Shooter));
 
             String[] pathSequence = new String[0];
-            logFiner("Multi Note path");
+            logFine("Multi Note path");
             switch (StartingPosition)
             {
             case Amp:
@@ -138,7 +138,7 @@ public class Autonomous implements ILogSource
                                 : "Middle Start to Top Note",
                         "Top to Middle Note", "Middle to Bottom Note",
                 };
-                logFinest("Middle");
+                logFine("Middle");
                 break;
             case HumanPlayer:
                 pathSequence = new String[]
@@ -146,7 +146,7 @@ public class Autonomous implements ILogSource
                         "Bottom Start to Bottom Note", "Bottom to Middle Note",
                         "Middle to Top Note",
                 };
-                logFinest("Human Player");
+                logFine("Human Player");
                 break;
             }
 
@@ -174,7 +174,7 @@ public class Autonomous implements ILogSource
     {
         instance.StartingPositionChooser.close();
         instance.AutoModeChooser.close();
-        instance.logFiner("Closed SendableChoosers");
+        instance.logFine("Closed SendableChoosers");
     }
 
     /**
@@ -186,7 +186,7 @@ public class Autonomous implements ILogSource
      */
     private Command followPath(final String pathName)
     {
-        logFiner("Following path");
+        logFine("Following path");
         final PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
         return AutoBuilder.pathfindThenFollowPath(path,
                 SwerveConstants.AutoConstants.PathConstraints);

@@ -63,7 +63,7 @@ public class ShooterSubsystem extends SubsystemBase implements ILogSource
 	public void setShooterMotorPower(double power, String reason)
 	{
 		shooterMotorPower = Math.max(Math.min(1, power), -1);
-		logFinest("Shooter motors set to " + Math.max(Math.min(1, power), -1) );
+		logFiner("Shooter motors set to " + Math.max(Math.min(1, power), -1) );
 
 	}
 
@@ -73,7 +73,7 @@ public class ShooterSubsystem extends SubsystemBase implements ILogSource
 	public void setFeedMotorPower(double power, String reason)
 	{
 		feederMotorPower = Math.max(Math.min(1, power), -1);
-		logFinest("Feeder motors set to " + Math.max(Math.min(1, power), -1) );
+		logFiner("Feeder motors set to " + Math.max(Math.min(1, power), -1) );
 	}
 
 	/**

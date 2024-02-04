@@ -3,8 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.modules.leds.Color;
 import frc.robot.subsystems.LedSubsystem;
+import frc.lib.core.ILogSource;
 
-public class FlashLightsOffCommand extends Command
+public class FlashLightsOffCommand extends Command implements ILogSource
 {
 	public static LedSubsystem ledSubsystem;
 	public static int currentRainbowColor;
@@ -13,7 +14,12 @@ public class FlashLightsOffCommand extends Command
 	{
 		this.ledSubsystem = ledSubsystem;
 	}
-
+	@Override
+	public void initialize()
+	{
+		logFine("Command Started");
+	}
+	@Override
 	public void execute()
 	{
 		ledSubsystem.progress -= 0.02;
@@ -23,9 +29,10 @@ public class FlashLightsOffCommand extends Command
 				false);
 
 	}
-
+	
+	@Override
 	public void end(boolean interrupted)
 	{
-
+		logFine("Command Finished");
 	}
 }

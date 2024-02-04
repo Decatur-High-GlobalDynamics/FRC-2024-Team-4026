@@ -4,8 +4,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.modules.leds.Color;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import frc.lib.core.ILogSource;
 
-public class LedSubsystem extends SubsystemBase
+public class LedSubsystem extends SubsystemBase implements ILogSource
 {
 
 	private AddressableLED led;
@@ -64,6 +65,7 @@ public class LedSubsystem extends SubsystemBase
 	{
 		if (color.hsv)
 			buffer.setHSV(pixelToSet, color.h, color.s, color.v);
+		
 		else
 			buffer.setRGB(pixelToSet, color.r, color.g, color.b);
 
@@ -73,7 +75,7 @@ public class LedSubsystem extends SubsystemBase
 	public void updateData()
 	{
 		led.setData(buffer);
-		System.out.println("Updated LED Data.");
+		logFine("Updated LED Data.");
 	}
 
 	public int getLength()
