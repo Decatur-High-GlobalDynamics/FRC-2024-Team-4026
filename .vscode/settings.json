@@ -9,5 +9,6 @@
     },
     "editor.stickyTabStops": true,
     "editor.formatOnSave": true,
-    "editor.formatOnPaste": true
+    "editor.formatOnPaste": true,
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

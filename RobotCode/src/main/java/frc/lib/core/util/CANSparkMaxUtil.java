@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import frc.lib.modules.swervedrive.SwerveConstants;
 
 /** Sets motor usage for a Spark Max motor controller */
+@SuppressWarnings("deprecation")
 public class CANSparkMaxUtil
 {
 	public enum Usage
@@ -26,6 +27,7 @@ public class CANSparkMaxUtil
 	 *                        CANSparkMax is constructed.
 	 * @param enableFollowing Whether to enable motor following.
 	 */
+	
 	public static void setCANSparkMaxBusUsage(CANSparkMax motor, Usage usage,
 			boolean enableFollowing)
 	{

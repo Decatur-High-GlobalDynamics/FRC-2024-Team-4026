@@ -4,6 +4,7 @@
 package frc.robot;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,7 +17,7 @@ public class Robot extends TimedRobot
 
 	private static Robot instance;
 
-	private Command autonomousCommand;
+	private Optional<Command> autonomousCommand;
 	private RobotContainer robotContainer;
 	private CTREConfigs ctreConfigs;
 
@@ -86,11 +87,12 @@ public class Robot extends TimedRobot
 			subsystem.autonomousInit();
 		}
 
-		autonomousCommand = robotContainer.getAutonomousCommand();
+		autonomousCommand = Autonomous.getAutoCommand();
+		Autonomous.close();
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		if (autonomousCommand.isPresent())
 		{
-			autonomousCommand.schedule();
+			autonomousCommand.get().schedule();
 		}
 	}
 
@@ -106,9 +108,9 @@ public class Robot extends TimedRobot
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null)
+		if (autonomousCommand.isPresent())
 		{
-			autonomousCommand.cancel();
+			autonomousCommand.get().cancel();
 		}
 
 		for (ModeBasedSubsystem subsystem : subsystems)

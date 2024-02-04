@@ -19,6 +19,13 @@ public class DriveDistanceAuto extends Command
 
 	private final double ROT_DEADBAND = 1;
 
+	/**
+	 * Includes both movement and rotation.
+	 * 
+	 * @param distanceX in meters
+	 * @param distanceY in meters
+	 * @param targetRot in degrees
+	 */
 	public DriveDistanceAuto(double distanceX, double distanceY, double speed, double rotSpeed,
 			double targetRot, SwerveDriveSubsystem swerve)
 	{
@@ -34,12 +41,23 @@ public class DriveDistanceAuto extends Command
 		addRequirements(swerve);
 	}
 
+	/**
+	 * Includes both movement in both the x and y axes.
+	 * 
+	 * @param distanceX in meters
+	 * @param distanceY in meters
+	 */
 	public DriveDistanceAuto(double distanceX, double distanceY, double speed,
 			SwerveDriveSubsystem swerve)
 	{
 		this(distanceX, distanceY, speed, 0, 0, swerve);
 	}
 
+	/**
+	 * Includes movement in the x axis.
+	 * 
+	 * @param distanceX in meters
+	 */
 	public DriveDistanceAuto(double distanceX, double speed, SwerveDriveSubsystem swerve)
 	{
 		this(distanceX, 0, speed, 0, 0, swerve);

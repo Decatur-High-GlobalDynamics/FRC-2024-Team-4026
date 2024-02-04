@@ -38,10 +38,10 @@ public final class SwerveConstants
 	public static final boolean INVERT_GYRO = false; // Always ensure Gyro is CCW+ CW-
 
 	/* Drivetrain Constants */
-	public static final double TRACK_WIDTH = Units.inchesToMeters(21.708); // will test
+	public static final double TRACK_WIDTH = Units.inchesToMeters(19); // will test
 																			// when
 																			// testing PID
-	public static final double WHEEL_BASE = Units.inchesToMeters(27.1); // will test when
+	public static final double WHEEL_BASE = Units.inchesToMeters(19); // will test when
 																		// testing
 																		// PID
 	public static final double WHEEL_DIAMETER = Units.inchesToMeters(4.0);

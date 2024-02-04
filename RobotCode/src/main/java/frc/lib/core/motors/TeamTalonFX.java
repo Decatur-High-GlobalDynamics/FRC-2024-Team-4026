@@ -14,7 +14,7 @@ import frc.lib.core.util.TeamUtils;
  * easily perform the following functions: 1. Keep current and max speeds. 2. Get and reset encoder
  * values. 3. Lots and lots of SmartDashboard information
  */
-public class TeamTalonFX extends WPI_TalonFX
+public class TeamTalonFX extends WPI_TalonFX implements IMotor
 {
 
   public static double telemetryUpdateInterval_secs = 0.0;
@@ -56,6 +56,7 @@ public class TeamTalonFX extends WPI_TalonFX
   public void periodic()
   {
     final double now = TeamUtils.getCurrentTime();
+	// Renato told me to leave this alone, though we may wanna change it later.
 
     if ((now - getLastTelemetryUpdate()) < telemetryUpdateInterval_secs)
     {
@@ -161,4 +162,42 @@ public class TeamTalonFX extends WPI_TalonFX
     configPeakOutputReverse(-pidParameters.getKPeakOutput(), 30);
     configAllowableClosedloopError(pidSlotIndex, pidParameters.getErrorTolerance(), 30);
   }
+
+  @Override
+  public void configF(final double F, final int SLOT)
+  {
+    config_kF(SLOT, F, 30);
+  }
+
+  @Override
+  public void configP(final double P, final int SLOT)
+  {
+    config_kP(SLOT, P, 30);
+  }
+
+  @Override
+  public void configI(final double I, final int SLOT)
+  {
+    config_kI(SLOT, I, 30);
+  }
+
+  @Override
+  public void configD(final double D, final int SLOT)
+  {
+    config_kD(SLOT, D, 30);
+  }
+
+  @Override
+  public void configPeakOutput(final double PEAK_OUTPUT)
+  {
+    configPeakOutputForward(PEAK_OUTPUT, 30);
+    configPeakOutputReverse(-PEAK_OUTPUT, 30);
+  }
+
+  @Override
+  public void setClosedLoopErrorLimit(final double ERROR_TOLERANCE, final int SLOT)
+  {
+    configAllowableClosedloopError(SLOT, (int) ERROR_TOLERANCE, 30);
+  }
+
 }

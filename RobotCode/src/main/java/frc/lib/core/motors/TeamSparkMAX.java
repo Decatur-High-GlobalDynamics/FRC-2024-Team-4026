@@ -5,13 +5,14 @@ import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.core.PidParameters;
 import frc.lib.core.util.TeamUtils;
 
 /**
  * Used for NEOs. Provides support for PID control and an encoder.
  */
-public class TeamSparkMAX extends CANSparkMax
+public class TeamSparkMAX extends CANSparkMax implements IMotor
 {
 
   private static final double TELEMETRY_UPDATE_INTERVAL_SECS = 0.0;
@@ -49,8 +50,7 @@ public class TeamSparkMAX extends CANSparkMax
     return SmartDashboardPrefix;
   }
 
-  @Override
-  public SparkPIDController getPIDController()
+  public SparkPIDController getPidController()
   {
     return CanPidController;
   }
@@ -86,6 +86,7 @@ public class TeamSparkMAX extends CANSparkMax
   public void periodic()
   {
     final double now = TeamUtils.getCurrentTime();
+	// Renato told me to leave this alone, though we may wanna change it later.
 
     if ((now - lastTelemetryUpdate) < TELEMETRY_UPDATE_INTERVAL_SECS)
     {
@@ -153,4 +154,70 @@ public class TeamSparkMAX extends CANSparkMax
   {
     super.set(power);
   }
+
+  @Override
+  public void configF(final double F, final int SLOT)
+  {
+    CanPidController.setFF(F, SLOT);
+  }
+
+  @Override
+  public void configP(final double P, final int SLOT)
+  {
+    CanPidController.setP(P, SLOT);
+  }
+
+  @Override
+  public void configI(final double I, final int SLOT)
+  {
+    CanPidController.setI(I, SLOT);
+  }
+
+  @Override
+  public void configD(final double D, final int SLOT)
+  {
+    CanPidController.setD(D, SLOT);
+  }
+
+  @Override
+  public void configPeakOutput(final double PEAK_OUTPUT)
+  {
+    CanPidController.setOutputRange(-PEAK_OUTPUT, PEAK_OUTPUT);
+  }
+
+  @Override
+  public void setClosedLoopErrorLimit(final double ERROR_TOLERANCE, final int SLOT)
+  {
+    CanPidController.setSmartMotionAllowedClosedLoopError(ERROR_TOLERANCE, SLOT);
+  }
+
+  @Override
+  public void onPidPeriodic(final int SLOT)
+  {
+    final PidParameters PidParams = PidProfiles[SLOT];
+
+    final boolean UPDATE_MOTOR = isRunningPidControlMode();
+    final String Prefix = SmartDashboardPrefix + ".PID";
+    double maxAcc = PidParams.getMaxAcc(), maxVel = PidParams.getMaxVel(),
+        kPeakOutput = PidParams.getKPeakOutput();
+
+    final double new_maxAcc = SmartDashboard.getNumber(Prefix + ".maxAcc", maxAcc);
+    if (new_maxAcc != maxAcc)
+    {
+      maxAcc = new_maxAcc;
+      if (UPDATE_MOTOR)
+        getPIDController().setSmartMotionMaxAccel(maxAcc, SLOT);
+    }
+
+    final double new_maxVel = SmartDashboard.getNumber(Prefix + ".maxAcc", maxVel);
+    if (new_maxVel != maxVel)
+    {
+      maxVel = new_maxVel;
+      if (UPDATE_MOTOR)
+        getPIDController().setSmartMotionMaxVelocity(maxVel, SLOT);
+    }
+
+    SmartDashboard.putNumber(Prefix + ".kPeakOutput", kPeakOutput);
+  }
+
 }

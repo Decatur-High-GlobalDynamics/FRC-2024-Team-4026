@@ -1,0 +1,99 @@
+#Node id of project: "PVT_kwDOAJ9aT84AaUJq"
+#test pr node id: 'PR_kwDOLB2J4c5kmPKe'
+#PVTFSV_lQDOAJ9aT84AaUJqzgMET8fOCISe0A- awaiting review field input id
+#PVTSSF_lADOAJ9aT84AaUJqzgQ3tZU- status field id
+
+name: Update Pull Request Status to "Awaiting Review"
+
+on: 
+  pull_request:
+    types: [review_requested]
+
+
+jobs: 
+  update-status-to-review:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Get Project ID of PR
+        id: getID
+        env:
+          PR_ID: ${{ github.event.pull_request.node_id }}
+          GH_TOKEN: ${{ secrets.WORKFLOWSAUTH }}
+
+        run: |
+          pr_project_id="$( gh api graphql -f query='
+            query($prID: ID!) {
+              node(id: $prID) {
+                ...on PullRequest {
+                  projectItems(first: 1) {
+                    nodes {
+                      id
+                    }
+                  }
+                }
+              }
+            }' -f prID=$PR_ID --jq '.data.node.projectItems.nodes[0].id')"
+
+          echo "$pr_project_id"
+          echo 'PR_ITEM_ID='$pr_project_id >> $GITHUB.OUTPUTS
+          echo "${{ env.PR_ITEM_ID }}"
+          
+  
+      # - name: Authenticate with Project scopes
+        
+      #   run: gh auth login --scopes "project"
+      #   env:
+      #     GH_TOKEN: ${{ secrets.WORKFLOWSAUTH }}
+
+
+
+      # - name: Update status to "Awaiting Review"
+      #   env:
+      #     GH_TOKEN: ${{ secrets.WORKFLOWSAUTH }}
+      #     PR_PROJECT_ID: "${{ env.ITEM_ID }}"
+      #   run: |
+      #     gh api graphql -f pr_id=$PR_PROJECT_ID -f query='
+      #       mutation($pr_id: ID!) {
+      #         updateProjectV2ItemFieldValue(
+      #           input: {
+      #             projectId: "PVT_kwDOAJ9aT84AaUJq"
+      #             itemId: $pr_id
+      #             fieldId: "PVTSSF_lADOAJ9aT84AaUJqzgQ3tZU"
+      #             value: {
+      #               singleSelectOptionId: "PVTFSV_lQDOAJ9aT84AaUJqzgMET8fOCISe0A"
+      #             }
+      #           }
+      #         ) {
+      #           projectV2Item {
+      #             id
+      #           }
+      #         }
+      #       }' 
+
+
+
+      # - uses: monry/actions-get-project-item-id@v2.0.2
+      #   id: get-project-item-id
+      #   with:
+      #    github-token: ${{ secrets.WORKFLOWSAUTH }}
+      #    project-id: 'PVT_kwDOAJ9aT84AaUJq'
+      #    issue-id: ${{github.event.pull_request.node_id}}
+      # - run: |
+      #     echo '${{ steps.get-project-item-id.outputs.project-item-id }}' >> $GITHUB_OUTPUT
+      
+
+  
+
+      - uses: kalgurn/update-project-item-status@v0.0.1
+
+        with:
+          project-url: https://github.com/orgs/Decatur-Robotics/projects/2/views/1
+          github-token: ${{ secrets.WORKFLOWSAUTH }}
+          item-id: ${{ steps.getID.outputs.PR_ITEM_ID }}
+          status: "Awaiting Review"
+
+
+
+
+
