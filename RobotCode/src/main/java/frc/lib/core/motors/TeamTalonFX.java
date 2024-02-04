@@ -56,6 +56,7 @@ public class TeamTalonFX extends WPI_TalonFX implements IMotor
   public void periodic()
   {
     final double now = TeamUtils.getCurrentTime();
+	// Renato told me to leave this alone, though we may wanna change it later.
 
     if ((now - getLastTelemetryUpdate()) < telemetryUpdateInterval_secs)
     {

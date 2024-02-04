@@ -4,6 +4,7 @@ import java.time.LocalTime;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.core.util.Timer;
 import frc.robot.subsystems.CdTraySubsystem;
 import frc.lib.core.ILogSource;
 public class CdTrayCommand extends Command implements ILogSource
@@ -11,8 +12,8 @@ public class CdTrayCommand extends Command implements ILogSource
 	private final CdTraySubsystem CdTray;
 
 	private Value cdMode;
-	private LocalTime startTime;
-	private long timeToWait = 100 * 1000000;
+	private Timer startTimer;
+	private int timeToWait = 100;
 	// milliseconds * 1000000
 
 	private boolean closed;
@@ -29,7 +30,7 @@ public class CdTrayCommand extends Command implements ILogSource
 	{
 		logFine("Command Started");
 		CdTray.setSolenoid(cdMode);
-		startTime = LocalTime.now();
+		startTimer = new Timer(timeToWait);
 	}
 
 	@Override
@@ -38,17 +39,17 @@ public class CdTrayCommand extends Command implements ILogSource
 
 		CdTray.closed = true;
 
-		if (CdTray.getCdArmLeft().get() == Value.kOff && startTime == null)
+		if (CdTray.getCdArmLeft().get() == Value.kOff && startTimer == null)
 		{
 			CdTray.setSolenoid(cdMode);
-			startTime = LocalTime.now();
+			startTimer = new Timer(timeToWait);
 		}
 	}
 
 	@Override
 	public boolean isFinished()
 	{
-		return startTime != null && LocalTime.now().minusNanos(timeToWait).compareTo(startTime) > 0;
+		return startTimer != null && startTimer.isDone();
 	}
 
 	@Override

@@ -1,7 +1,7 @@
-package frc.robot.leds.subsystems;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.leds.Color;
+import frc.lib.modules.leds.Color;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
@@ -12,7 +12,7 @@ public class LedSubsystem extends SubsystemBase
 	private AddressableLEDBuffer buffer;
 
 	// Should be set when setAllPixels is called.
-	public Color lastColor = new Color(255, 255, 255); 
+	public Color lastColor = new Color(255, 255, 255);
 	public double progress = 1.0;
 
 	private static final int port = 0; // The PWM port of the LED strip. Setting to 0 for now.
@@ -33,7 +33,8 @@ public class LedSubsystem extends SubsystemBase
 
 	}
 
-	public void setAllPixels(Color color) {
+	public void setAllPixels(Color color)
+	{
 		setAllPixels(color, true);
 	}
 
@@ -44,10 +45,11 @@ public class LedSubsystem extends SubsystemBase
 		// This is better than using the setPixel method in the same class because it's not setting
 		// the data every time.
 		this.updateData();
-		if (reset) {
+		if (reset)
+		{
 			this.lastColor = color;
 			this.progress = 1.0;
-		}	
+		}
 	}
 
 	public static Color calcBlending(Color c1, Color c2, double currentFade)
@@ -84,6 +86,5 @@ public class LedSubsystem extends SubsystemBase
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'calcBlending'");
 	}
-
 
 }

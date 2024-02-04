@@ -33,12 +33,12 @@ public class ClimberCommand extends Command implements ILogSource
         double realLeftPower = 0, realRightPower = 0;
         if (Math.abs(leftInput.getAsDouble()) > DEADBAND_RANGE)
         {
-            realLeftPower = ClimberConstants.MAX_SPEED * -leftInput.getAsDouble();
+            realLeftPower = ClimberConstants.MAX_OVERRIDE_SPEED * -leftInput.getAsDouble();
         }
 
         if (Math.abs(rightInput.getAsDouble()) > DEADBAND_RANGE)
         {
-            realRightPower = ClimberConstants.MAX_SPEED * -rightInput.getAsDouble();
+            realRightPower = ClimberConstants.MAX_OVERRIDE_SPEED * -rightInput.getAsDouble();
         }
 
         climber.setPowers(realLeftPower, realRightPower, "climbing");

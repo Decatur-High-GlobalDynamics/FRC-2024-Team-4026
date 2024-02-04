@@ -91,14 +91,15 @@ public class PidParameters
 
 	public void periodic(final String prefix, final IMotor motor, final int pidSlotIndex)
 	{
-		final double NOW = TeamUtils.getCurrentTime();
+		final double currentTime = TeamUtils.getCurrentTime();
+		// Renato told me to leave this alone, though we may wanna change it later.
 
-		if ((NOW - lastTelemetryUpdate) < TELEMETRY_UPDATE_INTERVAL_SECS)
+		if ((currentTime - lastTelemetryUpdate) < TELEMETRY_UPDATE_INTERVAL_SECS)
 		{
 			return;
 		}
 
-		lastTelemetryUpdate = NOW;
+		lastTelemetryUpdate = currentTime;
 
 		// We update the motor immediately when the the motor is in a PID-controlled mode
 		final boolean UPDATE_MOTOR = motor.isRunningPidControlMode();
@@ -155,7 +156,79 @@ public class PidParameters
 		{
 			errorTolerance = NEW_ERROR_TOLERANCE;
 			if (UPDATE_MOTOR)
-				motor.setClosedLoopErrorLimit(pidSlotIndex, errorTolerance);
+				motor.setClosedLoopErrorLimit(NEW_ERROR_TOLERANCE, 30);
+		}
+		SmartDashboard.putNumber(prefix + ".errorTolerance", errorTolerance);
+	}
+
+	public void periodic(final String prefix, final TeamSparkMAX motor, final int pidSlotIndex)
+	{
+		final double now = TeamUtils.getCurrentTime();
+
+		if ((now - lastTelemetryUpdate) < TELEMETRY_UPDATE_INTERVAL_SECS)
+		{
+			return;
+		}
+
+		lastTelemetryUpdate = now;
+
+		// We update the motor immediately when the the motor is in a PID-controlled mode
+		final boolean updateMotor = motor.isRunningPidControlMode();
+
+		final double new_kF = SmartDashboard.getNumber(prefix + ".PID.kF", kF);
+		if (new_kF != kF)
+		{
+			kF = new_kF;
+			if (updateMotor)
+				motor.getPIDController().setFF(kF, pidSlotIndex);
+		}
+		SmartDashboard.putNumber(prefix + ".PID.kF", kF);
+
+		final double new_kP = SmartDashboard.getNumber(prefix + ".PID.kP", kP);
+		if (new_kP != kP)
+		{
+			kP = new_kP;
+			if (updateMotor)
+				motor.getPIDController().setP(kP, pidSlotIndex);
+		}
+		SmartDashboard.putNumber(prefix + ".PID.kP", kP);
+
+		final double new_kI = SmartDashboard.getNumber(prefix + ".PID.kI", kI);
+		if (new_kI != kI)
+		{
+			kI = new_kI;
+			if (updateMotor)
+				motor.getPIDController().setI(kI, pidSlotIndex);
+		}
+		SmartDashboard.putNumber(prefix + ".PID.kI", kI);
+
+		final double new_kD = SmartDashboard.getNumber(prefix + ".PID.kD", kD);
+		if (new_kD != kD)
+		{
+			kD = new_kD;
+			if (updateMotor)
+				motor.getPIDController().setD(kD, pidSlotIndex);
+		}
+		SmartDashboard.putNumber(prefix + ".PID.kD", kD);
+
+		final double new_kPeakOutput = SmartDashboard.getNumber(prefix + ".kPeakOutput",
+				kPeakOutput);
+		if (new_kPeakOutput != kPeakOutput)
+		{
+			kPeakOutput = new_kPeakOutput;
+			if (updateMotor)
+				motor.getPIDController().setOutputRange(-kPeakOutput, kPeakOutput);
+		}
+		SmartDashboard.putNumber(prefix + ".kPeakOutput", kPeakOutput);
+
+		final int new_errorTolerance = (int) SmartDashboard.getNumber(prefix + ".errorTolerance",
+				errorTolerance);
+		if (new_errorTolerance != errorTolerance)
+		{
+			errorTolerance = new_errorTolerance;
+			if (updateMotor)
+				motor.getPIDController().setSmartMotionAllowedClosedLoopError(errorTolerance,
+						pidSlotIndex);
 		}
 		SmartDashboard.putNumber(prefix + ".errorTolerance", errorTolerance);
 

@@ -86,6 +86,7 @@ public class TeamSparkMAX extends CANSparkMax implements IMotor
   public void periodic()
   {
     final double now = TeamUtils.getCurrentTime();
+	// Renato told me to leave this alone, though we may wanna change it later.
 
     if ((now - lastTelemetryUpdate) < TELEMETRY_UPDATE_INTERVAL_SECS)
     {

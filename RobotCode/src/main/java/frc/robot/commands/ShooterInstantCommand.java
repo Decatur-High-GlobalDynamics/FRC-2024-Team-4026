@@ -9,34 +9,32 @@ import frc.lib.core.ILogSource;
 public class ShooterInstantCommand extends Command implements ILogSource
 {
 
-    private ShooterSubsystem shooter;
-    private Timer timer;
+	private ShooterSubsystem shooter;
+	private Timer timer;
 
-    public ShooterInstantCommand(ShooterSubsystem shooter)
-    {
-        this.shooter = shooter;
-        timer = new Timer(500);
-    }
+	public ShooterInstantCommand(ShooterSubsystem shooter)
+	{
+		this.shooter = shooter;
+		timer = new Timer(500);
+	}
 
     @Override
     public void initialize()
     {
         shooter.setShooterMotorPower(1.0, "instant shooter command started");
         timer.reset();
-        logFine("Command Started");
     }
 
-    @Override
-    public boolean isFinished()
-    {
-        return timer.isDone();
-    }
+	@Override
+	public boolean isFinished()
+	{
+		return timer.isDone();
+	}
 
     @Override
     public void end(boolean interrupted)
     {
         shooter.setShooterMotorPower(0, "instant shooter command ended");
-        logFine("Command Finished");
     }
 
 }
