@@ -7,8 +7,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.Ports;
 import frc.lib.core.motors.TeamSparkMAX;
+import frc.lib.core.ILogSource;
 
-public class CdTraySubsystem extends SubsystemBase
+public class CdTraySubsystem extends SubsystemBase implements ILogSource
 {
 	// guys i think i'm starting to get the hang of thi- oh nevermind
 	private Compressor mainCompressor;
@@ -46,7 +47,7 @@ public class CdTraySubsystem extends SubsystemBase
 	{
 		cdArmLeft.set(mode);
 		cdArmRight.set(mode);
-		System.out.println("Setting solenoids to " + mode);
+		logFiner("Setting solenoids to " + mode);
 	}
 
 }

@@ -6,8 +6,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.core.motors.TeamTalonFX;
 import frc.robot.constants.ClimberConstants;
 import frc.robot.constants.Ports;
+import frc.lib.core.ILogSource;
 
-public class ClimberSubsystem extends SubsystemBase
+public class ClimberSubsystem extends SubsystemBase implements ILogSource
 {
 
     private TeamTalonFX extendMotorLeft;
@@ -41,6 +42,8 @@ public class ClimberSubsystem extends SubsystemBase
 
         extendMotorLeft.set(-leftPower / 3);
         extendMotorLeft.set(-rightPower / 3);
+        logFinest("Set  left climber motors to " + -leftPower / 3);
+        logFinest("Set right climber motors to" + -leftPower / 3);
     }
 
     // checks if the power level is too high or low for both motors.

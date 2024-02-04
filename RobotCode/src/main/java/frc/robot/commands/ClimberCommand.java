@@ -5,8 +5,9 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.constants.ClimberConstants;
+import frc.lib.core.ILogSource;
 
-public class ClimberCommand extends Command
+public class ClimberCommand extends Command implements ILogSource
 {
     private ClimberSubsystem climber;
     private DoubleSupplier leftInput, rightInput;
@@ -20,6 +21,13 @@ public class ClimberCommand extends Command
         addRequirements(climber);
     }
 
+    @Override
+    public void initialize()
+    {
+        logFine("Command started");
+    }
+    
+    @Override
     public void execute()
     {
         double realLeftPower = 0, realRightPower = 0;
@@ -34,6 +42,13 @@ public class ClimberCommand extends Command
         }
 
         climber.setPowers(realLeftPower, realRightPower, "climbing");
+
+    } 
+    
+    @Override
+    public void end(boolean interrupted)
+    {
+        logFine("Command finished.");
 
     }
 }

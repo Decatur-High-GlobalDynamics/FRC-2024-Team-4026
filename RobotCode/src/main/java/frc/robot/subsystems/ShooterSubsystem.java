@@ -9,8 +9,9 @@ import frc.robot.constants.ShooterConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.core.motors.TeamSparkMAX;
+import frc.lib.core.ILogSource;
 
-public class ShooterSubsystem extends SubsystemBase
+public class ShooterSubsystem extends SubsystemBase implements ILogSource
 {
 	// Creates objects
 	private double shooterMotorPower, feederMotorPower;
@@ -62,6 +63,7 @@ public class ShooterSubsystem extends SubsystemBase
 	public void setShooterMotorPower(double power, String reason)
 	{
 		shooterMotorPower = Math.max(Math.min(1, power), -1);
+		logFinest("Shooter motors set to " + Math.max(Math.min(1, power), -1) );
 
 	}
 
@@ -71,6 +73,7 @@ public class ShooterSubsystem extends SubsystemBase
 	public void setFeedMotorPower(double power, String reason)
 	{
 		feederMotorPower = Math.max(Math.min(1, power), -1);
+		logFinest("Feeder motors set to " + Math.max(Math.min(1, power), -1) );
 	}
 
 	/**

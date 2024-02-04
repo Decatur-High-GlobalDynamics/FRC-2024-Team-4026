@@ -4,8 +4,9 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterMountSubsystem;
+import frc.lib.core.ILogSource;
 
-public class RotateShooterMountToPositionCommand extends Command
+public class RotateShooterMountToPositionCommand extends Command implements ILogSource
 {
 
     private final ShooterMountSubsystem ShooterMountSubsystem;
@@ -42,6 +43,11 @@ public class RotateShooterMountToPositionCommand extends Command
         this(subsystem, () -> position, endAutomatically);
     }
 
+    public void initialize()
+    {
+        logFine("Command Started");
+    }
+
     @Override
     public void execute()
     {
@@ -55,5 +61,10 @@ public class RotateShooterMountToPositionCommand extends Command
         return endAutomatically && Math.abs(ShooterMountSubsystem.getCurrentRotation()
                 - getPosition.getAsDouble()) < frc.robot.subsystems.ShooterMountSubsystem.DEADBAND;
     }
+    @Override
 
+    public void end(boolean interrupted)
+    {
+        logFine("Command Finished");
+    }
 }

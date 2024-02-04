@@ -5,8 +5,8 @@ import java.time.LocalTime;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CdTraySubsystem;
-
-public class CdTrayCommand extends Command
+import frc.lib.core.ILogSource;
+public class CdTrayCommand extends Command implements ILogSource
 {
 	private final CdTraySubsystem CdTray;
 
@@ -19,7 +19,7 @@ public class CdTrayCommand extends Command
 
 	public CdTrayCommand(CdTraySubsystem CdTray)
 	{
-		System.out.println("Constructing CdTrayCommand...");
+		logFiner("Constructing CDTray command...");;
 		this.CdTray = CdTray;
 		this.closed = true;
 		addRequirements(CdTray);
@@ -27,11 +27,12 @@ public class CdTrayCommand extends Command
 
 	public void initialize()
 	{
-		System.out.println("Initializing CdTrayCommand...");
+		logFine("Command Started");
 		CdTray.setSolenoid(cdMode);
 		startTime = LocalTime.now();
 	}
 
+	@Override
 	public void execute()
 	{
 
@@ -44,14 +45,16 @@ public class CdTrayCommand extends Command
 		}
 	}
 
+	@Override
 	public boolean isFinished()
 	{
 		return startTime != null && LocalTime.now().minusNanos(timeToWait).compareTo(startTime) > 0;
 	}
 
-	public void end()
+	@Override
+	public void end(boolean interrupted)
 	{
-		System.out.println("Ending CdTrayCommand...");
+		logFine("Command Finished");
 		CdTray.getCdArmLeft().set(Value.kOff);
 	}
 

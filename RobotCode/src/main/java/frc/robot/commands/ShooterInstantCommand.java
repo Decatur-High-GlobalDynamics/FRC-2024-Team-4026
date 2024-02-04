@@ -3,9 +3,10 @@ package frc.robot.commands;
 import frc.lib.core.util.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.lib.core.ILogSource;
 
 /** Runs the shooter and then ends. Semi-auto firing mode. */
-public class ShooterInstantCommand extends Command
+public class ShooterInstantCommand extends Command implements ILogSource
 {
 
     private ShooterSubsystem shooter;
@@ -22,6 +23,7 @@ public class ShooterInstantCommand extends Command
     {
         shooter.setShooterMotorPower(1.0, "instant shooter command started");
         timer.reset();
+        logFine("Command Started");
     }
 
     @Override
@@ -34,6 +36,7 @@ public class ShooterInstantCommand extends Command
     public void end(boolean interrupted)
     {
         shooter.setShooterMotorPower(0, "instant shooter command ended");
+        logFine("Command Finished");
     }
 
 }

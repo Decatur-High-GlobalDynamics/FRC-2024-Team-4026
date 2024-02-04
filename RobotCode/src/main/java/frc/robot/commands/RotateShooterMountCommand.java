@@ -4,9 +4,10 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterMountSubsystem;
+import frc.lib.core.ILogSource;
 
 /** Continuously rotates based on a speed */
-public class RotateShooterMountCommand extends Command
+public class RotateShooterMountCommand extends Command implements ILogSource
 {
 
 	/** In degrees per {@link #execute()} call (20 ms) */
@@ -36,12 +37,23 @@ public class RotateShooterMountCommand extends Command
 	{
 		this(subsystem, () -> speed / 50); // Convert from degrees per second to degrees per 20ms
 	}
-
+	@Override
+	public void initialize()
+	{
+		logFine("Command Started");
+	}
 	public void execute()
 	{
 		double rotation = Math.max(0,
 				Math.min(180, shooterMountSubsystem.getCurrentRotation() + getSpeed.getAsDouble()));
 		shooterMountSubsystem.setGoalRotation(rotation);
+	}
+
+	@Override
+
+	public void end(boolean interrupted)
+	{
+		logFine("Command Finished");
 	}
 
 }

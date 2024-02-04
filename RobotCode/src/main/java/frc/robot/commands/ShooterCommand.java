@@ -2,8 +2,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.ShooterSubsystem;
-
-public class ShooterCommand extends Command
+import frc.lib.core.ILogSource;
+public class ShooterCommand extends Command implements ILogSource 
 {
 	// Initializes the subsystem object
 	private final ShooterSubsystem Shooter;
@@ -15,6 +15,12 @@ public class ShooterCommand extends Command
 		addRequirements(Shooter);
 	}
 
+	@Override
+	public void initialize()
+	{
+		logFine("Command Started");
+	}
+	
 	public void execute()
 	{
 
@@ -35,5 +41,6 @@ public class ShooterCommand extends Command
 	{
 		Shooter.setShooterMotorPower(0.25, "command is over");
 		Shooter.setFeedMotorPower(0, "command is over");
+		logFine("Command Finished");
 	}
 }

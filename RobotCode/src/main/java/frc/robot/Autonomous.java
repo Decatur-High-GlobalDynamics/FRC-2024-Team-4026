@@ -20,8 +20,9 @@ import frc.robot.constants.AutoConstants;
 import frc.robot.subsystems.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.lib.core.ILogSource;
 
-public class Autonomous
+public class Autonomous implements ILogSource
 {
 
     private enum StartingPosition
@@ -77,7 +78,8 @@ public class Autonomous
         }
         else if (instance.RobotContainer != robotContainer)
         {
-            System.err.println("Cannot reinitialize Autonomous!");
+            instance.logSevere("Cannot reinitialize Autonomous!");
+            
         }
     }
 
@@ -109,19 +111,22 @@ public class Autonomous
         switch (AutoMode)
         {
         case DoNothing:
+            logFinest("Do nothing");
             return Optional.empty();
-
+            
         case Leave:
             AutoMain.addCommands(new ShooterInstantCommand(Shooter));
             AutoMain.addCommands(new DriveDistanceAuto(AutoConstants.LEAVE_DISTANCE,
                     SwerveConstants.AutoConstants.MAX_SPEED, SwerveDrive));
+            logFinest("Leave auto");
+            
             break;
-
+            
         case MultiNote:
             AutoMain.addCommands(new ShooterInstantCommand(Shooter));
 
             String[] pathSequence = new String[0];
-
+            logFiner("Multi Note path");
             switch (StartingPosition)
             {
             case Amp:
@@ -133,6 +138,7 @@ public class Autonomous
                                 : "Middle Start to Top Note",
                         "Top to Middle Note", "Middle to Bottom Note",
                 };
+                logFinest("Middle");
                 break;
             case HumanPlayer:
                 pathSequence = new String[]
@@ -140,6 +146,7 @@ public class Autonomous
                         "Bottom Start to Bottom Note", "Bottom to Middle Note",
                         "Middle to Top Note",
                 };
+                logFinest("Human Player");
                 break;
             }
 
@@ -147,6 +154,7 @@ public class Autonomous
             {
                 // Add intake and aiming command once we have that!
                 AutoMain.addCommands(followPath(pathName), new ShooterInstantCommand(Shooter));
+                
             }
 
             break;
@@ -166,6 +174,7 @@ public class Autonomous
     {
         instance.StartingPositionChooser.close();
         instance.AutoModeChooser.close();
+        instance.logFiner("Closed SendableChoosers");
     }
 
     /**
@@ -177,6 +186,7 @@ public class Autonomous
      */
     private Command followPath(final String pathName)
     {
+        logFiner("Following path");
         final PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
         return AutoBuilder.pathfindThenFollowPath(path,
                 SwerveConstants.AutoConstants.PathConstraints);
