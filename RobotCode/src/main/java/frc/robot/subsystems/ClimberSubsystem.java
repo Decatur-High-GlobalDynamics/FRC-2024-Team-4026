@@ -73,26 +73,21 @@ public class ClimberSubsystem extends SubsystemBase implements ILogSource
 		}
 	}
 
-    public void setPowers(double leftPower, double rightPower, String reason)
-    {
-        if (!(motorPowerCheckotorPowerCheck(leftPower)))
-        {
-            leftPower = 0;
-        }
-        if (!(motorPowerCheck(rightPower)))
-        {
-            rightPower = 0;
-        }
-        if (leftPower != 0)
-            leftPower /= 3;
-        if (rightPower != 0)
-            rightPower /= 3;
+	public void setPowers(double leftPower, double rightPower, String reason)
+	{
+		this.leftPower = leftPower;
+		this.rightPower = rightPower;
+		logFiner("The motor powers are set to " + leftPower + " and " + rightPower);
 
-        extendMotorLeft.set(-leftPower / 3);
-        extendMotorLeft.set(-rightPower / 3);
-        logFinest("Set  left climber motors to " + -leftPower / 3);
-        logFinest("Set right climber motors to" + -leftPower / 3);
-    }
+	}
+
+	public void setPosition(double position)
+	{
+		targetPosition = position;
+		targetPositionLeft = position;
+		targetPositionRight = position;
+		logFiner("Target position is set to "  + targetPosition);
+	}
 
 	// checks if the power level is too high or low for both motors.
 	public boolean motorPowerCheck(double power)
