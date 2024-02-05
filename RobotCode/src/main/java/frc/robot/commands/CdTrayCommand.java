@@ -14,7 +14,7 @@ public class CdTrayCommand extends Command
 	private Value cdMode;
 	private Timer startTimer;
 	private int timeToWait = 100;
-	//Ty Harrison (:
+	//Milliseconds, courtesy of Harrison
 
 	private boolean closed;
 
