@@ -46,13 +46,13 @@ public class ClimberSubsystem extends SubsystemBase
 			targetPositionLeft = targetPosition;
 			targetPositionRight = targetPosition;
 
-			// left
+			// left arm
 			if (gyro.getRoll() > ClimberConstants.DEADBAND_GYRO)
 			{
 				targetPositionLeft = extendMotorLeft.getCurrentEncoderValue();
 			}
 
-			// right
+			// right arm
 			else if (gyro.getRoll() < -ClimberConstants.DEADBAND_GYRO)
 			{
 				targetPositionRight = extendMotorRight.getCurrentEncoderValue();
