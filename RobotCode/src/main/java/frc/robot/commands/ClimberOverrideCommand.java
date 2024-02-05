@@ -14,12 +14,12 @@ public class ClimberOverrideCommand extends Command
 
 	}
 
-	// forgot what this does but renato said its important
+	//Enables override for the duration of the command
 	public void instantiate()
 	{
 		climber.setOverride(true);
 	}
-	//:3 
+
 	public void end()
 	{
 		climber.setOverride(false);
