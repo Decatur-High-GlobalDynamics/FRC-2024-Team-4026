@@ -2,7 +2,7 @@ package frc.robot.constants;
 
 public final class AutoConstants
 {
-
-    public static final double LEAVE_DISTANCE = 1.5;
+	// how far our robot needs to go to leave spawn
+	public static final double LEAVE_DISTANCE = 1.5;
 
 }

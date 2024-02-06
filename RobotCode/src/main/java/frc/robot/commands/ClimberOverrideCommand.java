@@ -14,7 +14,7 @@ public class ClimberOverrideCommand extends Command
 
 	}
 
-	//Enables override for the duration of the command
+	// Enables override for the duration of the command
 	public void instantiate()
 	{
 		climber.setOverride(true);

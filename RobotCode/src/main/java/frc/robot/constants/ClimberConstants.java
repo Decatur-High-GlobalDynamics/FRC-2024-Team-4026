@@ -12,6 +12,7 @@ public final class ClimberConstants
 	public static final double CLIMBER_ACCELERATION = 1;
 	public static final double CLIMBER_VELOCITY = 1;
 
+	// we need two deadbands because gyro is funky
 	public static final double DEADBAND_JOYSTICK = 0.05;
 	public static final double DEADBAND_GYRO = 5;
 

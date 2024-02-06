@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.modules.leds.Color;
 import frc.robot.subsystems.LedSubsystem;
 
+// a solution to a problem that i can't see.
 public class FlashLightsOffCommand extends Command
 {
 	public static LedSubsystem ledSubsystem;
@@ -16,6 +17,7 @@ public class FlashLightsOffCommand extends Command
 
 	public void execute()
 	{
+		// goes through the lgbtq colors
 		ledSubsystem.progress -= 0.02;
 		currentRainbowColor++;
 		ledSubsystem.setAllPixels(LedSubsystem.calcBlending(ledSubsystem.lastColor,
