@@ -5,7 +5,8 @@ import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimberToPositionCommand extends Command
 {
-
+	/* targetPosition refers to where we want the climber to end.
+	This is a surprise tool that will help us later. */
 	private double targetPosition;
 	private ClimberSubsystem climber;
 
