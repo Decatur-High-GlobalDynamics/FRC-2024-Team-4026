@@ -13,6 +13,7 @@ import frc.robot.constants.Ports;
 
 public class ClimberSubsystem extends SubsystemBase
 {
+	// is this a JoJo reference? fr?
 	private Pigeon2 gyro;
 	private TeamTalonFX extendMotorLeft, extendMotorRight;
 	private double targetPosition, targetPositionLeft, targetPositionRight;
@@ -25,9 +26,9 @@ public class ClimberSubsystem extends SubsystemBase
 		gyro = new Pigeon2(Ports.PIGEON_GYRO);
 		// sets extension of left and right motors to given extension length
 		extendMotorLeft = new TeamTalonFX("Subsystems.Climber.ExtendRight",
-				Ports.CLIMBER_EXTEND_RIGHT_MOTOR);
+				Ports.CLIMBER_RIGHT_MOTOR);
 		extendMotorRight = new TeamTalonFX("Subsystems.Climber.ExtendLeft",
-				Ports.CLIMBER_EXTEND_LEFT_MOTOR);
+				Ports.CLIMBER_LEFT_MOTOR);
 		extendMotorLeft.setNeutralMode(NeutralMode.Brake);
 		extendMotorRight.setNeutralMode(NeutralMode.Brake);
 		extendMotorLeft.setInverted(true);
@@ -46,13 +47,13 @@ public class ClimberSubsystem extends SubsystemBase
 			targetPositionLeft = targetPosition;
 			targetPositionRight = targetPosition;
 
-			// left arm
+			// left arm balancing robot
 			if (gyro.getRoll() > ClimberConstants.DEADBAND_GYRO)
 			{
 				targetPositionLeft = extendMotorLeft.getCurrentEncoderValue();
 			}
 
-			// right arm
+			// right arm is also doing balancing
 			else if (gyro.getRoll() < -ClimberConstants.DEADBAND_GYRO)
 			{
 				targetPositionRight = extendMotorRight.getCurrentEncoderValue();
