@@ -35,6 +35,7 @@ public class ShooterMountSubsystem extends SubsystemBase
 	@Override
 	public void periodic()
 	{
+		// probably rotates the shooter mount, not sure
 		double difference = goalRotation - getCurrentRotation();
 
 		if (Math.abs(difference) < DEADBAND)
