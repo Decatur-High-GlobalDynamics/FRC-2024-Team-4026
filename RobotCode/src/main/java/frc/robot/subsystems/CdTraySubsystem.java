@@ -29,7 +29,7 @@ public class CdTraySubsystem extends SubsystemBase
 
 		cdArmLeft.set(Value.kReverse);
 		cdArmRight.set(Value.kReverse);
-		// rip comedy
+		// rip comedy, you will not be forgotten
 
 	public DoubleSolenoid getCdArmLeft()
 	{

@@ -23,7 +23,7 @@ public class FlashLightsOffCommand extends Command
 		ledSubsystem.setAllPixels(LedSubsystem.calcBlending(ledSubsystem.lastColor,
 				Color.fromHSV(currentRainbowColor % 360, 255, 255), 1 - ledSubsystem.progress),
 				false);
-
+		//Taste the rainbow
 	}
 
 	public void end(boolean interrupted)
