@@ -27,10 +27,9 @@ public class CdTraySubsystem extends SubsystemBase
 
 		mainCompressor.enableDigital();
 
-		cdArmLeft.set(Value.kOff);
-		cdArmRight.set(Value.kOff);
-		// koff koff (comedy)
-	}
+		cdArmLeft.set(Value.kReverse);
+		cdArmRight.set(Value.kReverse);
+		// rip comedy
 
 	public DoubleSolenoid getCdArmLeft()
 	{
