@@ -24,7 +24,7 @@ public class ClimberCommand extends Command implements ILogSource
     @Override
     public void initialize()
     {
-        logFine("Command started");
+        logFine("Climber Command started");
     }
     
     @Override
@@ -48,7 +48,7 @@ public class ClimberCommand extends Command implements ILogSource
     @Override
     public void end(boolean interrupted)
     {
-        logFine("Command finished.");
+        logFine("Climber Command finished.");
 
     }
 }

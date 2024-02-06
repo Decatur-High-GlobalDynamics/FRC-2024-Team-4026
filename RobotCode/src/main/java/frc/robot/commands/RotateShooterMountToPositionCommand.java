@@ -46,7 +46,7 @@ public class RotateShooterMountToPositionCommand extends Command implements ILog
 
     public void initialize()
     {
-        logFine("Command Started");
+        logFine("Shooter Mount Rotating...");
     }
 
     @Override
@@ -66,6 +66,6 @@ public class RotateShooterMountToPositionCommand extends Command implements ILog
 
     public void end(boolean interrupted)
     {
-        logFine("Command Finished");
+        logFine("Shooter Mount Stopped");
     }
 }

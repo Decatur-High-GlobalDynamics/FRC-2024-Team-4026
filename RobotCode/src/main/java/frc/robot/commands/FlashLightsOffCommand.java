@@ -17,7 +17,7 @@ public class FlashLightsOffCommand extends Command implements ILogSource
 	@Override
 	public void initialize()
 	{
-		logFine("Command Started");
+		logFine("Flash Light Off Command Started");
 	}
 	@Override
 	public void execute()
@@ -33,6 +33,6 @@ public class FlashLightsOffCommand extends Command implements ILogSource
 	@Override
 	public void end(boolean interrupted)
 	{
-		logFine("Command Finished");
+		logFine("Flash Lights Off Command Finished");
 	}
 }

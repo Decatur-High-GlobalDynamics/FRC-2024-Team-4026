@@ -23,6 +23,7 @@ public class ShooterInstantCommand extends Command implements ILogSource
     {
         shooter.setShooterMotorPower(1.0, "instant shooter command started");
         timer.reset();
+		logFine("Instant Shooter Command Started...");
     }
 
 	@Override
@@ -35,6 +36,7 @@ public class ShooterInstantCommand extends Command implements ILogSource
     public void end(boolean interrupted)
     {
         shooter.setShooterMotorPower(0, "instant shooter command ended");
+		logFine("Instant Shooter Command Finished.");
     }
 
 }

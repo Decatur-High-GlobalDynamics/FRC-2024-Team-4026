@@ -111,7 +111,7 @@ public class Autonomous implements ILogSource
         switch (AutoMode)
         {
         case DoNothing:
-            logFine("Do nothing");
+            logFiner("Do nothing");
             return Optional.empty();
             
         case Leave:

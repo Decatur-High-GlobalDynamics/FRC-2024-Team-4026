@@ -20,7 +20,7 @@ public class CdTrayCommand extends Command implements ILogSource
 
 	public CdTrayCommand(CdTraySubsystem CdTray)
 	{
-		logFiner("Constructing CDTray command...");;
+		logFiner("Constructing CDTray command...");
 		this.CdTray = CdTray;
 		this.closed = true;
 		addRequirements(CdTray);
@@ -28,7 +28,7 @@ public class CdTrayCommand extends Command implements ILogSource
 
 	public void initialize()
 	{
-		logFine("Command Started");
+		logFine("CDtray Command Started...");
 		CdTray.setSolenoid(cdMode);
 		startTimer = new Timer(timeToWait);
 	}
@@ -55,7 +55,7 @@ public class CdTrayCommand extends Command implements ILogSource
 	@Override
 	public void end(boolean interrupted)
 	{
-		logFine("Command Finished");
+		logFiner("CDtray Command Finished");
 		CdTray.getCdArmLeft().set(Value.kOff);
 	}
 

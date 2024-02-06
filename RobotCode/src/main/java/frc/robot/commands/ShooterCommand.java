@@ -18,7 +18,7 @@ public class ShooterCommand extends Command implements ILogSource
 	@Override
 	public void initialize()
 	{
-		logFine("Command Started");
+		logFine("Shooter Command started");
 	}
 	
 	public void execute()
@@ -30,6 +30,7 @@ public class ShooterCommand extends Command implements ILogSource
 		if (Shooter.getShooterMotorPower() >= 0.95)
 		{
 			Shooter.setFeedMotorPower(1.0, "motor is spun");
+			logFiner("Motor is spun up, shooting starting...");
 		}
 		else
 		{
@@ -41,6 +42,6 @@ public class ShooterCommand extends Command implements ILogSource
 	{
 		Shooter.setShooterMotorPower(0.25, "command is over");
 		Shooter.setFeedMotorPower(0, "command is over");
-		logFine("Command Finished");
+		logFine("Shooting command is over.");
 	}
 }
