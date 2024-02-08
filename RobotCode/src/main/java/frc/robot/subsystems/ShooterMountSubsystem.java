@@ -60,13 +60,6 @@ public class ShooterMountSubsystem extends SubsystemBase implements ILogSource
 	{
 		return (Math.abs(mainMotor.getCurrentEncoderValue()
 				- targetRotation) < ShooterMountConstants.AIMING_DEADBAND ? true : false);
-		return ticks * DEGREES_IN_ONE_TICK;
-	}
-
-	public void setMotors(double power, String reason)
-	{
-		mainMotor.set(Math.max(-1, Math.min(power, 1)) * SPEED, reason);
-		logFiner("Mount motors set to " + Math.max(-1, Math.min(power, 1)) * SPEED);
 	}
 
 }
