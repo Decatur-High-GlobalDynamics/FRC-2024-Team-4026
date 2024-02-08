@@ -60,6 +60,7 @@ public class ShooterMountSubsystem extends SubsystemBase implements ILogSource
 	{
 		return (Math.abs(mainMotor.getCurrentEncoderValue()
 				- targetRotation) < ShooterMountConstants.AIMING_DEADBAND ? true : false);
+
 	}
 
 }
