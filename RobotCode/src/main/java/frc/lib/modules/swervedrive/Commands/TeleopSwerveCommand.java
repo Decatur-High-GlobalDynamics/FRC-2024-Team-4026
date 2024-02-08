@@ -17,13 +17,11 @@ public class TeleopSwerveCommand extends Command
 	private DoubleSupplier translationSup;
 	private DoubleSupplier strafeSup;
 	private DoubleSupplier rotationSup;
-	private BooleanSupplier slowSpeedSupplier, fastSpeedSupplier; // used for
-																					// field
-																					// relative
+	private BooleanSupplier slowSpeedSupplier, fastSpeedSupplier;
 
 	public TeleopSwerveCommand(SwerveDriveSubsystem s_Swerve, DoubleSupplier translationSup,
 			DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier slowSpeedSupplier,
-			BooleanSupplier fastSpeedSupplier /* BooleanSupplier robotCentricSup */)
+			BooleanSupplier fastSpeedSupplier)
 	{
 		this.s_Swerve = s_Swerve;
 		addRequirements(s_Swerve);
@@ -31,7 +29,6 @@ public class TeleopSwerveCommand extends Command
 		this.translationSup = translationSup;
 		this.strafeSup = strafeSup;
 		this.rotationSup = rotationSup;
-		// this.robotCentricSup = robotCentricSup;
 
 		this.slowSpeedSupplier = slowSpeedSupplier;
 		this.fastSpeedSupplier = fastSpeedSupplier;
@@ -61,11 +58,11 @@ public class TeleopSwerveCommand extends Command
 		SmartDashboard.putNumber("Swerve Speed", speed);
 
 		/* Drive */
-		s_Swerve.drive(new Translation2d(translationVal, strafeVal).times(speed
-				* SwerveConstants.BASE_DRIVE_SPEED), rotationVal * speed
-						* SwerveConstants.BASE_TURN_SPEED,
-				/* !robotCentricSup.getAsBoolean(), */ true, // field relative is
-																// always on
+		s_Swerve.drive(
+				new Translation2d(translationVal, strafeVal)
+						.times(speed * SwerveConstants.BASE_DRIVE_SPEED),
+				rotationVal * speed * SwerveConstants.BASE_TURN_SPEED, true, // field relative is
+																				// always on
 				true);
 	}
 }

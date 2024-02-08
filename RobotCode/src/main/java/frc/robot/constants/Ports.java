@@ -22,8 +22,8 @@ public final class Ports
 	// SHOOTER PORT WOOOOOO
 	public static final int SHOOTER_MOTOR_MAIN = 0;
 	public static final int SHOOTER_MOTOR_SUB = 0;
-	public static final int FEEDER_MOTOR_MAIN = 0;
-	public static final int FEEDER_MOTOR_SUB = 0;
+	public static final int INDEXER_MOTOR_MAIN = 0;
+	public static final int INDEXER_MOTOR_SUB = 0;
 
 	// sensors and stuff
 	public static final int PIGEON_GYRO = 0;
