@@ -140,7 +140,7 @@ public class Autonomous implements ILogSource
             for (String pathName : pathSequence)
             {
                 // Add intake and aiming command once we have that!
-                AutoMain.addCommands(followPath(pathName), new ShooterInstantCommand(Shooter));
+                AutoMain.addCommands(followPath(pathName));
             }
 
             break;
