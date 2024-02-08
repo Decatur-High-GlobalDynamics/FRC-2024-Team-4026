@@ -1,35 +1,36 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.core.motors.TeamSparkMAX;
+import frc.lib.core.motors.TeamTalonFX;
 import frc.robot.constants.Ports;
+import frc.robot.constants.ShooterMountConstants;
 
 public class ShooterMountSubsystem extends SubsystemBase
 {
 
-	private TeamSparkMAX mainMotor, followMotor;
+	private TeamTalonFX mainMotor, followMotor;
 
-	/** In degrees */
-	private double goalRotation, distance;
-
-	private static final double DEGREES_IN_ONE_TICK = 360 / 42, SPEED = 1;
-	public static final double DEADBAND = 0.5;
+	private double targetRotation; // In encoder ticks (4096 to 1 degree)
 
 	public ShooterMountSubsystem()
 	{
-		mainMotor = new TeamSparkMAX("SHOOTER_MOUNT_MOTOR_LEFT", Ports.SHOOTER_MOUNT_MOTOR_LEFT);
-		followMotor = new TeamSparkMAX("SHOOTER_MOUNT_MOTOR_RIGHT",
-				Ports.SHOOTER_MOUNT_MOTOR_RIGHT);
+		mainMotor = new TeamTalonFX("SHOOTER_MOUNT_MOTOR_LEFT", Ports.SHOOTER_MOUNT_MOTOR_LEFT);
+		followMotor = new TeamTalonFX("SHOOTER_MOUNT_MOTOR_RIGHT", Ports.SHOOTER_MOUNT_MOTOR_RIGHT);
 
 		followMotor.follow(mainMotor);
 		followMotor.setInverted(true);
 
-		// This is the # of ticks in a rotation and the relative position
-		mainMotor.getEncoder().setPositionConversionFactor(42);
-		mainMotor.getEncoder().setPosition(0);
-		mainMotor.set(0);
+		mainMotor.config_kP(0, ShooterMountConstants.SHOOTER_MOUNT_KP);
+		mainMotor.config_kI(0, ShooterMountConstants.SHOOTER_MOUNT_KI);
+		mainMotor.config_kD(0, ShooterMountConstants.SHOOTER_MOUNT_KD);
+		mainMotor.config_kF(0, ShooterMountConstants.SHOOTER_MOUNT_KF);
+		mainMotor.configMotionCruiseVelocity(ShooterMountConstants.SHOOTER_MOUNT_CRUISE_VELOCITY);
+		mainMotor.configMotionAcceleration(ShooterMountConstants.SHOOTER_MOUNT_ACCELERATION);
+		mainMotor.selectProfileSlot(0, 0);
 
-		goalRotation = 0.0;
+		targetRotation = 0;
 	}
 
 	@Override
@@ -54,26 +55,29 @@ public class ShooterMountSubsystem extends SubsystemBase
 	{
 		distance = degrees - getCurrentRotation();
 		goalRotation = degrees;
+
 	}
 
-	public double getCurrentRotation()
+	/**
+	 * Set the desired rotation of the shooter mount
+	 * 
+	 * @param targetRotation the desired rotation in degrees
+	 */
+	public void setTargetRotation(double targetRotation)
 	{
-		return ticksToDegrees(mainMotor.getEncoder().getPosition());
+		this.targetRotation = degreesToTicks(
+				Math.max(targetRotation - ShooterMountConstants.SHOOTER_MOUNT_OFFSET_DEGREES, 0));
 	}
 
 	private static double degreesToTicks(double degrees)
 	{
-		return degrees / DEGREES_IN_ONE_TICK;
+		return degrees * ShooterMountConstants.TICKS_IN_ONE_DEGREE;
 	}
 
-	public static double ticksToDegrees(double ticks)
+	public boolean withinAimTolerance()
 	{
-		return ticks * DEGREES_IN_ONE_TICK;
-	}
-
-	public void setMotors(double power, String reason)
-	{
-		mainMotor.set(Math.max(-1, Math.min(power, 1)) * SPEED, reason);
+		return (Math.abs(mainMotor.getCurrentEncoderValue()
+				- targetRotation) < ShooterMountConstants.AIMING_DEADBAND ? true : false);
 	}
 
 }

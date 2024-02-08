@@ -27,7 +27,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.core.LogitechControllerButtons;
+import frc.lib.modules.swervedrive.Commands.TeleopAimSwerveCommand;
 import frc.lib.modules.swervedrive.Commands.TeleopSwerveCommand;
+import frc.robot.subsystems.VisionSubsystem;
 
 public class SwerveDriveSubsystem extends SubsystemBase
 {
@@ -111,7 +113,7 @@ public class SwerveDriveSubsystem extends SubsystemBase
 				.fromDegrees(offsets[SwerveConstants.BACK_RIGHT] - (invert ? 180 : 0));
 	}
 
-	// main driving method. translation is change in every direction
+	/** main driving method. translation is change in every direction */
 	public void drive(Translation2d translation, double rotation, boolean fieldRelative,
 			boolean isOpenLoop)
 	{
@@ -172,19 +174,19 @@ public class SwerveDriveSubsystem extends SubsystemBase
 		}
 	}
 
-	/** gets position of robot on the field (odometry) in meters */
+	/** @return position of robot on the field (odometry) in meters */
 	public Pose2d getPose()
 	{
 		return swerveOdometry.getPoseMeters();
 	}
 
-	// resets odometry (position on field)
+	/** resets odometry (position on field) */
 	public void resetPose(Pose2d pose)
 	{
 		swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
 	}
 
-	// returns array of a modules' states (angle, speed) for each one
+	/** @return array of a modules' states (angle, speed) for each one */
 	public SwerveModuleState[] getModuleStates()
 	{
 		SwerveModuleState[] states = new SwerveModuleState[4];
@@ -195,7 +197,7 @@ public class SwerveDriveSubsystem extends SubsystemBase
 		return states;
 	}
 
-	// returns module positions(for each individual module)
+	/** @return module positions(for each individual module) */
 	public SwerveModulePosition[] getModulePositions()
 	{
 		SwerveModulePosition[] positions = new SwerveModulePosition[4];
@@ -294,6 +296,24 @@ public class SwerveDriveSubsystem extends SubsystemBase
 
 	/**
 	 * @param Controller that controls the swerve drive
+	 * @return a command for the swerve drive that allow driver control of translation and strafe,
+	 *         but rotates towards the speaker and automatically spins the feeder motors when in
+	 *         target
+	 */
+	public TeleopSwerveCommand getTeleopAimCommand(final Joystick Controller,
+			final VisionSubsystem Vision)
+	{
+		final JoystickButton TriggerLeft = new JoystickButton(Controller,
+				LogitechControllerButtons.triggerLeft),
+				TriggerRight = new JoystickButton(Controller,
+						LogitechControllerButtons.triggerRight);
+
+		return new TeleopAimSwerveCommand(this, Vision, () -> -Controller.getY(),
+				() -> -Controller.getX(), TriggerLeft::getAsBoolean, TriggerRight::getAsBoolean);
+	}
+
+	/**
+	 * @param Controller that controls the swerve drive
 	 * @param Rotation   supplier for the rotation of the swerve drive
 	 * @return the default command for the swerve drive that allows driver control except for
 	 *         rotation
@@ -308,5 +328,16 @@ public class SwerveDriveSubsystem extends SubsystemBase
 
 		return new TeleopSwerveCommand(this, () -> -Controller.getY(), () -> -Controller.getX(),
 				Rotation, TriggerLeft::getAsBoolean, TriggerRight::getAsBoolean);
+	}
+
+	/**
+	 * @return the angle to the speaker in radians. Counterclockwise rotation is negative.
+	 */
+	public double getRotationToSpeaker(final VisionSubsystem Vision)
+	{
+		double angle = Vision.getAngleToSpeaker();
+		double currentAngle = getYaw().getRadians();
+
+		return angle - currentAngle;
 	}
 }
