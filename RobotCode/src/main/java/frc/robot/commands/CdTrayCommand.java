@@ -18,11 +18,12 @@ public class CdTrayCommand extends Command
 
 	private boolean closed;
 
-	public CdTrayCommand(CdTraySubsystem CdTray)
+	public CdTrayCommand(CdTraySubsystem CdTray, Value cdMode)
 	{
 		System.out.println("Constructing CdTrayCommand...");
 		this.CdTray = CdTray;
 		this.closed = true;
+		this.cdMode = cdMode;
 		addRequirements(CdTray);
 	}
 
@@ -32,30 +33,6 @@ public class CdTrayCommand extends Command
 		CdTray.setSolenoid(cdMode);
 		startTimer = new Timer(timeToWait);
 	}
-
-	public void execute()
-	{
-
-		CdTray.closed = true;
-
-		if (CdTray.getCdArmLeft().get() == Value.kOff && startTimer == null)
-		{
-			CdTray.setSolenoid(cdMode);
-			startTimer = new Timer(timeToWait);
-		}
-	}
-
-	public boolean isFinished()
-	{
-		return startTimer != null && startTimer.isDone();
-	}
-
-	public void end()
-	{
-		System.out.println("Ending CdTrayCommand...");
-		CdTray.getCdArmLeft().set(Value.kOff);
-	}
-
 }
 
 // no

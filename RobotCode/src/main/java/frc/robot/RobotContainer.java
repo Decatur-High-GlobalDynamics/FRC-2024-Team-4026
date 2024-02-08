@@ -14,6 +14,7 @@ import frc.lib.modules.swervedrive.Commands.TeleopAimSwerveCommand;
 import frc.lib.core.LogitechControllerButtons;
 import frc.robot.commands.ShooterOverrideCommand;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -31,6 +32,7 @@ public class RobotContainer
 	private final ShooterSubsystem ShooterSubsystem;
 	private final ShooterMountSubsystem ShooterMountSubsystem;
 	private final VisionSubsystem VisionSubsystem;
+	private final IndexerSubsystem IndexerSubsystem;
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer()
@@ -45,6 +47,7 @@ public class RobotContainer
 		ShooterSubsystem = new ShooterSubsystem();
 		ShooterMountSubsystem = new ShooterMountSubsystem();
 		VisionSubsystem = new VisionSubsystem();
+		IndexerSubsystem = new IndexerSubsystem();
 
 		Autonomous.init(this);
 
@@ -61,7 +64,8 @@ public class RobotContainer
 				LogitechControllerButtons.triggerRight);
 
 		SwerveDrive.setDefaultCommand(SwerveDrive.getDefaultCommand(PrimaryController));
-		rightTrigger.whileTrue(SwerveDrive.getTeleopAimCommand(PrimaryController, VisionSubsystem));
+		rightTrigger.whileTrue(SwerveDrive.getTeleopAimCommand(PrimaryController, VisionSubsystem,
+				IndexerSubsystem));
 	}
 
 	private void configureSecondaryBindings()
@@ -92,6 +96,11 @@ public class RobotContainer
 	public VisionSubsystem getVision()
 	{
 		return VisionSubsystem;
+	}
+
+	public IndexerSubsystem getIndexer()
+	{
+		return IndexerSubsystem;
 	}
 
 }

@@ -33,21 +33,21 @@ public class VisionSubsystem extends SubsystemBase
     private PhotonPipelineResult latestPipelineResult;
     private Optional<PhotonTrackedTarget> bestTarget;
 
-    private final AprilTagFieldLayout FieldLayout;
+    private final AprilTagFieldLayout AprilTagFieldLayout;
 
     public VisionSubsystem()
     {
         Camera = new PhotonCamera(VisionConstants.CameraTableName);
 
-        FieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+        AprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
         Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
                 new Rotation3d(0, 0, 0));
         Transform3d shooterMountToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5),
                 new Rotation3d(0, 0, 0));
 
-        robotPoseEstimator = new PhotonPoseEstimator(FieldLayout,
+        robotPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, Camera, robotToCam);
-        shooterMountPoseEstimator = new PhotonPoseEstimator(FieldLayout,
+        shooterMountPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout,
                 PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, Camera, shooterMountToCam);
     }
 
@@ -150,7 +150,8 @@ public class VisionSubsystem extends SubsystemBase
         int targetId = Alliance.Blue == DriverStation.getAlliance().get()
                 ? VisionConstants.BLUE_SPEAKER_TAG_ID
                 : VisionConstants.RED_SPEAKER_TAG_ID;
-        Pose2d targetPose = pose3dtoPose2d(FieldLayout.getTagPose(targetId).orElse(new Pose3d()));
+        Pose2d targetPose = pose3dtoPose2d(
+                AprilTagFieldLayout.getTagPose(targetId).orElse(new Pose3d()));
 
         double angle = angleTowardsPose(targetPose);
 
@@ -160,7 +161,7 @@ public class VisionSubsystem extends SubsystemBase
 
     public AprilTagFieldLayout getAprilTagFieldLayout()
     {
-        return aprilTagFieldLayout;
+        return AprilTagFieldLayout;
     }
 
 }
