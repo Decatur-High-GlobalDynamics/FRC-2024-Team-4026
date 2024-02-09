@@ -94,10 +94,11 @@ public class Autonomous implements ILogSource
 		final ShooterSubsystem Shooter = RobotContainer.getShooter();
 		final ShooterMountSubsystem ShooterMount = RobotContainer.getShooterMount();
 		final VisionSubsystem Vision = RobotContainer.getVision();
+		final IndexerSubsystem Indexer = RobotContainer.getIndexer();
 
 		final SequentialCommandGroup AutoMain = new SequentialCommandGroup();
 		final ParallelRaceGroup AutoAsync = new ParallelRaceGroup(
-				new AutoAimSwerveCommand(SwerveDrive, Vision), AutoMain);
+				new AutoAimSwerveCommand(SwerveDrive, Vision, Indexer), AutoMain);
 
 		switch (AutoMode)
 		{

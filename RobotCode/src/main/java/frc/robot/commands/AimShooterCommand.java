@@ -48,8 +48,9 @@ public class AimShooterCommand extends Command
 
 		for (int i = 0; i < ShooterMountConstants.GRAVITY_COMPENSATION_TREE_MAP_KEYS.length; i++)
 		{
-			gravityCompensationTreeMap.put(ShooterMountConstants.GRAVITY_COMPENSATION_TREE_MAP_KEYS[i],
-				ShooterMountConstants.GRAVITY_COMPENSATION_TREE_MAP_VALUES[i]);
+			gravityCompensationTreeMap.put(
+					ShooterMountConstants.GRAVITY_COMPENSATION_TREE_MAP_KEYS[i],
+					ShooterMountConstants.GRAVITY_COMPENSATION_TREE_MAP_VALUES[i]);
 		}
 	}
 
@@ -85,8 +86,8 @@ public class AimShooterCommand extends Command
 		// Get the distance from the shooter mount to the base of the speaker
 		double groundDistance = speakerPose.getDistance(shooterMountPose);
 
-		double targetRotation = Math
-				.atan(ShooterMountConstants.SHOOTER_MOUNT_TO_SPEAKER / groundDistance) * (180 / Math.PI);
+		double targetRotation = Math.atan(
+				ShooterMountConstants.SHOOTER_MOUNT_TO_SPEAKER / groundDistance) * (180 / Math.PI);
 
 		// Get the distance from the shooter mount to speaker opening
 		double hypotenuse = Math.sqrt(Math.pow(ShooterMountConstants.SHOOTER_MOUNT_TO_SPEAKER, 2)
