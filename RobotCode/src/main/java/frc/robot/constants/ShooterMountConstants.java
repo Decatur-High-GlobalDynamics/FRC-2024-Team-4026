@@ -46,4 +46,9 @@ public class ShooterMountConstants
 	 */
 	public static final double AIMING_DEADBAND = 100;
 
+	/** Distance to speaker in meters */
+	public static final double[] GRAVITY_COMPENSATION_TREE_MAP_KEYS = {1, 2, 3};
+	/** Rotation compensation in degrees */
+	public static final double[] GRAVITY_COMPENSATION_TREE_MAP_VALUES = {1, 2, 3};
+
 }

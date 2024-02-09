@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.core.LogitechControllerButtons;
 import frc.lib.modules.swervedrive.Commands.TeleopAimSwerveCommand;
 import frc.lib.modules.swervedrive.Commands.TeleopSwerveCommand;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 public class SwerveDriveSubsystem extends SubsystemBase
@@ -301,14 +302,14 @@ public class SwerveDriveSubsystem extends SubsystemBase
 	 *         target
 	 */
 	public TeleopSwerveCommand getTeleopAimCommand(final Joystick Controller,
-			final VisionSubsystem Vision)
+			final VisionSubsystem Vision, final IndexerSubsystem Indexer)
 	{
 		final JoystickButton TriggerLeft = new JoystickButton(Controller,
 				LogitechControllerButtons.triggerLeft),
 				TriggerRight = new JoystickButton(Controller,
 						LogitechControllerButtons.triggerRight);
 
-		return new TeleopAimSwerveCommand(this, Vision, () -> -Controller.getY(),
+		return new TeleopAimSwerveCommand(this, Vision, Indexer, () -> -Controller.getY(),
 				() -> -Controller.getX(), TriggerLeft::getAsBoolean, TriggerRight::getAsBoolean);
 	}
 

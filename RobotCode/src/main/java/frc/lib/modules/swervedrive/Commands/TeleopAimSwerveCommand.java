@@ -4,7 +4,9 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
+import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.VisionConstants;
+import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 /**
@@ -15,9 +17,10 @@ public class TeleopAimSwerveCommand extends TeleopSwerveCommand
 
     private final SwerveDriveSubsystem Swerve;
     private final VisionSubsystem Vision;
+    private final IndexerSubsystem Indexer;
 
     public TeleopAimSwerveCommand(SwerveDriveSubsystem swerve, VisionSubsystem vision,
-            DoubleSupplier translationSup, DoubleSupplier strafeSup,
+            IndexerSubsystem indexer, DoubleSupplier translationSup, DoubleSupplier strafeSup,
             BooleanSupplier slowSpeedSupplier, BooleanSupplier fastSpeedSupplier)
     {
         super(swerve, translationSup, strafeSup, () -> swerve.getRotationToSpeaker(vision),
@@ -25,6 +28,7 @@ public class TeleopAimSwerveCommand extends TeleopSwerveCommand
 
         Swerve = swerve;
         Vision = vision;
+        Indexer = indexer;
     }
 
     @Override
@@ -36,7 +40,20 @@ public class TeleopAimSwerveCommand extends TeleopSwerveCommand
         if (Math.abs(Swerve.getRotationToSpeaker(Vision)) < VisionConstants.CHASSIS_AIM_THRESHOLD)
         {
             // Spin feeder motors
+            Indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_SHOOT_VELOCITY,
+                    "Within aim threshold");
         }
+        else
+        {
+            Indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_REST_VELOCITY,
+                    "Not within aim threshold");
+        }
+    }
+
+    @Override
+    public void end(boolean interrupted)
+    {
+        Swerve.setRotationController(null);
     }
 
 }

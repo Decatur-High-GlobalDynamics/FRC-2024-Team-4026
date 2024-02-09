@@ -4,6 +4,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.IndexerConstants;
@@ -14,8 +15,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 /**
- * Points shooter mount at speaker
- * Returns shooter mount to rest position when done
+ * Points shooter mount at speaker Returns shooter mount to rest position when done
  */
 public class AimShooterCommand extends Command
 {
@@ -27,6 +27,8 @@ public class AimShooterCommand extends Command
 	private Translation2d shooterMountPose, speakerPose;
 
 	private AprilTagFieldLayout aprilTagFieldLayout;
+
+	private InterpolatingDoubleTreeMap gravityCompensationTreeMap;
 
 	public AimShooterCommand(ShooterSubsystem shooter, ShooterMountSubsystem shooterMount,
 			VisionSubsystem vision)
@@ -41,6 +43,14 @@ public class AimShooterCommand extends Command
 
 		shooterMountPose = new Translation2d();
 		speakerPose = new Translation2d();
+
+		gravityCompensationTreeMap = new InterpolatingDoubleTreeMap();
+
+		for (int i = 0; i < ShooterMountConstants.GRAVITY_COMPENSATION_TREE_MAP_KEYS.length; i++)
+		{
+			gravityCompensationTreeMap.put(ShooterMountConstants.GRAVITY_COMPENSATION_TREE_MAP_KEYS[i],
+				ShooterMountConstants.GRAVITY_COMPENSATION_TREE_MAP_VALUES[i]);
+		}
 	}
 
 	@Override
@@ -76,15 +86,13 @@ public class AimShooterCommand extends Command
 		double groundDistance = speakerPose.getDistance(shooterMountPose);
 
 		double targetRotation = Math
-				.atan(ShooterMountConstants.SHOOTER_MOUNT_TO_SPEAKER / groundDistance) * (180/ Math.PI);
+				.atan(ShooterMountConstants.SHOOTER_MOUNT_TO_SPEAKER / groundDistance) * (180 / Math.PI);
 
 		// Get the distance from the shooter mount to speaker opening
 		double hypotenuse = Math.sqrt(Math.pow(ShooterMountConstants.SHOOTER_MOUNT_TO_SPEAKER, 2)
 				+ Math.pow(groundDistance, 2));
 
-		double gravityCompensation = (2 * Math.pow(hypotenuse, 2)) + (2 * hypotenuse) + (2);
-
-		shooterMount.setTargetRotation(targetRotation + gravityCompensation);
+		shooterMount.setTargetRotation(targetRotation + gravityCompensationTreeMap.get(hypotenuse));
 	}
 
 	@Override

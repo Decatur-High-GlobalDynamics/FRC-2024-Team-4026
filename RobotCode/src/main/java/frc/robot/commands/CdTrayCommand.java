@@ -18,11 +18,12 @@ public class CdTrayCommand extends Command implements ILogSource
 
 	private boolean closed;
 
-	public CdTrayCommand(CdTraySubsystem CdTray)
+	public CdTrayCommand(CdTraySubsystem CdTray, Value cdMode)
 	{
 		logFiner("Constructing CDTray command...");
 		this.CdTray = CdTray;
 		this.closed = true;
+		this.cdMode = cdMode;
 		addRequirements(CdTray);
 	}
 

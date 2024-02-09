@@ -28,19 +28,9 @@ public class CdTraySubsystem extends SubsystemBase implements ILogSource
 
 		mainCompressor.enableDigital();
 
-		cdArmLeft.set(Value.kOff);
-		cdArmRight.set(Value.kOff);
+		cdArmLeft.set(Value.kReverse);
+		cdArmRight.set(Value.kReverse);
 		// koff koff (comedy)
-	}
-
-	public DoubleSolenoid getCdArmLeft()
-	{
-		return cdArmLeft;
-	}
-
-	public boolean getClosed()
-	{
-		return cdArmLeft.get() == Value.kForward && cdArmRight.get() == Value.kForward;
 	}
 
 	public void setSolenoid(Value mode)
