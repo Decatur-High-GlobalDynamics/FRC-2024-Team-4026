@@ -36,26 +36,7 @@ public class ShooterMountSubsystem extends SubsystemBase
 	@Override
 	public void periodic()
 	{
-		// probably rotates the shooter mount, not sure
-		double difference = goalRotation - getCurrentRotation();
-
-		if (Math.abs(difference) < DEADBAND)
-		{
-			setMotors(0, "Shooter Mount (Deadbanded): Difference: " + difference + ", Distance: "
-					+ distance);
-			return;
-		}
-
-		double power = distance * Math.sin(difference * Math.PI / distance);
-		power = Math.max(-1, Math.min(power, 1));
-		setMotors(power, "Shooter Mount: Difference: " + difference + ", Distance: " + distance);
-	}
-
-	public void setGoalRotation(double degrees)
-	{
-		distance = degrees - getCurrentRotation();
-		goalRotation = degrees;
-
+		mainMotor.set(ControlMode.MotionMagic, targetRotation);
 	}
 
 	/**
