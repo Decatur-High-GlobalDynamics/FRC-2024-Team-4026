@@ -7,13 +7,15 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Ports;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.constants.ShooterMountConstants;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.core.motors.TeamSparkMAX;
 import frc.lib.core.ILogSource;
 
 public class ShooterSubsystem extends SubsystemBase implements ILogSource
 {
-	// Creates objects
+
 	private double desiredShooterVelocity;
 
 	private SparkPIDController shooterPid;
@@ -42,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase implements ILogSource
 		shooterPid.setFF(ShooterConstants.SHOOTER_KF);
 	}
 
-	public double getShooterMotorVelocityError() 
+	public double getShooterMotorVelocityError()
 	{
 		return shooterMotorMain.getVelocityError();
 	}
@@ -66,4 +68,5 @@ public class ShooterSubsystem extends SubsystemBase implements ILogSource
 	{
 		shooterPid.setReference(desiredShooterVelocity, ControlType.kVelocity);
 	}
+
 }

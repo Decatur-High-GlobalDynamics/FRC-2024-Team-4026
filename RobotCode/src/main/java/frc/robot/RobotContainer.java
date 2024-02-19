@@ -46,7 +46,7 @@ public class RobotContainer
 		ClimberSubsystem = new ClimberSubsystem();
 		ShooterSubsystem = new ShooterSubsystem();
 		ShooterMountSubsystem = new ShooterMountSubsystem();
-		VisionSubsystem = new VisionSubsystem();
+		VisionSubsystem = new VisionSubsystem(SwerveDrive, ShooterMountSubsystem);
 		IndexerSubsystem = new IndexerSubsystem();
 
 		Autonomous.init(this);

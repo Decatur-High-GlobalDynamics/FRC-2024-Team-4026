@@ -37,7 +37,8 @@ public class TeleopAimSwerveCommand extends TeleopSwerveCommand
         super.execute();
 
         // Spin feeder motors if in target
-        if (Math.abs(Swerve.getRotationToSpeaker(Vision)) < VisionConstants.CHASSIS_AIM_THRESHOLD)
+        if (Vision.isInShooterRange() && Math
+                .abs(Swerve.getRotationToSpeaker(Vision)) < VisionConstants.CHASSIS_AIM_THRESHOLD)
         {
             // Spin feeder motors
             Indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_SHOOT_VELOCITY,

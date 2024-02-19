@@ -39,8 +39,8 @@ public final class SwerveConstants
 
 	/* Drivetrain Constants */
 	public static final double TRACK_WIDTH = Units.inchesToMeters(19); // will test
-																			// when
-																			// testing PID
+																		// when
+																		// testing PID
 	public static final double WHEEL_BASE = Units.inchesToMeters(19); // will test when
 																		// testing
 																		// PID
@@ -151,6 +151,10 @@ public final class SwerveConstants
 	public static final int FRONT_RIGHT = 1;
 	public static final int BACK_LEFT = 2;
 	public static final int BACK_RIGHT = 3;
+
+	// Velocity measurement constants
+	/** TODO: Needs to checked */
+	public static final int DRIVE_MOTOR_TICKS_PER_ROTATION = 2048;
 
 	/* Module Specific Constants */
 	/* Front Left Module - Module 0 */

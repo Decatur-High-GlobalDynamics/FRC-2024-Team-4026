@@ -14,4 +14,6 @@ public final class VisionConstants
     /** How close the chassis needs to be to shoot a note. In radians */
     public static final double CHASSIS_AIM_THRESHOLD = Math.toRadians(3);
 
+    public static final boolean ADJUST_SPEAKER_POSE_FOR_VELOCITY = true;
+
 }

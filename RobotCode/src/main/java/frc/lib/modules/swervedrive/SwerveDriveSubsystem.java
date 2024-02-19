@@ -34,6 +34,7 @@ import frc.robot.subsystems.VisionSubsystem;
 
 public class SwerveDriveSubsystem extends SubsystemBase
 {
+
 	private SwerveDriveOdometry swerveOdometry;
 	private SwerveModule[] swerveMods;
 	private Pigeon2 gyro;
@@ -341,4 +342,17 @@ public class SwerveDriveSubsystem extends SubsystemBase
 
 		return angle - currentAngle;
 	}
+
+	/**
+	 * @return the velocity of the robot in meters per second
+	 */
+	public Pose2d getVelocity()
+	{
+		ChassisSpeeds chassisSpeed = SwerveConstants.SwerveKinematics
+				.toChassisSpeeds(getModuleStates());
+
+		return new Pose2d(chassisSpeed.vxMetersPerSecond, chassisSpeed.vyMetersPerSecond,
+				new Rotation2d());
+	}
+
 }
