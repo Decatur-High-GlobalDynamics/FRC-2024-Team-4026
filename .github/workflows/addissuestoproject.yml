@@ -7,6 +7,7 @@ on:
   pull_request:
     types:
       - opened
+    branches: [ main, dev ]
 
 jobs:
   add-to-project:
@@ -19,5 +20,3 @@ jobs:
 
         project-url: https://github.com/orgs/Decatur-Robotics/projects/2
         github-token: ${{ secrets.WORKFLOWSAUTH }}
-
-            
