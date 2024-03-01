@@ -15,14 +15,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-      - uses: actions/add-to-project@v0.5.0
+      - name: add Issues/PRs to project
+        uses: actions/add-to-project@v0.5.0
         with:
           project-url: https://github.com/orgs/Decatur-Robotics/projects/2
           github-token: ${{ secrets.WORKFLOWSAUTH }}
 
-      - uses: andymckay/labeler@1.0.4
-        if: ${{ github.event.name == 'pull_request' }}
-        with:
-          add-labels: "branch"
-
-        
+      - name: add labels to Issues/PRs
+        if: ${{ github.event_name == 'pull_request' }}
+        run: gh pr edit "$NUMBER" --add-label "$LABELS"
+        env:
+          GH_TOKEN: ${{ secrets.WORKFLOWSAUTH }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+          LABELS: branch
