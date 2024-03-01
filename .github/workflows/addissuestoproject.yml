@@ -20,8 +20,12 @@ jobs:
         with:
           project-url: https://github.com/orgs/Decatur-Robotics/projects/2
           github-token: ${{ secrets.WORKFLOWSAUTH }}
+  add-labels:
+    name: Add labels to Issues/PRs
+    runs-on: ubuntu-latest
+    steps:
 
-      - name: add labels to Issues/PRs
+      - name: PR branch label
         if: ${{ github.event_name == 'pull_request' }}
         run: gh pr edit "$NUMBER" --add-label "$LABELS"
         env:
@@ -29,3 +33,12 @@ jobs:
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.pull_request.number }}
           LABELS: branch
+
+      - name: PR feature label
+        if: startsWith(github.head_ref, 'feature-')
+        run: gh pr edit "$NUMBER" --add-label "$LABELS"
+        env:
+          GH_TOKEN: ${{ secrets.WORKFLOWSAUTH }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.pull_request.number }}
+          LABELS: robot feature
