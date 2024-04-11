@@ -108,10 +108,10 @@ public class ShooterMountSubsystem extends SubsystemBase
 				() -> (gyro.getRoll().getValueAsDouble() / 360));
 	}
 
-	//If a motor gets reset this tells to continue sending only what it needs to send the the CAN bus
 	@Override
 	public void periodic()
 	{
+		//If a motor gets reset this tells to continue sending only what it needs to send the the CAN bus
 		if (shooterMountMotorLeft.hasResetOccurred() || shooterMountMotorRight.hasResetOccurred())
 		{
 			shooterMountMotorLeft.optimizeBusUtilization();
@@ -165,12 +165,4 @@ public class ShooterMountSubsystem extends SubsystemBase
 		return Math.abs((shooterMountMotorLeft.getRotorPosition().getValueAsDouble())
 				- (targetRotation + offset)) < ShooterMountConstants.AIMING_DEADBAND;
 	}
-
-
-	public void zeroShooterMount()
-	{
-		shooterMountMinAngle = shooterMountMotorLeft.getPosition().getValueAsDouble();
-		setTargetRotation(0);
-	}
-
 }
