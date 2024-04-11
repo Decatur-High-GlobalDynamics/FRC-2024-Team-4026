@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.lib.modules.leds.Color;
+import frc.lib.modules.leds.TeamColor;
+import frc.lib.modules.leds.LedSubsystem;
 import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.lib.modules.swervedrive.Commands.ZeroGyroCommand;
 import frc.lib.core.Autonomous;
@@ -33,7 +34,6 @@ import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -89,7 +89,7 @@ public class RobotContainer
 		IntakeSubsystem = new IntakeSubsystem();
 		LedSubsystem = new LedSubsystem();
 
-		LedSubsystem.setAllPixels(Color.Blue);
+		LedSubsystem.setAllPixels(TeamColor.Blue);
 
 		Autonomous = new SideBasedAuto(this);
 
