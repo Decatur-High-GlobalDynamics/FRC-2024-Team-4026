@@ -53,6 +53,7 @@ public class ShooterMountSubsystem extends SubsystemBase
 		// create configurator
 		TalonFXConfiguration mainMotorConfigs = new TalonFXConfiguration();
 
+
 		mainMotorConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
 		mainMotorConfigs.CurrentLimits.StatorCurrentLimit = 60;
 
@@ -110,6 +111,7 @@ public class ShooterMountSubsystem extends SubsystemBase
 	@Override
 	public void periodic()
 	{
+		//If a motor gets reset this tells to continue sending only what it needs to send the the CAN bus
 		if (shooterMountMotorLeft.hasResetOccurred() || shooterMountMotorRight.hasResetOccurred())
 		{
 			shooterMountMotorLeft.optimizeBusUtilization();
@@ -130,6 +132,8 @@ public class ShooterMountSubsystem extends SubsystemBase
 		this.targetRotation = Math.max(
 				Math.min(targetRotation, ShooterMountConstants.SHOOTER_MOUNT_MAX_ANGLE_OFFSET),
 				shooterMountMinAngle);
+
+		//Has the shooter mount compensate for gravity
 		double gravityFeedForward = ShooterMountConstants.SHOOTER_MOUNT_KG
 				* Math.cos(ShooterMountConstants.SHOOTER_MOUNT_MIN_ANGLE_IN_RADIANS
 						+ Math.toRadians(this.targetRotation * 360));
@@ -161,11 +165,4 @@ public class ShooterMountSubsystem extends SubsystemBase
 		return Math.abs((shooterMountMotorLeft.getRotorPosition().getValueAsDouble())
 				- (targetRotation + offset)) < ShooterMountConstants.AIMING_DEADBAND;
 	}
-
-	public void zeroShooterMount()
-	{
-		shooterMountMinAngle = shooterMountMotorLeft.getPosition().getValueAsDouble();
-		setTargetRotation(0);
-	}
-
 }

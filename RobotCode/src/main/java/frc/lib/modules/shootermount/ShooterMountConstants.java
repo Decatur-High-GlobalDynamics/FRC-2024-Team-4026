@@ -49,9 +49,4 @@ public class ShooterMountConstants
 	{
 			0, 0, 0
 	};
-
-	public static final double POTENTIOMETER_ZERO_POSITION = 0.0806;
-
-	public static final double HOMING_DEADBAND = 0.005;
-
 }
