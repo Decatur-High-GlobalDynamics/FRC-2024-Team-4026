@@ -2,12 +2,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.core.util.TeamCountdown;
-import frc.lib.modules.leds.Color;
+import frc.lib.modules.leds.TeamColor;
+import frc.lib.modules.leds.LedSubsystem;
 import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.IntakeConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -56,7 +56,7 @@ public class IntakeCommand extends Command {
 			intake.setDesiredVelocity(IntakeConstants.INTAKE_REST_VELOCITY);
 			indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_REVERSE_VELOCITY);
 			if (leds != null)
-				leds.flashAllPixels(Color.Yellow);
+				leds.flashAllPixels(TeamColor.Yellow, 5);
 
 			state = State.REVERSE;
 
