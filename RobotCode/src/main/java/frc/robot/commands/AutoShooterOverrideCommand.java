@@ -2,8 +2,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.core.util.TeamCountdown;
-import frc.lib.modules.leds.Color;
-import frc.robot.subsystems.LedSubsystem;
+import frc.lib.modules.leds.TeamColor;
+import frc.lib.modules.leds.LedSubsystem;
 import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -54,7 +54,7 @@ public class AutoShooterOverrideCommand extends Command {
         shooterMount.setTargetRotation(0);
         shooter.setShooterMotorVelocity(ShooterConstants.SHOOTER_REST_VELOCITY);
         indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_REST_VELOCITY);
-		led.flashAllPixels(Color.Blue);
+		led.flashAllPixels(TeamColor.Blue, 5);
     }
 
     @Override
