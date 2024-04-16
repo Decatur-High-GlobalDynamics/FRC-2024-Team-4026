@@ -1,12 +1,12 @@
-package frc.lib.modules.intake.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.core.util.TeamCountdown;
 import frc.lib.modules.leds.Color;
 import frc.robot.constants.IndexerConstants;
-import frc.lib.modules.intake.IntakeConstants;
+import frc.robot.constants.IntakeConstants;
 import frc.robot.constants.ShooterConstants;
-import frc.lib.modules.intake.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
