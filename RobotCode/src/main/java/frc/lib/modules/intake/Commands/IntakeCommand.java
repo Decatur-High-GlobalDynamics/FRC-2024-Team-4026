@@ -50,7 +50,6 @@ public class IntakeCommand extends Command {
 	}
 
 	@Override
-	//notes were the game pieces of 2024 season
 	public void execute() {
 		if (indexer.hasNote() && state == State.FORWARD) {
 			intake.setDesiredRotation(IntakeConstants.INTAKE_RETRACTED_ROTATION);
