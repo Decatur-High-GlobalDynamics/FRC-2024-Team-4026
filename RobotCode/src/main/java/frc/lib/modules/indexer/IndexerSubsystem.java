@@ -18,7 +18,7 @@ public class IndexerSubsystem extends SubsystemBase
 
     private SparkPIDController indexerPid;
     private TeamSparkMAX indexerMotorMain, indexerMotorSub;
-
+// beambreak is what we use to detect if there is a note
     private DigitalInput beamBreak;
 
     // sets up pid and other motor settings for the indexer motors
