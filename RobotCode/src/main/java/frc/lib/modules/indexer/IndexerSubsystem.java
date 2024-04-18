@@ -10,7 +10,7 @@ import frc.lib.core.motors.TeamSparkMAX;
 import frc.robot.constants.Constants;
 import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.Ports;
-
+//constructor
 public class IndexerSubsystem extends SubsystemBase
 {
 
@@ -21,6 +21,7 @@ public class IndexerSubsystem extends SubsystemBase
 
     private DigitalInput beamBreak;
 
+    // sets up pid and other motor settings for the indexer motors
     public IndexerSubsystem()
     {
         desiredIndexerVelocity = IndexerConstants.INDEXER_REST_VELOCITY;
@@ -46,20 +47,20 @@ public class IndexerSubsystem extends SubsystemBase
         indexerPid.setD(IndexerConstants.INDEXER_KD);
         indexerPid.setFF(IndexerConstants.INDEXER_KF);
     }
-
+// command to set the indexer speed
     public void setIndexerMotorVelocity(double desiredIndexerVelocity, String reason)
     {
         this.desiredIndexerVelocity = Math.max(
                 Math.min(IndexerConstants.INDEXER_MAX_VELOCITY, desiredIndexerVelocity),
                 -IndexerConstants.INDEXER_MAX_VELOCITY);
     }
-
+// does the pid for the indexer
     @Override
     public void periodic()
     {
         indexerPid.setReference(desiredIndexerVelocity, ControlType.kVelocity);
     }
-
+// detects if there is a note
     public boolean hasNote()
     {
         return beamBreak.get();
