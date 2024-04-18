@@ -1,11 +1,11 @@
-package frc.robot.commands;
+package frc.lib.modules.shooter.Commands;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.lib.modules.leds.TeamColor;
 import frc.lib.modules.leds.LedSubsystem;
-import frc.robot.constants.ShooterConstants;
+import frc.lib.modules.shooter.ShooterSubsystem;
+import frc.lib.modules.shooter.ShooterConstants;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterOverrideCommand extends Command {
 	// Initializes the subsystem objects

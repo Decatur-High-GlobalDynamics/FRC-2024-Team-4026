@@ -6,10 +6,10 @@ import frc.lib.modules.leds.TeamColor;
 import frc.lib.modules.leds.LedSubsystem;
 import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.IntakeConstants;
-import frc.robot.constants.ShooterConstants;
+import frc.lib.modules.shooter.ShooterConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterMountSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 
 public class IntakeCommand extends Command {

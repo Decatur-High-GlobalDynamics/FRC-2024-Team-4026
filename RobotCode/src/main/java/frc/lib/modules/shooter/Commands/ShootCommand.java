@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.lib.modules.shooter.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.modules.leds.TeamColor;
@@ -22,6 +22,7 @@ public class ShootCommand extends Command
 
     public ShootCommand(IndexerSubsystem indexer, LedSubsystem leds)
     {
+
         Indexer = indexer;
         Leds = leds;
 
@@ -37,6 +38,9 @@ public class ShootCommand extends Command
     @Override
     public void end(boolean interrupted)
     {
+         /*we made our leds signal different states of the robot, this one is probably for
+        when the robot fires. (in the hole)
+        */
         Indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_REST_VELOCITY);
         if(Leds != null)
             Leds.flashAllPixels(TeamColor.Blue, 5);
