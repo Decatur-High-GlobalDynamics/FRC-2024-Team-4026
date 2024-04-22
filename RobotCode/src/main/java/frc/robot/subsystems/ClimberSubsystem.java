@@ -68,8 +68,8 @@ public class ClimberSubsystem extends SubsystemBase
 				() -> climberMotorRight.getPosition().getValueAsDouble());
 		RobotContainer.getShuffleboardTab().addBoolean("Climber Override", () -> override);
 
-		// climberMotorLeft.setControl(motorControlRequestLeft.withPosition(leftTargetPosition));
-		// climberMotorRight.setControl(motorControlRequestRight.withPosition(rightTargetPosition));
+		climberMotorLeft.setControl(motorControlRequestLeft.withPosition(leftTargetPosition));
+		climberMotorRight.setControl(motorControlRequestRight.withPosition(rightTargetPosition));
 
 		minimumPositionLeft = climberMotorLeft.getPosition().getValueAsDouble();
 		minimumPositionRight = climberMotorRight.getPosition().getValueAsDouble();
@@ -78,76 +78,45 @@ public class ClimberSubsystem extends SubsystemBase
 	@Override
 	public void periodic()
 	{
-		if (climberMotorLeft.hasResetOccurred() || climberMotorRight.hasResetOccurred())
-		{
-			climberMotorLeft.optimizeBusUtilization();
-			climberMotorRight.optimizeBusUtilization();
-			climberMotorLeft.getRotorPosition().setUpdateFrequency(20);
-			climberMotorRight.getRotorPosition().setUpdateFrequency(20);
-		}
+		climberMotorLeft.optimizeBusUtilization();
+		climberMotorRight.optimizeBusUtilization();
 
-		// Climber auto-balance while climbing
-		// if (isBalanced && RobotContainer.getGyro().getRoll()
-		// 		.getValueAsDouble() > ClimberConstants.BALANCE_DEADBAND)
-		// {
-		// 	isBalanced = false;
-		// 	climberMotorLeft.setControl(motorControlRequestLeft.withPosition(leftTargetPosition));
-		// 	climberMotorRight.setControl(motorControlRequestRight
-		// 			.withPosition(climberMotorRight.getRotorPosition().getValueAsDouble()));
-		// }
-
-		// if (isBalanced && RobotContainer.getGyro().getRoll()
-		// 		.getValueAsDouble() < -ClimberConstants.BALANCE_DEADBAND)
-		// {
-		// 	isBalanced = false;
-		// 	climberMotorRight
-		// 			.setControl(motorControlRequestRight.withPosition(rightTargetPosition));
-		// 	climberMotorLeft.setControl(motorControlRequestLeft
-		// 			.withPosition(climberMotorLeft.getRotorPosition().getValueAsDouble()));
-		// }
-
-		// if (!isBalanced
-		// 		&& RobotContainer.getGyro().getRoll()
-		// 				.getValueAsDouble() >= -ClimberConstants.BALANCE_DEADBAND
-		// 		&& RobotContainer.getGyro().getRoll()
-		// 				.getValueAsDouble() <= ClimberConstants.BALANCE_DEADBAND)
-		// {
-		// 	isBalanced = true;
-		// 	climberMotorLeft.setControl(motorControlRequestLeft.withPosition(leftTargetPosition));
-		// 	climberMotorRight
-		// 			.setControl(motorControlRequestRight.withPosition(rightTargetPosition));
-		// }
+		climberMotorLeft.getRotorPosition().setFrequency(20);
+		climberMotorRight.getRotorPosition().setFrequency(20);
 	}
 
-	public void setPowers(double leftPower, double rightPower)
+	public void setLeftTargetPosition(double LeftPosition)
 	{
-		if (true)
-		{
-			climberMotorLeft.setControl(motorControlRequestLeftVelocity.withVelocity(leftPower));
-			climberMotorRight.setControl(motorControlRequestRightVelocity.withVelocity(-rightPower));
+		leftTargetPosition = LeftTargetPosition;
 
-			leftTargetPosition = climberMotorLeft.getRotorPosition().getValueAsDouble();
-			rightTargetPosition = climberMotorRight.getRotorPosition().getValueAsDouble();
-		}
+		climberMotorLeft.setControl(motorControlRequestLeft.withPosition(leftTargetPosition));
+		climberMotorLeft.setMinumumPosition = math.min(minimumPositionLeft, leftTargetPosition);
+		climberMotorLeft.setMaximumPosition = math.max(minimumPositionLeft, leftTargetPosition);
 	}
 
-	public void setPosition(double leftTargetPosition, double rightTargetPosition)
+	public void setRightTargetPosition(double RightPosition)
 	{
-		// this.leftTargetPosition = leftTargetPosition;
-		// this.rightTargetPosition = rightTargetPosition;
+		rightTargetPosition = RightPosition;
 
-		// climberMotorLeft.setControl(motorControlRequestLeft.withPosition(leftTargetPosition));
-		// climberMotorRight.setControl(motorControlRequestRight.withPosition(rightTargetPosition));
+		climberMotorRight.setControl(motorControlRequestRight.withPosition(rightTargetPosition));
+		climberMotorRight.setMinumumPosition = math.min(minimumPositionRight, rightTargetPosition);
+		climberMotorRight.setMaximumPosition = math.max(minimumPositionRight, rightTargetPosition);
 	}
 
-	public void setOverride(boolean override)
+	public void setLeftVelocity(double velocity)
 	{
-		System.out.println("Setting climber override to " + override);
+		climberMotorLeft.setControl(motorControlRequestLeftVelocity.withVelocity(velocity));
+	}
 
+	public void setRightVelocity(double velocity)
+	{
+		climberMotorRight.setControl(motorControlRequestRightVelocity.withVelocity(velocity));
+	}
+
+	public void setBoolean(boolean override)
+	{
 		this.override = override;
-
-		if (override == false)
-			setPosition(leftTargetPosition, rightTargetPosition);
 	}
+
 
 }
