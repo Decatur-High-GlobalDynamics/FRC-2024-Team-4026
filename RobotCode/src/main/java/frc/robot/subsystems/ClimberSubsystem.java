@@ -99,7 +99,7 @@ public class ClimberSubsystem extends SubsystemBase
 		rightTargetPosition = RightPosition;
 
 		climberMotorRight.setControl(motorControlRequestRight.withPosition(rightTargetPosition));
-		climberMotorRight.setMinumumPosition( RIGHT_CLIMBER_MAXIMUM, rightTargetPosition);
+		climberMotorRight.setMinumumPosition(RIGHT_CLIMBER_MAXIMUM, rightTargetPosition);
 		climberMotorRight.setMaximumPosition(RIGHT_CLIMBER_MINIMUM, rightTargetPosition);
 	}
 
