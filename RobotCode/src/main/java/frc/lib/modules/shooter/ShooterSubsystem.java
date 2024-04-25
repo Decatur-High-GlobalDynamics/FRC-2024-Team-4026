@@ -86,22 +86,10 @@ public class ShooterSubsystem extends SubsystemBase {
 		shooterMotorRight.setControl(motorControlRequest.withVelocity(desiredShooterVelocity));
 		shooterMotorLeft.setControl(motorControlRequest.withVelocity(desiredShooterVelocity));
 	}
-
+	//checks if shooter is at speed needed
 	public boolean isUpToSpeed() {
 		return Math.abs(shooterMotorLeft.getRotorVelocity().getValueAsDouble()
 				- desiredShooterVelocity) < ShooterConstants.SHOOTER_VELOCITY_TOLERANCE;
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-// killer queen daisan no bakudan bites za dusto
