@@ -90,8 +90,6 @@ public class ClimberSubsystem extends SubsystemBase
 		leftTargetPosition = LeftTargetPosition;
 
 		climberMotorLeft.setControl(motorControlRequestLeft.withPosition(leftTargetPosition));
-		climberMotorLeft.setMinumumPosition(LEFT_CLIMBER_MAXIMUM, leftTargetPosition);
-		climberMotorLeft.setMaximumPosition(LEFT_CLIMBER_MINIMUM, leftTargetPosition);
 	}
 
 	public void setRightTargetPosition(double RightPosition)
@@ -99,8 +97,6 @@ public class ClimberSubsystem extends SubsystemBase
 		rightTargetPosition = RightPosition;
 
 		climberMotorRight.setControl(motorControlRequestRight.withPosition(rightTargetPosition));
-		climberMotorRight.setMinumumPosition(RIGHT_CLIMBER_MAXIMUM, rightTargetPosition);
-		climberMotorRight.setMaximumPosition(RIGHT_CLIMBER_MINIMUM, rightTargetPosition);
 	}
 
 	public void setLeftVelocity(double velocity)
