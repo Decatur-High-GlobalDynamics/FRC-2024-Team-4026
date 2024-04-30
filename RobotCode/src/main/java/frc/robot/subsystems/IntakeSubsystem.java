@@ -101,8 +101,8 @@ public class IntakeSubsystem extends SubsystemBase
 			intakeDeployMotorRight.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
 		}
 
-		intakeDeployMotorRight.set(intakeController.calculate(encoder.getRaw(), desiredRotation) + 
-				intakeFeedforward.calculate(encoderToRadians(), intakeController.getSetpoint().velocity));
+		// intakeDeployMotorRight.set(intakeController.calculate(encoder.getRaw(), desiredRotation) + 
+		// 		intakeFeedforward.calculate(encoderToRadians(), intakeController.getSetpoint().velocity));
 	}
 
 	// 90 degrees -> 180 ticks
@@ -122,7 +122,7 @@ public class IntakeSubsystem extends SubsystemBase
 	public void setDesiredVelocity(double desiredVelocity)
 	{
 		this.desiredVelocity = desiredVelocity;
-		intakeRollerPidController.setReference(desiredVelocity, ControlType.kVelocity, 0);
+		// intakeRollerPidController.setReference(desiredVelocity, ControlType.kVelocity, 0);
 		// if (desiredVelocity == 0 /*|| intakeDeployEncoderRight.getPosition() < IntakeConstants.INTAKE_SPIN_ROTATION*/);
 		// {
 		// 	intakeRollerMotor.set(0);

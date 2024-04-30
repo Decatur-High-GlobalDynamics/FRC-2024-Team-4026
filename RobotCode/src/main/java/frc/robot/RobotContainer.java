@@ -159,23 +159,23 @@ public class RobotContainer
 
 		// Shoot subwoofer
 		LeftTrigger.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
-				LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
+				LedSubsystem, -25, false));
 		LeftTrigger.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
 				ShooterMountConstants.SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET));
 		// LeftTrigger.whileTrue(new AimShooterCommand(ShooterSubsystem, ShooterMountSubsystem,
 		// SwerveDrive));
 
 		// Shoot podium
-		LeftBumper.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
-				LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
-		LeftBumper.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
-				ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
+		// LeftBumper.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
+		// 		LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
+		// LeftBumper.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
+		// 		ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
 
 		// Passing
-		YButton.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
-				LedSubsystem, ShooterConstants.SHOOTER_PASSING_VELOCITY, false));
-		YButton.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
-				ShooterMountConstants.SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET));
+		// YButton.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
+		// 		LedSubsystem, ShooterConstants.SHOOTER_PASSING_VELOCITY, false));
+		// YButton.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
+		// 		ShooterMountConstants.SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET));
 
 		// Amp
 		AButton.whileTrue(new AmpCommand(ShooterMountSubsystem, ShooterSubsystem, IndexerSubsystem,

@@ -16,7 +16,7 @@ public class ShooterConstants
 	public static final double SHOOTER_CRUISE_VELOCITY = 100;
 	public static final double SHOOTER_ACCELERATION = 200;
 
-	public static final double SHOOTER_VELOCITY_TOLERANCE = 20;
+	public static final double SHOOTER_VELOCITY_TOLERANCE = 5;
 
 	// Velocity in RPM
 	/**
