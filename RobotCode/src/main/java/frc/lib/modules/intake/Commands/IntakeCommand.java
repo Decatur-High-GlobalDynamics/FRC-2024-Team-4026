@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.lib.modules.intake.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.core.util.TeamCountdown;
@@ -12,7 +12,8 @@ import frc.robot.subsystems.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 
-public class IntakeCommand extends Command {
+public class IntakeCommand extends Command
+{
 	private IntakeSubsystem intake;
 	private IndexerSubsystem indexer;
 	private ShooterMountSubsystem shooterMount;
@@ -23,7 +24,8 @@ public class IntakeCommand extends Command {
 	private TeamCountdown countdown;
 
 	public IntakeCommand(IntakeSubsystem intake, IndexerSubsystem indexer,
-			ShooterMountSubsystem shooterMount, ShooterSubsystem shooter, LedSubsystem leds) {
+			ShooterMountSubsystem shooterMount, ShooterSubsystem shooter, LedSubsystem leds)
+	{
 		this.intake = intake;
 		this.indexer = indexer;
 		this.shooterMount = shooterMount;
@@ -34,12 +36,14 @@ public class IntakeCommand extends Command {
 		addRequirements(intake, indexer, shooterMount, shooter);
 	}
 
-	enum State {
+	enum State
+	{
 		FORWARD, REVERSE, DONE
 	}
 
 	@Override
-	public void initialize() {
+	public void initialize()
+	{
 		state = State.FORWARD;
 
 		intake.setDesiredRotation(IntakeConstants.INTAKE_DEPLOYED_ROTATION);
@@ -50,8 +54,10 @@ public class IntakeCommand extends Command {
 	}
 
 	@Override
-	public void execute() {
-		if (indexer.hasNote() && state == State.FORWARD) {
+	public void execute()
+	{
+		if (indexer.hasNote() && state == State.FORWARD)
+		{
 			intake.setDesiredRotation(IntakeConstants.INTAKE_RETRACTED_ROTATION);
 			intake.setDesiredVelocity(IntakeConstants.INTAKE_REST_VELOCITY);
 			indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_REVERSE_VELOCITY);
@@ -62,21 +68,24 @@ public class IntakeCommand extends Command {
 
 			countdown = new TeamCountdown(200);
 		}
-		if (countdown != null && countdown.isDone()) {
+		if (countdown != null && countdown.isDone())
+		{
 			state = State.DONE;
 			countdown = null;
 		}
 	}
 
 	@Override
-	public void end(boolean stop) {
+	public void end(boolean stop)
+	{
 		intake.setDesiredRotation(IntakeConstants.INTAKE_RETRACTED_ROTATION);
 		intake.setDesiredVelocity(IntakeConstants.INTAKE_REST_VELOCITY);
 		indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_REST_VELOCITY);
 	}
 
 	@Override
-	public boolean isFinished() {
+	public boolean isFinished()
+	{
 		return state == State.DONE;
 	}
 }
