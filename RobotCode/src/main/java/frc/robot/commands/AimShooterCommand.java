@@ -6,21 +6,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.ShooterMountSubsystem;
+import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /**
- * Points shooter mount at speaker Returns shooter mount to rest position when
- * done
+ * Points shooter mount at speaker Returns shooter mount to rest position when done
  */
-public class AimShooterCommand extends Command {
+public class AimShooterCommand extends Command
+{
 
 	private ShooterSubsystem shooter;
 	private ShooterMountSubsystem shooterMount;
 	private SwerveDriveSubsystem swerve;
 
 	public AimShooterCommand(ShooterSubsystem shooter, ShooterMountSubsystem shooterMount,
-			SwerveDriveSubsystem swerve) {
+			SwerveDriveSubsystem swerve)
+	{
 		this.shooter = shooter;
 		this.shooterMount = shooterMount;
 		this.swerve = swerve;
@@ -29,12 +30,14 @@ public class AimShooterCommand extends Command {
 	}
 
 	@Override
-	public void initialize() {
+	public void initialize()
+	{
 		shooter.setShooterMotorVelocity(IndexerConstants.INDEXER_SHOOT_VELOCITY);
 	}
 
 	@Override
-	public void execute() {
+	public void execute()
+	{
 		Pose2d robotPose = swerve.getPose();
 		Translation2d velocityAdjustedSpeakerPose = swerve
 				.getSpeakerPoseAdjustedForVelocity(shooterMount);
@@ -51,7 +54,8 @@ public class AimShooterCommand extends Command {
 	}
 
 	@Override
-	public void end(boolean interrupted) {
+	public void end(boolean interrupted)
+	{
 		shooter.setShooterMotorVelocity(ShooterConstants.SHOOTER_REST_VELOCITY);
 		shooterMount.setTargetRotation(0);
 	}

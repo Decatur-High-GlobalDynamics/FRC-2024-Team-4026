@@ -39,10 +39,10 @@ import frc.lib.modules.swervedrive.Commands.TeleopAimSwerveCommand;
 import frc.lib.modules.swervedrive.Commands.TeleopAimSwerveToPositionCommand;
 import frc.lib.modules.swervedrive.Commands.TeleopSwerveCommand;
 import frc.robot.RobotContainer;
-import frc.robot.constants.ShooterMountConstants;
+import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.ShooterMountSubsystem;
+import frc.lib.modules.shootermount.ShooterMountSubsystem;
 
 public class SwerveDriveSubsystem extends SubsystemBase implements ILogSource
 {
@@ -342,8 +342,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ILogSource
 
 	public AutoAimSwerveCommand getAutoAimSwerveCommand(double angle)
 	{
-		double newAngle = DriverStation.getAlliance().get() == Alliance.Blue ? angle
-				: 3.14 - angle;
+		double newAngle = DriverStation.getAlliance().get() == Alliance.Blue ? angle : 3.14 - angle;
 
 		return new AutoAimSwerveCommand(this, newAngle);
 	}

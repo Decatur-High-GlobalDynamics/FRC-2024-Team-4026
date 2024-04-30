@@ -15,15 +15,15 @@ import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AutoShooterOverrideCommand;
 import frc.lib.modules.intake.Commands.IntakeCommand;
-import frc.robot.commands.RotateShooterMountToPositionCommand;
+import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterOverrideCommand;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.constants.ShooterMountConstants;
+import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.lib.modules.intake.IntakeSubsystem;
-import frc.robot.subsystems.ShooterMountSubsystem;
+import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /**

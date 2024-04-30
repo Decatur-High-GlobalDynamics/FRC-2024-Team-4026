@@ -1,4 +1,4 @@
-package frc.robot.constants;
+package frc.lib.modules.shootermount;
 
 public class ShooterMountConstants
 {
@@ -13,10 +13,10 @@ public class ShooterMountConstants
 	public static final double SHOOTER_MOUNT_INITIAL_AMP_ANGLE_OFFSET = 0.16;
 	public static final double SHOOTER_MOUNT_ENDING_AMP_ANGLE_OFFSET = 0.05;
 	/** Angle in rotations for shooting at speaker */
-	public static final double SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET = 0.13; //0.125;
-	public static final double SHOOTER_MOUNT_NOTE_CENTER_ANGLE_FIXED_OFFSET = 0.071; //0.066;
-	public static final double SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET = 0.066; //0.061;
-	public static final double SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET = 0.11; //0.105;
+	public static final double SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET = 0.13; // 0.125;
+	public static final double SHOOTER_MOUNT_NOTE_CENTER_ANGLE_FIXED_OFFSET = 0.071; // 0.066;
+	public static final double SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET = 0.066; // 0.061;
+	public static final double SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET = 0.11; // 0.105;
 
 	public static final double SHOOTER_MOUNT_KP = 0.38;
 	public static final double SHOOTER_MOUNT_KI = 0;

@@ -7,10 +7,11 @@ import frc.lib.modules.leds.LedSubsystem;
 import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.ShooterMountSubsystem;
+import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoShooterOverrideCommand extends Command {
+public class AutoShooterOverrideCommand extends Command
+{
 
     private ShooterMountSubsystem shooterMount;
     private ShooterSubsystem shooter;
@@ -20,7 +21,8 @@ public class AutoShooterOverrideCommand extends Command {
     private double targetRotation;
 
     public AutoShooterOverrideCommand(ShooterMountSubsystem shooterMount, ShooterSubsystem shooter,
-            IndexerSubsystem indexer, LedSubsystem led, double targetRotation) {
+            IndexerSubsystem indexer, LedSubsystem led, double targetRotation)
+    {
         this.shooterMount = shooterMount;
         this.shooter = shooter;
         this.indexer = indexer;
@@ -31,34 +33,38 @@ public class AutoShooterOverrideCommand extends Command {
     }
 
     @Override
-    public void initialize() {
-        shooterMount
-                .setTargetRotation(targetRotation);
+    public void initialize()
+    {
+        shooterMount.setTargetRotation(targetRotation);
 
         countdown = new TeamCountdown(1500);
     }
 
     @Override
-    public void execute() {
+    public void execute()
+    {
         // Spins up the motor
         shooter.setShooterMotorVelocity(ShooterConstants.SHOOTER_SPEAKER_VELOCITY);
 
         // If-statement to see if motor is spun up
-        if (shooter.isUpToSpeed()) {
+        if (shooter.isUpToSpeed())
+        {
             indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_SHOOT_VELOCITY);
         }
     }
 
     @Override
-    public void end(boolean isFinished) {
+    public void end(boolean isFinished)
+    {
         shooterMount.setTargetRotation(0);
         shooter.setShooterMotorVelocity(ShooterConstants.SHOOTER_REST_VELOCITY);
         indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_REST_VELOCITY);
-		led.flashAllPixels(TeamColor.Blue, 5);
+        led.flashAllPixels(TeamColor.Blue, 5);
     }
 
     @Override
-    public boolean isFinished() {
+    public boolean isFinished()
+    {
         return countdown.isDone();
     }
 

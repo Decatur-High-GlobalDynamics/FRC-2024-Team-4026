@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.lib.modules.shootermount;
 
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -13,7 +13,7 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.constants.Ports;
-import frc.robot.constants.ShooterMountConstants;
+import frc.lib.modules.shootermount.ShooterMountConstants;
 
 public class ShooterMountSubsystem extends SubsystemBase
 {
@@ -52,7 +52,6 @@ public class ShooterMountSubsystem extends SubsystemBase
 
 		// create configurator
 		TalonFXConfiguration mainMotorConfigs = new TalonFXConfiguration();
-
 
 		mainMotorConfigs.CurrentLimits.StatorCurrentLimitEnable = true;
 		mainMotorConfigs.CurrentLimits.StatorCurrentLimit = 60;
@@ -111,7 +110,8 @@ public class ShooterMountSubsystem extends SubsystemBase
 	@Override
 	public void periodic()
 	{
-		//If a motor gets reset this tells to continue sending only what it needs to send the the CAN bus
+		// If a motor gets reset this tells to continue sending only what it needs to send the the
+		// CAN bus
 		if (shooterMountMotorLeft.hasResetOccurred() || shooterMountMotorRight.hasResetOccurred())
 		{
 			shooterMountMotorLeft.optimizeBusUtilization();
@@ -133,7 +133,7 @@ public class ShooterMountSubsystem extends SubsystemBase
 				Math.min(targetRotation, ShooterMountConstants.SHOOTER_MOUNT_MAX_ANGLE_OFFSET),
 				shooterMountMinAngle);
 
-		//Has the shooter mount compensate for gravity
+		// Has the shooter mount compensate for gravity
 		double gravityFeedForward = ShooterMountConstants.SHOOTER_MOUNT_KG
 				* Math.cos(ShooterMountConstants.SHOOTER_MOUNT_MIN_ANGLE_IN_RADIANS
 						+ Math.toRadians(this.targetRotation * 360));

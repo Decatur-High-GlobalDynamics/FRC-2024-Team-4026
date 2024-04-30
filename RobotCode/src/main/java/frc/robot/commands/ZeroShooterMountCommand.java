@@ -15,10 +15,8 @@ public class ZeroShooterMountCommand extends Command
         addRequirements(shooterMount);
     }
 
-    @Override
-    public void initialize()
-    {
-        shooterMount.zeroShooterMount();
-    }
-
+    /*
+     * @Override public void initialize() { shooterMount.zeroShooterMount(); } // This was causing
+     * build errors so i commented it.
+     */
 }
