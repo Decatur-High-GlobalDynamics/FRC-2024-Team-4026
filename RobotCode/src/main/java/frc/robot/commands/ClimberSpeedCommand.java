@@ -33,6 +33,7 @@ public class ClimberSpeedCommand extends Command
 		{
 			rightInputFinal = 0;
 		}
-		climber.setPowers(leftInputFinal, rightInputFinal);
+		climber.setLeftVelocity(leftInputFinal);
+		climber.setRightVelocity(rightInputFinal);
 	}
 }

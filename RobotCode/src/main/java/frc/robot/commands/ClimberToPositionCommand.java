@@ -1,6 +1,9 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.constants.ClimberConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimberToPositionCommand extends InstantCommand
@@ -8,27 +11,27 @@ public class ClimberToPositionCommand extends InstantCommand
 
 	private double leftTargetPosition, rightTargetPosition;
 	private ClimberSubsystem climber;
+	private TalonFX climberMotorLeft, climberMotorRight;
 	
 	public ClimberToPositionCommand(ClimberSubsystem climber, double leftTargetPosition, double rightTargetPosition)
 	{
 		this.climber = climber;
 		this.leftTargetPosition = leftTargetPosition;
 		this.rightTargetPosition = rightTargetPosition;
-		climberMotorLeft = climber.climberMotorLeft;
-		climberMotorRight = climber.climberMotorRight;
 		addRequirements(climber);
 
 	}
 
-	@Override
+
 	public void initialize()
 	{
-		climber.setPosition(leftTargetPosition, rightTargetPosition);
+		climberMotorLeft.setPosition(leftTargetPosition);
+		climberMotorRight.setPosition(rightTargetPosition);
 		
-		climberMotorLeft.setMinumumPosition(LEFT_CLIMBER_MAXIMUM, leftTargetPosition);
-		climberMotorRight.setMinumumPosition(RIGHT_CLIMBER_MAXIMUM, rightTargetPosition);
+		climberMotorLeft.setPosition(ClimberConstants.LEFT_CLIMBER_MAXIMUM, leftTargetPosition);
+		climberMotorRight.setPosition(ClimberConstants.RIGHT_CLIMBER_MAXIMUM, rightTargetPosition);
 		
-		climberMotorLeft.setMaximumPosition(LEFT_CLIMBER_MINIMUM, leftTargetPosition);
-		climberMotorRight.setMaximumPosition(RIGHT_CLIMBER_MINIMUM, rightTargetPosition);
+		climberMotorLeft.setPosition(ClimberConstants.LEFT_CLIMBER_MAXIMUM, leftTargetPosition);
+		climberMotorRight.setPosition(ClimberConstants.RIGHT_CLIMBER_MINIMUM, rightTargetPosition);
 	}
 }

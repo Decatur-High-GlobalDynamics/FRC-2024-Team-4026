@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-import frc.robot.commands.RotateShooterMountToPositionCommand;
+import frc.lib.core.modules.shootermount.RotateShooterMountToPositionCommand;
 
 public final class AutoConstants
 {

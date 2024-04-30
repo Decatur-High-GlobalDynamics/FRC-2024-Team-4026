@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -21,6 +22,7 @@ public class ClimberSubsystem extends SubsystemBase
 	private double leftTargetPosition, rightTargetPosition;
 	private VelocityDutyCycle motorControlRequestLeftVelocity, motorControlRequestRightVelocity;
 	private boolean override;
+	private MotionMagicDutyCycle motorControlRequestLeft, motorControlRequestRight;
 
 	public double minimumPositionLeft, minimumPositionRight;
 
@@ -68,9 +70,6 @@ public class ClimberSubsystem extends SubsystemBase
 				() -> climberMotorRight.getPosition().getValueAsDouble());
 		RobotContainer.getShuffleboardTab().addBoolean("Climber Override", () -> override);
 
-		climberMotorLeft.setControl(motorControlRequestLeft.withPosition(leftTargetPosition));
-		climberMotorRight.setControl(motorControlRequestRight.withPosition(rightTargetPosition));
-
 		minimumPositionLeft = climberMotorLeft.getPosition().getValueAsDouble();
 		minimumPositionRight = climberMotorRight.getPosition().getValueAsDouble();
 	}
@@ -81,13 +80,13 @@ public class ClimberSubsystem extends SubsystemBase
 		climberMotorLeft.optimizeBusUtilization();
 		climberMotorRight.optimizeBusUtilization();
 
-		climberMotorLeft.getRotorPosition().setFrequency(20);
-		climberMotorRight.getRotorPosition().setFrequency(20);
+		climberMotorLeft.getRotorPosition().setUpdateFrequency(20);
+		climberMotorRight.getRotorPosition().setUpdateFrequency(20);
 	}
 
 	public void setLeftTargetPosition(double LeftPosition)
 	{
-		leftTargetPosition = LeftTargetPosition;
+		leftTargetPosition = LeftPosition;
 
 		climberMotorLeft.setControl(motorControlRequestLeft.withPosition(leftTargetPosition));
 	}
@@ -114,5 +113,10 @@ public class ClimberSubsystem extends SubsystemBase
 		this.override = override;
 	}
 
+	public void setOverride(boolean override)
+	{
+		this.override = override;
+	}
+	
 
 }
