@@ -14,13 +14,14 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.modules.leds.TeamColor;
+import frc.lib.modules.elevator.ElevatorSubsystem;
+import frc.lib.modules.elevator.commands.Elevator.ElevatorSpeedCommand;
 import frc.lib.modules.leds.LedSubsystem;
 import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.lib.modules.swervedrive.Commands.ZeroGyroCommand;
 import frc.lib.core.Autonomous;
 import frc.lib.core.LogitechControllerButtons;
 import frc.robot.commands.AmpCommand;
-import frc.robot.commands.ClimberSpeedCommand;
 import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeReverseCommand;
@@ -31,7 +32,6 @@ import frc.robot.constants.Ports;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.constants.ShooterMountConstants;
 import frc.robot.constants.VisionConstants;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterMountSubsystem;
@@ -49,7 +49,7 @@ public class RobotContainer
 	private final ShuffleboardTab ShuffleboardTab;
 
 	private final SwerveDriveSubsystem SwerveDrive;
-	private final ClimberSubsystem ClimberSubsystem;
+	private final ElevatorSubsystem ClimberSubsystem;
 	private final ShooterSubsystem ShooterSubsystem;
 	private final ShooterMountSubsystem ShooterMountSubsystem;
 	private final VisionSubsystem VisionSubsystem;
@@ -81,7 +81,7 @@ public class RobotContainer
 
 		// Instantiate subsystems
 		SwerveDrive = new SwerveDriveSubsystem();
-		ClimberSubsystem = new ClimberSubsystem();
+		ClimberSubsystem = new ElevatorSubsystem();
 		ShooterSubsystem = new ShooterSubsystem();
 		ShooterMountSubsystem = new ShooterMountSubsystem();
 		VisionSubsystem = new VisionSubsystem(SwerveDrive);
@@ -154,7 +154,7 @@ public class RobotContainer
 				LogitechControllerButtons.left);
 
 		// Climb
-		ClimberSubsystem.setDefaultCommand(new ClimberSpeedCommand(ClimberSubsystem,
+		ClimberSubsystem.setDefaultCommand(new ElevatorSpeedCommand(ClimberSubsystem,
 				() -> (SecondaryController.getY()), () -> (SecondaryController.getThrottle())));
 
 		// Shoot subwoofer

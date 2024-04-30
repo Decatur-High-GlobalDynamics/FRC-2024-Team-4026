@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.lib.modules.elevator;
 
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -10,11 +10,10 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.constants.ClimberConstants;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Ports;
 
-public class ClimberSubsystem extends SubsystemBase
+public class ElevatorSubsystem extends SubsystemBase
 {
 
 	private TalonFX climberMotorRight;
@@ -26,7 +25,7 @@ public class ClimberSubsystem extends SubsystemBase
 
 	public double minimumPositionLeft, minimumPositionRight;
 
-	public ClimberSubsystem()
+	public ElevatorSubsystem()
 	{
 		// sets extension of left and right motors to given extension length
 		climberMotorLeft = new TalonFX(Ports.CLIMBER_MOTOR_LEFT, Constants.CANIVORE_NAME);
@@ -35,25 +34,25 @@ public class ClimberSubsystem extends SubsystemBase
 		climberMotorLeft.setNeutralMode(NeutralModeValue.Brake);
 		climberMotorRight.setNeutralMode(NeutralModeValue.Brake);
 
-		leftTargetPosition = ClimberConstants.LEFT_CLIMBER_MINIMUM;
-		rightTargetPosition = ClimberConstants.RIGHT_CLIMBER_MINIMUM;
+		leftTargetPosition = ElevatorConstants.LEFT_CLIMBER_MINIMUM;
+		rightTargetPosition = ElevatorConstants.RIGHT_CLIMBER_MINIMUM;
 
 		// create configurator
 		TalonFXConfiguration motorConfigs = new TalonFXConfiguration();
 
 		// set pid profiles configs
 		Slot0Configs pidSlot0Configs = motorConfigs.Slot0;
-		pidSlot0Configs.kP = ClimberConstants.CLIMBER_KP;
-		pidSlot0Configs.kI = ClimberConstants.CLIMBER_KI;
-		pidSlot0Configs.kD = ClimberConstants.CLIMBER_KD;
-		pidSlot0Configs.kS = ClimberConstants.CLIMBER_KS;
-		pidSlot0Configs.kV = ClimberConstants.CLIMBER_KV;
-		pidSlot0Configs.kA = ClimberConstants.CLIMBER_KA;
+		pidSlot0Configs.kP = ElevatorConstants.CLIMBER_KP;
+		pidSlot0Configs.kI = ElevatorConstants.CLIMBER_KI;
+		pidSlot0Configs.kD = ElevatorConstants.CLIMBER_KD;
+		pidSlot0Configs.kS = ElevatorConstants.CLIMBER_KS;
+		pidSlot0Configs.kV = ElevatorConstants.CLIMBER_KV;
+		pidSlot0Configs.kA = ElevatorConstants.CLIMBER_KA;
 
 		// set motionmagic velocity configs
 		MotionMagicConfigs motionMagicVelocityConfigs = motorConfigs.MotionMagic;
-		motionMagicVelocityConfigs.MotionMagicCruiseVelocity = ClimberConstants.CLIMBER_CRUISE_VELOCITY;
-		motionMagicVelocityConfigs.MotionMagicAcceleration = ClimberConstants.CLIMBER_ACCELERATION;
+		motionMagicVelocityConfigs.MotionMagicCruiseVelocity = ElevatorConstants.CLIMBER_CRUISE_VELOCITY;
+		motionMagicVelocityConfigs.MotionMagicAcceleration = ElevatorConstants.CLIMBER_ACCELERATION;
 
 		// config the main motor
 		climberMotorLeft.getConfigurator().apply(motorConfigs);
