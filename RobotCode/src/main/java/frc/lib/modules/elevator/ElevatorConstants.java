@@ -1,6 +1,6 @@
-package frc.robot.constants;
+package frc.lib.modules.elevator;
 
-public final class ClimberConstants
+public final class ElevatorConstants
 {
 
 	public static final double CLIMBER_KP = 0;
