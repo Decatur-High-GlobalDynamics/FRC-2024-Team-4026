@@ -6,7 +6,7 @@ import frc.lib.modules.leds.TeamColor;
 import frc.lib.modules.leds.LedSubsystem;
 import frc.robot.constants.IndexerConstants;
 import frc.lib.modules.shooter.ShooterConstants;
-import frc.robot.constants.ShooterMountConstants;
+import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterMountSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;

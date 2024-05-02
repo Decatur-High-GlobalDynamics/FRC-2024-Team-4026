@@ -1,9 +1,9 @@
-package frc.robot.subsystems;
+package frc.lib.modules.intake;
 
 import frc.lib.core.util.TeamMotorUtil;
 import frc.robot.RobotContainer;
 import frc.robot.constants.Constants;
-import frc.robot.constants.IntakeConstants;
+import frc.lib.modules.intake.IntakeConstants;
 import frc.robot.constants.Ports;
 
 import com.revrobotics.CANSparkMax;
@@ -53,7 +53,7 @@ public class IntakeSubsystem extends SubsystemBase
 				IntakeConstants.INTAKE_RETRACT_KI, IntakeConstants.INTAKE_RETRACT_KD,
 				new TrapezoidProfile.Constraints(IntakeConstants.INTAKE_RETRACT_CRUISE_VELOCITY,
 						IntakeConstants.INTAKE_RETRACT_MAX_ACCELERATION));
-
+		// configuring feedforward
 		intakeFeedforward = new ArmFeedforward(0, IntakeConstants.INTAKE_RETRACT_KG, IntakeConstants.INTAKE_RETRACT_KV);
 		
 				// Configure roller motors
@@ -70,7 +70,7 @@ public class IntakeSubsystem extends SubsystemBase
 
 		desiredRotation = IntakeConstants.INTAKE_RETRACTED_ROTATION;
 		desiredVelocity = IntakeConstants.INTAKE_REST_VELOCITY;
-
+		//shuffleboard is basically logging software for status and stuff
 		RobotContainer.getShuffleboardTab().addDouble("Actual Intake Velocity",
 				() -> intakeRollerMotor.getEncoder().getVelocity());
 		RobotContainer.getShuffleboardTab().addDouble("Desired Intake Velocity",
@@ -84,6 +84,7 @@ public class IntakeSubsystem extends SubsystemBase
 	@Override
 	public void periodic()
 	{
+		//sticky faults are set to true when a motor has a fault.
 		if (intakeDeployMotorLeft.getStickyFault(FaultID.kHasReset)
 				|| intakeDeployMotorRight.getStickyFault(FaultID.kHasReset)
 				|| intakeRollerMotor.getStickyFault(FaultID.kHasReset))
