@@ -1,4 +1,4 @@
-package frc.robot.constants;
+package frc.lib.modules.shooter;
 
 /**
  * 
@@ -12,7 +12,7 @@ public class ShooterConstants
 	public static final double SHOOTER_KS = 0;
 	public static final double SHOOTER_KV = 0.01;
 	public static final double SHOOTER_KA = 0;
-
+	//cruise velocity is velocity when robot isn't shooting
 	public static final double SHOOTER_CRUISE_VELOCITY = 100;
 	public static final double SHOOTER_ACCELERATION = 200;
 
@@ -31,7 +31,7 @@ public class ShooterConstants
 	 * Velocity when not in use in RPS
 	 */
 	public static final double SHOOTER_REST_VELOCITY = 0;
-
+	//yes, you can pass in frc, this year it was a winning strategy
 	public static final double SHOOTER_PASSING_VELOCITY = -60; //-58;
 
 	public static final double SHOOTER_REVERSE_VELOCITY = 20;

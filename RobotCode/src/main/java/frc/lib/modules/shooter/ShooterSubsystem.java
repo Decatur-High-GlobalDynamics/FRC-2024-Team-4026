@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.lib.modules.shooter;
 
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -9,7 +9,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import frc.robot.RobotContainer;
 import frc.robot.constants.Ports;
-import frc.robot.constants.ShooterConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -17,7 +16,7 @@ public class ShooterSubsystem extends SubsystemBase {
 	private double desiredShooterVelocity;
 
 	private TalonFX shooterMotorRight, shooterMotorLeft;
-
+	//uses grand wizard magic and PID stuff to make the motor go brrrr
 	private MotionMagicVelocityDutyCycle motorControlRequest;
 
 	public ShooterSubsystem() {
@@ -87,7 +86,7 @@ public class ShooterSubsystem extends SubsystemBase {
 		shooterMotorRight.setControl(motorControlRequest.withVelocity(desiredShooterVelocity));
 		shooterMotorLeft.setControl(motorControlRequest.withVelocity(desiredShooterVelocity));
 	}
-
+	//checks if shooter is at speed needed
 	public boolean isUpToSpeed() {
 		return Math.abs(shooterMotorLeft.getRotorVelocity().getValueAsDouble()
 				- desiredShooterVelocity) < ShooterConstants.SHOOTER_VELOCITY_TOLERANCE;

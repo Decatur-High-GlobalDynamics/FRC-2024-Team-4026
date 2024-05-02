@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ShooterMountSubsystem;
+import frc.lib.modules.shootermount.ShooterMountSubsystem;
 
-public class ZeroShooterMountCommand extends Command 
+public class ZeroShooterMountCommand extends Command
 {
 
     ShooterMountSubsystem shooterMount;
-    
+
     public ZeroShooterMountCommand(ShooterMountSubsystem shooterMount)
     {
         this.shooterMount = shooterMount;
@@ -15,10 +15,8 @@ public class ZeroShooterMountCommand extends Command
         addRequirements(shooterMount);
     }
 
-    @Override
-    public void initialize()
-    {
-        shooterMount.zeroShooterMount();
-    }
-
+    /*
+     * @Override public void initialize() { shooterMount.zeroShooterMount(); } // This was causing
+     * build errors so i commented it.
+     */
 }

@@ -23,19 +23,19 @@ import frc.lib.core.Autonomous;
 import frc.lib.core.LogitechControllerButtons;
 import frc.robot.commands.AmpCommand;
 import frc.robot.commands.IndexerCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeReverseCommand;
-import frc.robot.commands.RotateShooterMountToPositionCommand;
-import frc.robot.commands.ShooterOverrideCommand;
+import frc.lib.modules.intake.Commands.IntakeCommand;
+import frc.lib.modules.intake.Commands.IntakeReverseCommand;
+import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
+import frc.lib.modules.shooter.Commands.ShooterOverrideCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Ports;
-import frc.robot.constants.ShooterConstants;
-import frc.robot.constants.ShooterMountConstants;
+import frc.lib.modules.shooter.ShooterConstants;
+import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterMountSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.lib.modules.intake.IntakeSubsystem;
+import frc.lib.modules.shootermount.ShooterMountSubsystem;
+import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 /**
@@ -115,8 +115,8 @@ public class RobotContainer
 		SwerveDrive.setDefaultCommand(SwerveDrive.getDefaultCommand(PrimaryController));
 
 		// Aim to amp
-		LeftTrigger.whileTrue(SwerveDrive.getTeleopAimToPositionCommand(
-				PrimaryController, -(Math.PI / 2.0)));
+		LeftTrigger.whileTrue(
+				SwerveDrive.getTeleopAimToPositionCommand(PrimaryController, -(Math.PI / 2.0)));
 
 		// Aim to speaker subwoofer
 		RightTrigger.whileTrue(
@@ -148,7 +148,7 @@ public class RobotContainer
 				LogitechControllerButtons.b);
 		final JoystickButton XButton = new JoystickButton(SecondaryController,
 				LogitechControllerButtons.x);
-		final JoystickButton YButton = new JoystickButton(SecondaryController, 
+		final JoystickButton YButton = new JoystickButton(SecondaryController,
 				LogitechControllerButtons.y);
 		final JoystickButton LeftButton = new JoystickButton(SecondaryController,
 				LogitechControllerButtons.left);
