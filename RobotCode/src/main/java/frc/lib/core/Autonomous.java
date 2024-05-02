@@ -16,15 +16,15 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.AutoShooterOverrideCommand;
 import frc.lib.modules.intake.Commands.IntakeCommand;
 import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
-import frc.robot.commands.ShootCommand;
-import frc.robot.commands.ShooterOverrideCommand;
+import frc.lib.modules.shooter.Commands.ShootCommand;
+import frc.lib.modules.shooter.Commands.ShooterOverrideCommand;
 import frc.robot.constants.AutoConstants;
-import frc.robot.constants.ShooterConstants;
+import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.lib.modules.intake.IntakeSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.lib.modules.shooter.ShooterSubsystem;
 
 /**
  * <p>
@@ -110,7 +110,7 @@ public abstract class Autonomous implements ILogSource
 
         /**
          * Returns a command to follow a path from PathPlanner GUI whilst avoiding obstacles
-         * 
+         *
          * @param PathName The filename of the path to follow w/o file extension. Must be in the
          *                 paths folder. Ex: Example Human Player Pickup
          * @return A command that will drive the robot along the path

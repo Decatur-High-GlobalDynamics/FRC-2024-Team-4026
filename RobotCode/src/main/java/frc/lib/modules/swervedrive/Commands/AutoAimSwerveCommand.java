@@ -1,11 +1,9 @@
 package frc.lib.modules.swervedrive.Commands;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
-import frc.robot.constants.ShooterConstants;
+import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.core.ILogSource;
 
 /**

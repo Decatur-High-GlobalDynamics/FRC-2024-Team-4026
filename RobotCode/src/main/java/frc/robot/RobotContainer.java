@@ -25,17 +25,17 @@ import frc.robot.commands.IndexerCommand;
 import frc.lib.modules.intake.Commands.IntakeCommand;
 import frc.lib.modules.intake.Commands.IntakeReverseCommand;
 import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
-import frc.robot.commands.ShooterOverrideCommand;
+import frc.lib.modules.shooter.Commands.ShooterOverrideCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Ports;
-import frc.robot.constants.ShooterConstants;
+import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.lib.modules.intake.IntakeSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 /**

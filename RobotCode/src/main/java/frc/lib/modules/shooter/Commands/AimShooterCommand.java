@@ -1,11 +1,12 @@
-package frc.robot.commands;
+package frc.lib.modules.shooter.Commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.robot.constants.IndexerConstants;
-import frc.robot.constants.ShooterConstants;
+import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
