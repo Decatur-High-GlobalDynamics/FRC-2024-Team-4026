@@ -8,7 +8,7 @@ import frc.robot.constants.IndexerConstants;
 import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.robot.subsystems.ShooterMountSubsystem;
+import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
 
 public class AmpCommand extends Command

@@ -8,7 +8,6 @@ import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.robot.constants.IndexerConstants;
 import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * Points shooter mount at speaker Returns shooter mount to rest position when done
