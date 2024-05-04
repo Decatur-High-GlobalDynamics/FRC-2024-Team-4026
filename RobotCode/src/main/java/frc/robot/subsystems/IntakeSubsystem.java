@@ -41,7 +41,7 @@ public class IntakeSubsystem extends SubsystemBase
 		intakeRollerMotor = new CANSparkMax(Ports.INTAKE_ROLLER_MOTOR, MotorType.kBrushless);
 
 		encoder = new Encoder(6, 7);
-		
+
 		// Configure deployment motors
 		intakeDeployMotorLeft.follow(intakeDeployMotorRight, true);
 		intakeDeployMotorRight.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
@@ -49,14 +49,15 @@ public class IntakeSubsystem extends SubsystemBase
 		intakeDeployMotorRight.setIdleMode(IdleMode.kBrake);
 		intakeDeployMotorLeft.setIdleMode(IdleMode.kBrake);
 
-		intakeController = new ProfiledPIDController(IntakeConstants.INTAKE_RETRACT_KP, 
+		intakeController = new ProfiledPIDController(IntakeConstants.INTAKE_RETRACT_KP,
 				IntakeConstants.INTAKE_RETRACT_KI, IntakeConstants.INTAKE_RETRACT_KD,
 				new TrapezoidProfile.Constraints(IntakeConstants.INTAKE_RETRACT_CRUISE_VELOCITY,
 						IntakeConstants.INTAKE_RETRACT_MAX_ACCELERATION));
 
-		intakeFeedforward = new ArmFeedforward(0, IntakeConstants.INTAKE_RETRACT_KG, IntakeConstants.INTAKE_RETRACT_KV);
-		
-				// Configure roller motors
+		intakeFeedforward = new ArmFeedforward(0, IntakeConstants.INTAKE_RETRACT_KG,
+				IntakeConstants.INTAKE_RETRACT_KV);
+
+		// Configure roller motors
 		intakeRollerMotor.setInverted(true);
 		intakeRollerMotor.setSmartCurrentLimit(30);
 		intakeRollerMotor.setIdleMode(IdleMode.kBrake);
@@ -101,8 +102,10 @@ public class IntakeSubsystem extends SubsystemBase
 			intakeDeployMotorRight.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
 		}
 
-		// intakeDeployMotorRight.set(intakeController.calculate(encoder.getRaw(), desiredRotation) + 
-		// 		intakeFeedforward.calculate(encoderToRadians(), intakeController.getSetpoint().velocity));
+		// intakeDeployMotorRight.set(intakeController.calculate(encoder.getRaw(), desiredRotation)
+		// +
+		// intakeFeedforward.calculate(encoderToRadians(),
+		// intakeController.getSetpoint().velocity));
 	}
 
 	// 90 degrees -> 180 ticks
@@ -122,11 +125,16 @@ public class IntakeSubsystem extends SubsystemBase
 	public void setDesiredVelocity(double desiredVelocity)
 	{
 		this.desiredVelocity = desiredVelocity;
-		// intakeRollerPidController.setReference(desiredVelocity, ControlType.kVelocity, 0);
-		// if (desiredVelocity == 0 /*|| intakeDeployEncoderRight.getPosition() < IntakeConstants.INTAKE_SPIN_ROTATION*/);
-		// {
-		// 	intakeRollerMotor.set(0);
-		// }
+		System.out.println("Setting intake velocity: " + desiredVelocity);
+		intakeRollerPidController.setReference(desiredVelocity, ControlType.kVelocity, 0);
+		if (desiredVelocity == 0 /*
+									 * || intakeDeployEncoderRight.getPosition() <
+									 * IntakeConstants.INTAKE_SPIN_ROTATION
+									 */)
+
+		{
+			intakeRollerMotor.set(0);
+		}
 	}
 
 }

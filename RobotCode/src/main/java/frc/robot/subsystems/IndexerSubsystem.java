@@ -56,8 +56,7 @@ public class IndexerSubsystem extends SubsystemBase
 		RobotContainer.getShuffleboardTab().addDouble("Desired Indexer Velocity",
 				() -> desiredIndexerVelocity);
 
-		RobotContainer.getShuffleboardTab().addBoolean("Beam Break", 
-				() -> beamBreak.get());
+		RobotContainer.getShuffleboardTab().addBoolean("Beam Break", () -> beamBreak.get());
 	}
 
 	@Override
@@ -86,9 +85,9 @@ public class IndexerSubsystem extends SubsystemBase
 
 	public boolean hasNote()
 	{
-		return !beamBreak.get();
+		// return !beamBreak.get();
 
-		// return false; // For testing without beam break, temporary
+		return false; // For testing without beam break, temporary
 	}
 
 }

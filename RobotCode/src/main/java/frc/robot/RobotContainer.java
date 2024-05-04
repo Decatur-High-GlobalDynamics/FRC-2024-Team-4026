@@ -115,8 +115,8 @@ public class RobotContainer
 		SwerveDrive.setDefaultCommand(SwerveDrive.getDefaultCommand(PrimaryController));
 
 		// Aim to amp
-		LeftTrigger.whileTrue(SwerveDrive.getTeleopAimToPositionCommand(
-				PrimaryController, -(Math.PI / 2.0)));
+		LeftTrigger.whileTrue(
+				SwerveDrive.getTeleopAimToPositionCommand(PrimaryController, -(Math.PI / 2.0)));
 
 		// Aim to speaker subwoofer
 		RightTrigger.whileTrue(
@@ -148,7 +148,7 @@ public class RobotContainer
 				LogitechControllerButtons.b);
 		final JoystickButton XButton = new JoystickButton(SecondaryController,
 				LogitechControllerButtons.x);
-		final JoystickButton YButton = new JoystickButton(SecondaryController, 
+		final JoystickButton YButton = new JoystickButton(SecondaryController,
 				LogitechControllerButtons.y);
 		final JoystickButton LeftButton = new JoystickButton(SecondaryController,
 				LogitechControllerButtons.left);
@@ -159,23 +159,23 @@ public class RobotContainer
 
 		// Shoot subwoofer
 		LeftTrigger.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
-				LedSubsystem, -25, false));
-		LeftTrigger.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
+				LedSubsystem, -37.5, false));
+		LeftBumper.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
 				ShooterMountConstants.SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET));
 		// LeftTrigger.whileTrue(new AimShooterCommand(ShooterSubsystem, ShooterMountSubsystem,
 		// SwerveDrive));
 
 		// Shoot podium
 		// LeftBumper.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
-		// 		LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
+		// LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
 		// LeftBumper.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
-		// 		ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
+		// ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
 
 		// Passing
 		// YButton.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
-		// 		LedSubsystem, ShooterConstants.SHOOTER_PASSING_VELOCITY, false));
+		// LedSubsystem, ShooterConstants.SHOOTER_PASSING_VELOCITY, false));
 		// YButton.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
-		// 		ShooterMountConstants.SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET));
+		// ShooterMountConstants.SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET));
 
 		// Amp
 		AButton.whileTrue(new AmpCommand(ShooterMountSubsystem, ShooterSubsystem, IndexerSubsystem,
