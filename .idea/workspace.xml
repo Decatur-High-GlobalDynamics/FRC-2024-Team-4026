@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="096a8d60-8b55-476f-afcc-19aabb476094" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/FRC-2024-Team-4026.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/indexer/IndexerConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/indexer/IndexerSubsystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/core/Autonomous.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/core/Autonomous.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/intake/Commands/IntakeCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/intake/Commands/IntakeCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/intake/Commands/IntakeReverseCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/intake/Commands/IntakeReverseCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/shooter/Commands/AimShooterCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/shooter/Commands/AimShooterCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/swervedrive/Commands/AutoAimSwerveCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/swervedrive/Commands/AutoAimSwerveCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/RobotContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/RobotContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/commands/AimShooterCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/commands/AmpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/commands/AmpCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/commands/AutoShooterOverrideCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/commands/AutoShooterOverrideCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/commands/ShootCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/shooter/Commands/ShootCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/commands/ShooterOverrideCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/shooter/Commands/ShooterOverrideCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/constants/ShooterConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/shooter/ShooterConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/robot/subsystems/ShooterSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/shooter/ShooterSubsystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/indexer/IndexerConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/indexer/IndexerConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/indexer/IndexerSubsystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/RobotCode/src/main/java/frc/lib/modules/indexer/IndexerSubsystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/RobotCode">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -46,25 +46,10 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging feature-intakearchiving",
+    "git-widget-placeholder": "feature-indexerCommonModule",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="FRC-2024-Team-4026" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="FRC-2024-Team-4026" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
