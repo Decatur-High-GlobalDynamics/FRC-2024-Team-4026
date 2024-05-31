@@ -21,7 +21,7 @@ import frc.lib.modules.shooter.Commands.ShooterOverrideCommand;
 import frc.robot.constants.AutoConstants;
 import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.modules.shootermount.ShooterMountConstants;
-import frc.robot.subsystems.IndexerSubsystem;
+import frc.lib.modules.indexer.IndexerSubsystem;
 import frc.lib.modules.intake.IntakeSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
@@ -138,7 +138,7 @@ public abstract class Autonomous implements ILogSource
 	public void smartAuto(Pathfinder pathfinder, IndexerSubsystem indexer, VisionSubsystem vision)
 	{
 
-		if (indexer.hasNote(false) && vision.noteObjectFound(true))
+		if (!indexer.hasNote() && vision.noteObjectFound(true))
 		{
 			pathfinder.visionInput(RobotContainer.getVision());
 			pathfinder.targetPoint(RobotContainer);

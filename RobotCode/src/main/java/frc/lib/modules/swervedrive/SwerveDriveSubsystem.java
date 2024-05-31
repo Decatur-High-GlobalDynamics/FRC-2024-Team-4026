@@ -41,7 +41,7 @@ import frc.lib.modules.swervedrive.Commands.TeleopSwerveCommand;
 import frc.robot.RobotContainer;
 import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.constants.VisionConstants;
-import frc.robot.subsystems.IndexerSubsystem;
+import frc.lib.modules.indexer.IndexerSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
 
 public class SwerveDriveSubsystem extends SubsystemBase implements ILogSource

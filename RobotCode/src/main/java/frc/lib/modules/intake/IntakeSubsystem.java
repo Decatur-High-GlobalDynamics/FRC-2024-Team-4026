@@ -3,7 +3,6 @@ package frc.lib.modules.intake;
 import frc.lib.core.util.TeamMotorUtil;
 import frc.robot.RobotContainer;
 import frc.robot.constants.Constants;
-import frc.lib.modules.intake.IntakeConstants;
 import frc.robot.constants.Ports;
 
 import com.revrobotics.CANSparkMax;

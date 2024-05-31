@@ -22,7 +22,6 @@ import frc.lib.modules.swervedrive.Commands.ZeroGyroCommand;
 import frc.lib.core.Autonomous;
 import frc.lib.core.LogitechControllerButtons;
 import frc.robot.commands.AmpCommand;
-import frc.robot.commands.IndexerCommand;
 import frc.lib.modules.intake.Commands.IntakeCommand;
 import frc.lib.modules.intake.Commands.IntakeReverseCommand;
 import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
@@ -32,7 +31,8 @@ import frc.robot.constants.Ports;
 import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.constants.VisionConstants;
-import frc.robot.subsystems.IndexerSubsystem;
+import frc.lib.modules.indexer.IndexerSubsystem;
+import frc.lib.modules.indexer.commands.IndexerCommand;
 import frc.lib.modules.intake.IntakeSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
@@ -150,8 +150,6 @@ public class RobotContainer
 				LogitechControllerButtons.x);
 		final JoystickButton YButton = new JoystickButton(SecondaryController,
 				LogitechControllerButtons.y);
-		final JoystickButton LeftButton = new JoystickButton(SecondaryController,
-				LogitechControllerButtons.left);
 
 		// Climb
 		ClimberSubsystem.setDefaultCommand(new ElevatorSpeedCommand(ClimberSubsystem,

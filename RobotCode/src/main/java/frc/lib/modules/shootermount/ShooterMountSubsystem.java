@@ -13,7 +13,6 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.constants.Ports;
-import frc.lib.modules.shootermount.ShooterMountConstants;
 
 public class ShooterMountSubsystem extends SubsystemBase
 {

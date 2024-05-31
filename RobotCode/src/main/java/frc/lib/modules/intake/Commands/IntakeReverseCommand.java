@@ -1,10 +1,10 @@
 package frc.lib.modules.intake.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.IndexerConstants;
+import frc.lib.modules.indexer.IndexerConstants;
 import frc.lib.modules.intake.IntakeConstants;
 import frc.lib.modules.shooter.ShooterConstants;
-import frc.robot.subsystems.IndexerSubsystem;
+import frc.lib.modules.indexer.IndexerSubsystem;
 import frc.lib.modules.intake.IntakeSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
 
