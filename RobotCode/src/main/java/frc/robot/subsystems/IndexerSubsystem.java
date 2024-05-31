@@ -56,8 +56,7 @@ public class IndexerSubsystem extends SubsystemBase
 		RobotContainer.getShuffleboardTab().addDouble("Desired Indexer Velocity",
 				() -> desiredIndexerVelocity);
 
-		RobotContainer.getShuffleboardTab().addBoolean("Beam Break", 
-				() -> beamBreak.get());
+		RobotContainer.getShuffleboardTab().addBoolean("Beam Break", () -> beamBreak.get());
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class IndexerSubsystem extends SubsystemBase
 		indexerPid.setReference(this.desiredIndexerVelocity, ControlType.kVelocity);
 	}
 
-	public boolean hasNote()
+	public boolean hasNote(boolean b)
 	{
 		return !beamBreak.get();
 
