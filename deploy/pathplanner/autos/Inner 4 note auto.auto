@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.308995050422533,
+      "y": 5.593045420325076
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp to Center"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center to Source"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

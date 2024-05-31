@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3644632694670795,
+      "y": 5.537577201280529
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Source Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Source to center"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center to Amp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp to N1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N1 Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N1 to N2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "N2 Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
