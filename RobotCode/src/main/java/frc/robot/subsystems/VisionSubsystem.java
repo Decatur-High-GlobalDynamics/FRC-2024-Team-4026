@@ -24,8 +24,14 @@ public class VisionSubsystem extends SubsystemBase
 		// Camera = new PhotonCamera(VisionConstants.CAMERA_TABLE_NAME);
 
 		// robotPoseEstimator = new PhotonPoseEstimator(Constants.AprilTagFieldLayout,
-		// 		PoseStrategy.LOWEST_AMBIGUITY, Camera,
-		// 		VisionConstants.ROBOT_TO_CAMERA_OFFSET);
+		// PoseStrategy.LOWEST_AMBIGUITY, Camera,
+		// VisionConstants.ROBOT_TO_CAMERA_OFFSET);
+	}
+
+	public boolean noteObjectFound(boolean b)
+	{
+		// return Camera.hasTargets();
+		return false;
 	}
 
 	@Override

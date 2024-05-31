@@ -33,22 +33,24 @@ import frc.lib.core.Pathfinder;
  * <p>
  * </p>
  * <p>
- * <b>Usage:</b> Call {@link #Autonomous} in RobotContainer's constructor. Then,
- * to actually get the
+ * <b>Usage:</b> Call {@link #Autonomous} in RobotContainer's constructor. Then, to actually get the
  * autonomous command, call {@link #getAutoCommand()}.
  * </p>
  */
-public abstract class Autonomous implements ILogSource {
+public abstract class Autonomous implements ILogSource
+{
 
 	private final RobotContainer RobotContainer;
 
-	public Autonomous(final RobotContainer RobotContainer) {
+	public Autonomous(final RobotContainer RobotContainer)
+	{
 		this.RobotContainer = RobotContainer;
 		registerNamedCommands();
 	}
 
 	/** Registers commands for building autos through PathPlanner. */
-	private void registerNamedCommands() {
+	private void registerNamedCommands()
+	{
 		logFine("Registering named commands...");
 
 		// Get subsystems
@@ -88,7 +90,8 @@ public abstract class Autonomous implements ILogSource {
 				Swerve.getAutoAimSwerveCommand(AutoConstants.CHASSIS_ROTATION_NOTE_AMP));
 
 		// Populate rotation commands
-		for (double rot : AutoConstants.AutoShooterMountRotations) {
+		for (double rot : AutoConstants.AutoShooterMountRotations)
+		{
 			NamedCommands.registerCommand("Aim to " + rot + " deg",
 					new RotateShooterMountToPositionCommand(ShooterMount, rot));
 			NamedCommands.registerCommand("Shoot then Aim to " + rot + " deg",
@@ -98,52 +101,52 @@ public abstract class Autonomous implements ILogSource {
 		registerAutosAsNamedCommands();
 	}
 
-	private void registerAutosAsNamedCommands() {
+	private void registerAutosAsNamedCommands()
+	{
 		for (String auto : AutoBuilder.getAllAutoNames())
 			NamedCommands.registerCommand("Auto " + auto, getPathPlannerAuto(auto));
 
 	}
 
 	/**
-	 * Returns a command to follow a path from PathPlanner GUI whilst avoiding
-	 * obstacles
+	 * Returns a command to follow a path from PathPlanner GUI whilst avoiding obstacles
 	 *
-	 * @param PathName The filename of the path to follow w/o file extension. Must
-	 *                 be in the paths
+	 * @param PathName The filename of the path to follow w/o file extension. Must be in the paths
 	 *                 folder. Ex: Example Human Player Pickup
 	 * @return A command that will drive the robot along the path
 	 */
-	protected static Command followPath(final String PathName) {
+	protected static Command followPath(final String PathName)
+	{
 		final PathPlannerPath path = PathPlannerPath.fromPathFile(PathName);
 		return AutoBuilder.pathfindThenFollowPath(path,
 				SwerveConstants.AutoConstants.PathConstraints);
 	}
 
-	protected static Command getPathPlannerAuto(final String PathName) {
+	protected static Command getPathPlannerAuto(final String PathName)
+	{
 		return new PathPlannerAuto(PathName);
 
 	}
 
 	public abstract Optional<Command> buildAutoCommand();
 
-	protected RobotContainer getRobotContainer() {
+	protected RobotContainer getRobotContainer()
+	{
 		return RobotContainer;
 	}
 
-	public void smartAuto(Pathfinder pathfinder) {
-		/*
-		 * if(noteDetected = false && noteObjectFound = true){
-		 * pathfinder.visionInput(RobotContainer.getVision());
-		 * pathfinder.targetPoint(RobotContainer);
-		 * pathfinder.generateOptimalPath();
-		 * 
-		 * pathfinder.visionInput(apriltag);
-		 * pathfinder.targetPoint(RobotContainer);
-		 * pathfinder.generateOptimalPath();
-		 * }
-		 * 
-		 * }
-		 */
+	public void smartAuto(Pathfinder pathfinder, IndexerSubsystem indexer, VisionSubsystem vision)
+	{
 
+		if (indexer.hasNote(false) && vision.noteObjectFound(true))
+		{
+			pathfinder.visionInput(RobotContainer.getVision());
+			pathfinder.targetPoint(RobotContainer);
+			pathfinder.generateOptimalPath();
+			pathfinder.visionInput(apriltag);
+			pathfinder.targetPoint(RobotContainer);
+			pathfinder.generateOptimalPath();
+		}
 	}
+
 }
