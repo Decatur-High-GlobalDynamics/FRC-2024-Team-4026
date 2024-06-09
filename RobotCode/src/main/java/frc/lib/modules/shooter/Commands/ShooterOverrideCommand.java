@@ -5,7 +5,7 @@ import frc.lib.modules.leds.TeamColor;
 import frc.lib.modules.leds.LedSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.lib.modules.shooter.ShooterConstants;
-import frc.robot.subsystems.IndexerSubsystem;
+import frc.lib.modules.indexer.IndexerSubsystem;
 
 public class ShooterOverrideCommand extends Command {
 	// Initializes the subsystem objects

@@ -4,9 +4,9 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
-import frc.robot.constants.IndexerConstants;
+import frc.lib.modules.indexer.IndexerConstants;
 import frc.robot.constants.VisionConstants;
-import frc.robot.subsystems.IndexerSubsystem;
+import frc.lib.modules.indexer.IndexerSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
 
 /**

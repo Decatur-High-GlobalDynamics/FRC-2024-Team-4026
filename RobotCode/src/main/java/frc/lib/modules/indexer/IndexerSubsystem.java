@@ -1,14 +1,17 @@
 package frc.lib.modules.indexer;
 
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.core.motors.TeamSparkMAX;
+import frc.lib.core.util.TeamMotorUtil;
 import frc.robot.constants.Constants;
-import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.Ports;
 
 // constructor
@@ -18,7 +21,7 @@ public class IndexerSubsystem extends SubsystemBase
 	private double desiredIndexerVelocity;
 
 	private SparkPIDController indexerPid;
-	private TeamSparkMAX indexerMotorMain, indexerMotorSub;
+	private CANSparkFlex indexerMotorRight, indexerMotorLeft;
 	// beambreak is what we use to detect if there is a note
 	private DigitalInput beamBreak;
 
@@ -29,19 +32,19 @@ public class IndexerSubsystem extends SubsystemBase
 
 		beamBreak = new DigitalInput(Ports.BEAM_BREAK);
 
-		indexerMotorMain = new TeamSparkMAX("Left Shooter Motor Sub", Ports.INDEXER_MOTOR_MAIN);
-		indexerMotorSub = new TeamSparkMAX("Right Shooter Motor Sub", Ports.INDEXER_MOTOR_SUB);
+		indexerMotorRight = new CANSparkFlex(Ports.INDEXER_MOTOR_RIGHT, MotorType.kBrushless);
+		indexerMotorLeft = new CANSparkFlex(Ports.INDEXER_MOTOR_LEFT, MotorType.kBrushless);
 
-		indexerMotorSub.follow(indexerMotorMain, true);
+		indexerMotorLeft.follow(indexerMotorRight, true);
 
-		indexerMotorMain.enableVoltageCompensation(Constants.MAX_VOLTAGE);
-		indexerMotorSub.enableVoltageCompensation(Constants.MAX_VOLTAGE);
-		indexerMotorMain.setIdleMode(IdleMode.kBrake);
-		indexerMotorSub.setIdleMode(IdleMode.kBrake);
-		indexerMotorMain.setSmartCurrentLimit(Constants.MAX_CURRENT);
-		indexerMotorSub.setSmartCurrentLimit(Constants.MAX_CURRENT);
+		indexerMotorRight.enableVoltageCompensation(Constants.MAX_VOLTAGE);
+		indexerMotorLeft.enableVoltageCompensation(Constants.MAX_VOLTAGE);
+		indexerMotorRight.setIdleMode(IdleMode.kBrake);
+		indexerMotorLeft.setIdleMode(IdleMode.kBrake);
+		indexerMotorRight.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
+		indexerMotorLeft.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
 
-		indexerPid = indexerMotorMain.getPidController();
+		indexerPid = indexerMotorRight.getPIDController();
 
 		indexerPid.setP(IndexerConstants.INDEXER_KP);
 		indexerPid.setI(IndexerConstants.INDEXER_KI);
@@ -50,24 +53,35 @@ public class IndexerSubsystem extends SubsystemBase
 	}
 
 	// command to set the indexer speed
-	public void setIndexerMotorVelocity(double desiredIndexerVelocity, String reason)
+	public void setIndexerMotorVelocity(double desiredIndexerVelocity)
 	{
 		this.desiredIndexerVelocity = Math.max(
 				Math.min(IndexerConstants.INDEXER_MAX_VELOCITY, desiredIndexerVelocity),
 				-IndexerConstants.INDEXER_MAX_VELOCITY);
+
+		indexerPid.setReference(this.desiredIndexerVelocity, ControlType.kVelocity);
 	}
 
 	// does the pid for the indexer
 	@Override
 	public void periodic()
 	{
-		indexerPid.setReference(desiredIndexerVelocity, ControlType.kVelocity);
+		if (indexerMotorLeft.getStickyFault(FaultID.kHasReset)
+				|| indexerMotorRight.getStickyFault(FaultID.kHasReset))
+		{
+			TeamMotorUtil.optimizeCANSparkBusUsage(indexerMotorRight);
+			indexerMotorRight.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
+			indexerMotorRight.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
+
+			TeamMotorUtil.optimizeCANSparkBusUsage(indexerMotorLeft);
+			indexerMotorLeft.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
+		}
 	}
 
 	// detects if there is a note
 	public boolean hasNote()
 	{
-		return beamBreak.get();
+		return !beamBreak.get();
 	}
 
 }

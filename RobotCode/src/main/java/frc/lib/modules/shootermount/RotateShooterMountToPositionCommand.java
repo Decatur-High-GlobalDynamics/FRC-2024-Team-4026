@@ -1,8 +1,6 @@
 package frc.lib.modules.shootermount;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.lib.modules.shootermount.ShooterMountSubsystem;
-import frc.lib.modules.shootermount.ShooterMountConstants;
 
 /**
  * Rotates the shooter mount to a position and then ends once within a number of ticks specified by

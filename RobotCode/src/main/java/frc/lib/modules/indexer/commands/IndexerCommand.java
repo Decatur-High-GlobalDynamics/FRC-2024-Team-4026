@@ -1,8 +1,8 @@
-package frc.robot.commands;
+package frc.lib.modules.indexer.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.IndexerConstants;
-import frc.robot.subsystems.IndexerSubsystem;
+import frc.lib.modules.indexer.IndexerConstants;
+import frc.lib.modules.indexer.IndexerSubsystem;;
 
 public class IndexerCommand extends Command
 {
