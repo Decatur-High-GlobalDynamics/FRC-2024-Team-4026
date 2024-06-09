@@ -15,7 +15,8 @@ import java.util.Set;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathSegment;
 
-public class SwervePaths {
+public class SwervePaths
+{
 
 	// perfectly fine name
 	public static final List<Function<Set<String>, Map<String, List<PathSegment>>>> pathPaths = new ArrayList<>();
