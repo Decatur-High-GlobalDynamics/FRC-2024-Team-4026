@@ -141,10 +141,10 @@ public abstract class Autonomous implements ILogSource
 		if (!indexer.hasNote() && vision.noteObjectFound(true))
 		{
 			pathfinder.visionInput(RobotContainer.getVision());
-			pathfinder.targetPoint(RobotContainer);
+			pathfinder.targetPoint(RobotContainer, vision, this);
 			pathfinder.generateOptimalPath();
 			pathfinder.visionInput(vision);
-			pathfinder.targetPoint(RobotContainer);
+			pathfinder.targetPoint(RobotContainer, vision, this);
 			pathfinder.generateOptimalPath();
 		}
 	}

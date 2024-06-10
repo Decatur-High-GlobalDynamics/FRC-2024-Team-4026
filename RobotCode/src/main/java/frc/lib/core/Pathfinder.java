@@ -24,7 +24,6 @@ import com.pathplanner.lib.path.PathSegment;
 
 public class Pathfinder
 {
-
 	private double pathPaths;
 
 	public Pathfinder()
@@ -49,6 +48,27 @@ public class Pathfinder
 			}
 		}
 
+		try
+		{
+			Files.list(Path.of("src", "main", "deploy", "pathplanner")).forEach((path) ->
+			{
+				String filename = path.getFileName().toString();
+				if (!filename.endsWith(".path"))
+					return;
+				String[] components = filename.split("\\.");
+				if (components.length == 2 && !completedPaths.contains(components[0]))
+				{
+					path.toFile().delete();
+					System.out.println(components[0] + " -paths are kill");
+				}
+			});
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println("-path is not kill");
+
 		while (true)
 		{
 			var allSwervePaths = swervePaths;
@@ -62,6 +82,7 @@ public class Pathfinder
 				}
 			}
 		}
+
 	}
 
 	public void possiblePaths()
@@ -75,13 +96,33 @@ public class Pathfinder
 		var apriltag = vision;
 	}
 
-	public void targetPoint(final RobotContainer robotContainer)
+	public void targetPoint(final RobotContainer robotContainer, VisionSubsystem vision,
+			Autonomous auto)
 	{
-
+		var apriltag = vision;
+		var Note = vision;
 	}
 
 	public void generateOptimalPath()
 	{
+		String generateSwervePath = System.getenv("generateSwervePath");
+
+		for (Map.Entry<String, String> entry : pathQueue.entrySet())
+		{
+			// Pathpath continues
+			Path path;
+			double startingTime = System.currentTimeMillis();
+
+			if (generateSwervePath != null)
+			{
+
+			}
+			else
+			{
+
+			}
+
+		}
 
 	}
 
