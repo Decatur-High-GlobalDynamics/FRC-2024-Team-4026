@@ -22,6 +22,8 @@ import frc.lib.modules.swervedrive.SwervePaths;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathSegment;
 
+import edu.wpi.first.math.geometry.Translation2d;
+
 public class Pathfinder
 {
 	private double pathPaths;
@@ -85,10 +87,23 @@ public class Pathfinder
 
 	}
 
-	public void possiblePaths()
+	public void possiblePaths(SwervePaths swervePaths)
 	{
 		Map<String, List<PathSegment>> pathQueue = new HashMap<>();
 
+		for (String intakeName : List.of("1", "2", "3"))
+		{
+
+			final double minDistance = 0.15;
+
+			Map<String, List<PathSegment>> returnPaths = new HashMap<>();
+			var intakeTrajectory = new SwervePaths();
+			int index = -1;
+			int validIndex = -1;
+			Translation2d lastTranslation = new Translation2d();
+
+			;
+		}
 	}
 
 	public void visionInput(VisionSubsystem vision)
@@ -103,7 +118,7 @@ public class Pathfinder
 		var Note = vision;
 	}
 
-	public void generateOptimalPath()
+	public void generateOptimalPath(SwervePaths swervePaths, Map<String, String> pathQueue)
 	{
 		String generateSwervePath = System.getenv("generateSwervePath");
 
@@ -119,6 +134,8 @@ public class Pathfinder
 			}
 			else
 			{
+				// targetPoint(newBuilder().setModel(model))
+				// .addAllSegments(entry.getValue()).build();
 
 			}
 

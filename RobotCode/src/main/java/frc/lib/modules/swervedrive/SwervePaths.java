@@ -6,8 +6,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import frc.lib.core.Pathfinder;
+
 import java.util.function.Function;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,4 +26,11 @@ public class SwervePaths
 	{
 
 	}
+
+	// Makes
+	public static void genPathPaths(Pathfinder pathfinder, SwerveDriveSubsystem swerve)
+	{
+
+	}
+
 }

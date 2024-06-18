@@ -7,7 +7,9 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.modules.leds.LedSubsystem;
 import frc.lib.modules.swervedrive.SwerveConstants;
@@ -135,18 +137,46 @@ public abstract class Autonomous implements ILogSource
 		return RobotContainer;
 	}
 
-	public void smartAuto(Pathfinder pathfinder, IndexerSubsystem indexer, VisionSubsystem vision)
+	public SequentialCommandGroup smartAuto(Pathfinder pathfinder, IndexerSubsystem indexer, VisionSubsystem vision)
 	{
+		Timer autonTimer = new Timer();
+		final double firstNoteTime = 0;
+		final double secondNoteTime = 0;
+		final double thirdNoteTime = 0;
+		final double fourthNoteTime = 0;
+		final double fifthNoteTime = 0;
+		//Totaly Need this😎
+		final double sixthNoteTime = 0;
 
-		if (!indexer.hasNote() && vision.noteObjectFound(true))
-		{
-			pathfinder.visionInput(RobotContainer.getVision());
-			pathfinder.targetPoint(RobotContainer, vision, this);
-			pathfinder.generateOptimalPath();
-			pathfinder.visionInput(vision);
-			pathfinder.targetPoint(RobotContainer, vision, this);
-			pathfinder.generateOptimalPath();
-		}
+		return Commands.runOnce(autonTimer::restart).andThen(
+			followPath(getLoggerName())
+				.alongWith(
+					Commands.sequence(
+						Commands.waitUntil(() -> autonTimer.get() > firstNoteTime)
+							.andThen(
+								Commands.waitUntil(
+									() -> autonTimer.hasElapsed(
+										firstNoteTime
+									)
+								)
+							)
+						)
+				);
+				followPath(getLoggerName())
+				.alongWith(
+					Commands.sequence(
+						Commands.waitUntil(() -> autonTimer.get() > secondNoteTime)
+							.andThen(
+								Commands.waitUntil(
+									() -> autonTimer.hasElapsed(
+										secondNoteTime
+									)
+								)
+							)
+						)
+				)
+			//THE SACRED SEMICOLON LINE, DONT MOVE IT
+			;
 	}
 
 }
