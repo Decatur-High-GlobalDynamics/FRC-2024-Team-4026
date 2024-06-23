@@ -24,6 +24,7 @@ import frc.robot.constants.AutoConstants;
 import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.lib.modules.indexer.IndexerSubsystem;
+import frc.lib.modules.indexer.commands.IndexerCommand;
 import frc.lib.modules.intake.IntakeSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
@@ -137,33 +138,26 @@ public abstract class Autonomous implements ILogSource
 		return RobotContainer;
 	}
 
-	public SequentialCommandGroup smartAuto(Pathfinder pathfinder, IndexerSubsystem indexer, VisionSubsystem vision)
+	public SequentialCommandGroup smartAuto(Pathfinder pathfinder, IndexerSubsystem indexer, VisionSubsystem vision, IntakeCommand intake, ShootCommand shoot, RotateShooterMountToPositionCommand shootermount, IndexerCommand index)
 	{
 		Timer autonTimer = new Timer();
 		final double firstNoteTime = 0;
 		final double secondNoteTime = 0;
 		final double thirdNoteTime = 0;
-		final double fourthNoteTime = 0;
-		final double fifthNoteTime = 0;
-		//Totaly Need this😎
-		final double sixthNoteTime = 0;
+		
 
 		return Commands.runOnce(autonTimer::restart).andThen(
-			followPath(getLoggerName())
-				.alongWith(
+			followPath(getLoggerName()).alongWith(
 					Commands.sequence(
-						Commands.waitUntil(() -> autonTimer.get() > firstNoteTime)
-							.andThen(
-								Commands.waitUntil(
-									() -> autonTimer.hasElapsed(
-										firstNoteTime
+						Commands.waitUntil(() -> autonTimer.get() > firstNoteTime).andThen(
+								Commands.waitUntil(() -> autonTimer.hasElapsed(
+									firstNoteTime
 									)
 								)
 							)
 						)
 				);
-				followPath(getLoggerName())
-				.alongWith(
+				followPath(getLoggerName()).alongWith(
 					Commands.sequence(
 						Commands.waitUntil(() -> autonTimer.get() > secondNoteTime)
 							.andThen(
@@ -177,6 +171,12 @@ public abstract class Autonomous implements ILogSource
 				)
 			//THE SACRED SEMICOLON LINE, DONT MOVE IT
 			;
+
+			Commands.either(
+				 Commands.sequence(
+					intake.initialize().unitl(() -> autonTimer.hasElapsed(firstNoteTime), index.initialize(), shoot.initialize())
+				 ));
+		
 	}
 
 }

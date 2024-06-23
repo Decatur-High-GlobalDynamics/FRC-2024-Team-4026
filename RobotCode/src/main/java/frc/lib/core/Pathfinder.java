@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +23,9 @@ import frc.lib.modules.swervedrive.SwervePaths;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathSegment;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public class Pathfinder
@@ -104,6 +108,7 @@ public class Pathfinder
 
 			;
 		}
+
 	}
 
 	public void visionInput(VisionSubsystem vision)
