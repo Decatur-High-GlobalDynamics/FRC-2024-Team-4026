@@ -156,7 +156,7 @@ public abstract class Autonomous implements ILogSource
 								)
 							)
 						)
-				);
+				),
 				followPath(getLoggerName()).alongWith(
 					Commands.sequence(
 						Commands.waitUntil(() -> autonTimer.get() > secondNoteTime)
@@ -168,14 +168,28 @@ public abstract class Autonomous implements ILogSource
 								)
 							)
 						)
-				)
+				),
 			//THE SACRED SEMICOLON LINE, DONT MOVE IT
-			;
+			
 
 			Commands.either(
 				 Commands.sequence(
-					intake.initialize().unitl(() -> autonTimer.hasElapsed(firstNoteTime), index.initialize(), shoot.initialize())
-				 ));
+					intake.initialize().unitl(() -> autonTimer.hasElapsed(firstNoteTime), index.initialize(), shoot.initialize()),
+					intake.initialize().until(() -> autonTimer.hasElapsed(secondNoteTime), index.initialize(), shoot.initialize()),
+					intake.initialize().until(() -> autonTimer.hasElapsed(thirdNoteTime), index.initialize(), shoot.initialize())
+				 ),
+				 Commands.sequence(
+					intake.initialize().until(() -> autonTimer.hasElapsed(firstNoteTime), index.initialize(), shoot.initialize()),
+					intake.initialize().until(() -> autonTimer.hasElapsed(secondNoteTime), index.initialize(), shoot.initialize())
+				 ))
+				 )
+
+
+		Command smart2 = Commands.sequence(
+			Commands.runOnce(() -> {
+
+			})
+		);
 		
 	}
 
