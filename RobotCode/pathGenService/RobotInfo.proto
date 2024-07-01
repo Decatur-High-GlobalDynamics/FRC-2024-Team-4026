@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package frc.lib.modules.pathgen;
+
+message robotModel{
+    double Mass = 1;
+    double Robot_Width = 2;
+    double Robot_Length = 3;
+    double Wheel_radius = 4;
+    double max_wheel_tourque = 5;
+}
+
+message force{
+    double fx = 1;
+    double fy = 2;
+}
+
+message robotState{
+    double x = 1;
+    double y = 2;
+    double theta = 3;
+    double v = 4;
+    double w = 5;
+    double omega = 6;
+    repeated force forces = 7;
+}
+
+message timedRobotState{
+    double time = 1;
+    robotState state = 2;
+}
+
+message robotVelocityLimits{
+    double v = 1;
+    double w = 2;
+    double max_omega = 3;
+}
+
+message zeroVelocityLimit{
+}
+
+message targetPoint{
+    reserved 5 to 9;
+    double x = 1;
+    double y = 2;
+    optional double headerConstraint = 3;
+    optional uint32 sample = 4;
+    one_of velocityLimits {
+        robotVelocityLimits robotVelocityLimits = 10;
+        zeroVelocityLimit zeroVelocityLimit = 11;
+    }
+}
+
+message PathSegment {
+    repeated Waypoint waypoints = 1;
+    optional double max_velocity = 2;
+    optional double max_omega = 3;
+    bool straight_line = 4;
+}
+
+message Paths{
+    repeated timedRobotState states = 1;
+    string hash_code = 2;
+}
+
+message pathGenerationError{
+    string error = 1;
+}
+
+message pathRequest{
+    robotModel robotModel = 1;
+    repeated PathSegment segment = 2;
+}
+
+message pathResponse{
+    oneof{
+        Paths paths = 1;
+        pathGenerationError error = 2;
+    }
+}
+
+service PathGenService{
+    rpc GeneratePath(pathRequest) returns (pathResponse){}
+}

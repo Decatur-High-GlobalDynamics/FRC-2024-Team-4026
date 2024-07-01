@@ -1,4 +1,4 @@
-package frc.lib.core;
+package frc.lib.modules.pathgen;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import frc.lib.core.Autonomous;
 import frc.lib.core.util.CTREConfigs;
 import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.robot.RobotContainer;
