@@ -18,22 +18,30 @@ public class Path
 
 	public Path(String name, PathConstants pathConstants)
 	{
-		// Path deployment = PathConstants.disablePaths() ? Path.of("src", "main", "deploy") :
-		// Filesystem.getDeployDirectory().toPath();
-		// File file = Path.of(deployment.toString(), "pathplanner", name + ".path").toFile();
-		// try{
-		// InputStream stream = new FileInputStream(file);
-		// }
+		Path deployment = disablePaths() ? Path.of("src", "main", "deploy")
+				: Filesystem.getDeployDirectory().toPath();
+		File file = Path.of(deployment.toString(), "pathplanner", name + ".path").toFile();
+		try
+		{
+			InputStream stream = new FileInputStream(file);
+		}
+		finally
+		{
+
+		}
 	}
 
-	// public double getTimeLength(){
-	// if(){
-	//
-	// }
-	// else{
-	// return 0;
-	// }
-	// }
+	public double getTimeLength()
+	{
+		if (1 == 1)
+		{
+			return 0;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 
 	public Pose2d getStartingPose()
 	{
@@ -41,8 +49,19 @@ public class Path
 
 	}
 
-	public static void disablePaths()
+	public Pose2d[] getPathPoses()
 	{
-
+		Pose2d[] poses = new Pose2d[1];
+		for (int i = 0; i < poses.length; i++)
+		{
+			poses[i] = new Pose2d();
+		}
+		return poses;
 	}
+
+	public static boolean disablePaths()
+	{
+		return true;
+	}
+
 }
