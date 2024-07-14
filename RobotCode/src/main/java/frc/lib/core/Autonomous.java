@@ -1,12 +1,14 @@
 package frc.lib.core;
 
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -31,6 +33,10 @@ import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.constants.VisionConstants;
+
+import java.util.HashMap;
+import java.util.Map;
+import frc.lib.modules.pathgen.Path;
 
 /**
  * <p>
@@ -104,6 +110,29 @@ public abstract class Autonomous implements ILogSource
 		registerAutosAsNamedCommands();
 	}
 
+	private static Map<Translation2d, Path> loadPaths(String Name)
+	{
+		Map<Translation2d, Path> result = new HashMap<>();
+
+		int log = 0;
+		while (true)
+		{
+			Path paths;
+			try
+			{
+				paths = new Path(Name + String.format(Name, null), null);
+			}
+			catch (Exception e)
+			{
+				break;
+			}
+			result.put(paths.getStartingPose().getTranslation(), paths);
+		}
+
+		return result;
+
+	}
+
 	private void registerAutosAsNamedCommands()
 	{
 		for (String auto : AutoBuilder.getAllAutoNames())
@@ -138,59 +167,54 @@ public abstract class Autonomous implements ILogSource
 		return RobotContainer;
 	}
 
-	public SequentialCommandGroup smartAuto(Pathfinder pathfinder, IndexerSubsystem indexer, VisionSubsystem vision, IntakeCommand intake, ShootCommand shoot, RotateShooterMountToPositionCommand shootermount, IndexerCommand index)
+	// return Commands.runOnce(null, null).andThen(
+	// Commands.either(
+	// Commands.sequence(
+	// intake.initialize().andThen(() -> autonTimer.hasElapsed(firstNoteTime)),
+	// intake.initialize().andThen(() -> autonTimer.hasElapsed(secondNoteTime)),
+	// intake.initialize().andThen(() -> autonTimer.hasElapsed(thirdNoteTime))
+	// ),
+	// Commands.sequence(
+	// intake.initialize().andThen(() -> autonTimer.hasElapsed(firstNoteTime)),
+	// intake.initialize().andThen(() -> autonTimer.hasElapsed(secondNoteTime))
+	//
+	// )
+	// )
+	// );
+
+	public SequentialCommandGroup smartAuto1(Pathfinder pathfinder, IndexerSubsystem indexer,
+			VisionSubsystem vision, IntakeCommand intake, ShootCommand shoot,
+			RotateShooterMountToPositionCommand shootermount, IndexerCommand index)
 	{
 		Timer autonTimer = new Timer();
 		final double firstNoteTime = 0;
 		final double secondNoteTime = 0;
 		final double thirdNoteTime = 0;
-		
 
-		return Commands.runOnce(autonTimer::restart).andThen(
-			followPath(getLoggerName()).alongWith(
-					Commands.sequence(
-						Commands.waitUntil(() -> autonTimer.get() > firstNoteTime).andThen(
-								Commands.waitUntil(() -> autonTimer.hasElapsed(
-									firstNoteTime
-									)
-								)
-							)
-						)
-				),
-				followPath(getLoggerName()).alongWith(
-					Commands.sequence(
-						Commands.waitUntil(() -> autonTimer.get() > secondNoteTime)
-							.andThen(
-								Commands.waitUntil(
-									() -> autonTimer.hasElapsed(
-										secondNoteTime
-									)
-								)
-							)
-						)
-				),
-			//THE SACRED SEMICOLON LINE, DONT MOVE IT
-			
+		Command smart2 = Commands.sequence(Commands.runOnce(() ->
+		{
 
-			Commands.either(
-				 Commands.sequence(
-					intake.initialize().unitl(() -> autonTimer.hasElapsed(firstNoteTime), index.initialize(), shoot.initialize()),
-					intake.initialize().until(() -> autonTimer.hasElapsed(secondNoteTime), index.initialize(), shoot.initialize()),
-					intake.initialize().until(() -> autonTimer.hasElapsed(thirdNoteTime), index.initialize(), shoot.initialize())
-				 ),
-				 Commands.sequence(
-					intake.initialize().until(() -> autonTimer.hasElapsed(firstNoteTime), index.initialize(), shoot.initialize()),
-					intake.initialize().until(() -> autonTimer.hasElapsed(secondNoteTime), index.initialize(), shoot.initialize())
-				 ))
-				 )
+		}));
 
+		return Commands.runOnce(autonTimer::restart)
+				.andThen(
+						followPath(getLoggerName()).alongWith(Commands
+								.sequence(Commands.waitUntil(() -> autonTimer.get() > firstNoteTime)
+										.andThen(Commands.waitUntil(
+												() -> autonTimer.hasElapsed(firstNoteTime))))),
+						followPath(getLoggerName()).alongWith(Commands.sequence(Commands
+								.waitUntil(() -> autonTimer.get() > secondNoteTime).andThen(Commands
+										.waitUntil(() -> autonTimer.hasElapsed(secondNoteTime))))))
+		// THE SACRED SEMICOLON LINE, DONT MOVE IT
+		;
 
-		Command smart2 = Commands.sequence(
-			Commands.runOnce(() -> {
+	}
 
-			})
-		);
-		
+	public Command smartAuto2(boolean isInfinite, boolean robotReturn,
+			BooleanSupplier cancelFirstIntake, BooleanSupplier cancelSecondIntake)
+	{
+		Timer returnTimer = new Timer();
+		return smartAuto2(isInfinite, robotReturn, cancelFirstIntake, cancelSecondIntake);
 	}
 
 }
