@@ -2,6 +2,12 @@ package frc.lib.modules.pathgen.Constants;
 
 public class PathConstants
 {
+	public static boolean disablePaths = false;
+
+	public static void disablePaths()
+	{
+		disablePaths = true;
+	}
 
 	public static final double robotModel()
 	{

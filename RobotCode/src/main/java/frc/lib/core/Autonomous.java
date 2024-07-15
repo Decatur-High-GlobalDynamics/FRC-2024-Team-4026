@@ -33,10 +33,12 @@ import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.constants.VisionConstants;
+import frc.lib.modules.pathgen.Constants.RobotState;
 
 import java.util.HashMap;
 import java.util.Map;
 import frc.lib.modules.pathgen.Path;
+import java.security.*;
 
 /**
  * <p>
@@ -215,6 +217,16 @@ public abstract class Autonomous implements ILogSource
 	{
 		Timer returnTimer = new Timer();
 		return smartAuto2(isInfinite, robotReturn, cancelFirstIntake, cancelSecondIntake);
+	}
+
+	public static Command resetPosition(RobotState robotState)
+	{
+		return Commands.runOnce(() ->
+		{
+
+		}
+
+		);
 	}
 
 }
