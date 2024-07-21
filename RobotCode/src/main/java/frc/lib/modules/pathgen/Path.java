@@ -13,6 +13,7 @@ import frc.lib.modules.pathgen.Constants.Paths;
 import frc.lib.modules.pathgen.Constants.RobotState;
 import frc.lib.modules.pathgen.Constants.timedRobotState;
 import frc.lib.modules.pathgen.Constants.FieldConstants;
+import frc.lib.modules.pathgen.Constants.FieldConstants.Speaker;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -128,6 +129,9 @@ public class Path
 		// }
 	}
 
+
+
+
 	public static boolean shouldFlip()
 	{
 
@@ -201,6 +205,11 @@ public class Path
 	{
 
 		return true;
+	}
+	
+
+	public Object buildPaths(){
+		return Paths.build();
 	}
 
 }

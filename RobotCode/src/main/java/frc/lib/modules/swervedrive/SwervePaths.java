@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import frc.lib.modules.pathgen.Pathfinder;
+import frc.lib.modules.pathgen.Constants.FieldConstants.Speaker;
 
 import java.util.function.Function;
 import java.util.ArrayList;
@@ -32,5 +33,11 @@ public class SwervePaths
 	{
 
 	}
+
+		 private static Pose2d getShootingPose(Translation2d translation) {
+    return new Pose2d(
+        translation, Speaker.centerSpeakerOpening.toTranslation2d().minus(translation).getAngle());
+  }
+
 
 }

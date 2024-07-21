@@ -1,14 +1,29 @@
 {
-    "java.format.settings.url": "https://raw.githubusercontent.com/Decatur-High-GlobalDynamics/Common-Library-And-Wiki/main/.vscode/java-formatter.xml",
-    "editor.defaultFormatter": "redhat.java",
-    "java.format.settings.profile": "4026Style",
-    "[java]":
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.server.launchMode": "Standard",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "bin/": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true,
+    "**/*~": true
+  },
+  "java.test.config": [
     {
-        "editor.insertSpaces": false,
-        "editor.detectIndentation": false
+      "name": "WPIlibUnitTests",
+      "workingDirectory": "${workspaceFolder}/build/jni/release",
+      "vmargs": [ "-Djava.library.path=${workspaceFolder}/build/jni/release" ],
+      "env": {
+        "LD_LIBRARY_PATH": "${workspaceFolder}/build/jni/release" ,
+        "DYLD_LIBRARY_PATH": "${workspaceFolder}/build/jni/release"
+      }
     },
-    "editor.stickyTabStops": true,
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": true,
-    "java.configuration.updateBuildConfiguration": "interactive"
+  ],
+  "java.test.defaultConfig": "WPIlibUnitTests"
 }

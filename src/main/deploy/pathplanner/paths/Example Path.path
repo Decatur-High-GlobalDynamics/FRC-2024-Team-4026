@@ -1,0 +1,78 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+<<<<<<<< HEAD:RobotCode/src/main/deploy/pathplanner/paths/Top Start to Top Note.path
+        "x": 0.9964924773154389,
+        "y": 6.6188914144210065
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.861859906055994,
+        "y": 6.700750495518085
+========
+        "x": 2.0,
+        "y": 7.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.843494682503839,
+        "y": 7.114110012973941
+>>>>>>>> dev:RobotCode/src/main/deploy/pathplanner/paths/Example Path.path
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+<<<<<<<< HEAD:RobotCode/src/main/deploy/pathplanner/paths/Top Start to Top Note.path
+        "x": 2.5734465818707433,
+        "y": 6.644744410565054
+      },
+      "prevControl": {
+        "x": 1.8852482149408742,
+        "y": 6.6188914144210065
+========
+        "x": 7.644435737300745,
+        "y": 7.445426908791589
+      },
+      "prevControl": {
+        "x": 6.457216860620841,
+        "y": 7.316581449306948
+>>>>>>>> dev:RobotCode/src/main/deploy/pathplanner/paths/Example Path.path
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Top Note"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0,
+      "rotationDegrees": 3.3114529284094747,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+<<<<<<<< HEAD:RobotCode/src/main/deploy/pathplanner/paths/Top Start to Top Note.path
+    "rotation": -127.18508622746991,
+========
+    "rotation": 0,
+>>>>>>>> dev:RobotCode/src/main/deploy/pathplanner/paths/Example Path.path
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}

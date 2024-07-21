@@ -1,10 +1,17 @@
 package frc.lib.modules.pathgen.Constants;
 
+import java.io.IOException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Filesystem;
 
 public class FieldConstants
 {
@@ -122,49 +129,49 @@ public class FieldConstants
 	}
 
 	public static final double aprilTagWidth = Units.inchesToMeters(6.50);
-	public static final AprilTagLayoutType defaultAprilTagType = AprilTagLayoutType.OFFICIAL;
+//	public static final AprilTagLayoutType defaultAprilTagType = AprilTagLayoutType.OFFICIAL;
 
-	public enum AprilTagLayoutType
-	{
-		OFFICIAL("2024-official"), SPEAKERS_ONLY("2024-speakers"), AMPS_ONLY("2024-amps"),
-		WPI("2024-wpi");
-
-		private AprilTagLayoutType(String name)
-		{
-			if (PathConstants.disablePaths)
-			{
-				layout = null;
-			}
-			else
-			{
-				try
-				{
-					layout = new AprilTagFieldLayout(
-							Path.of(Filesystem.getDeployDirectory().getPath(), "apriltags",
-									name + ".json"));
-				}
-				catch (IOException e)
-				{
-					throw new RuntimeException(e);
-				}
-			}
-			if (layout == null)
-			{
-				layoutString = "";
-			}
-			else
-			{
-				try
-				{
-					layoutString = new ObjectMapper().writeValueAsString(layout);
-				}
-				catch (JsonProcessingException e)
-				{
-					throw new RuntimeException("Failed to serialize AprilTag layout JSON "
-							+ toString() + "for Northstar");
-				}
-			}
-		}
-
-	}
+//	public enum AprilTagLayoutType
+//	{
+//		OFFICIAL("2024-official"), SPEAKERS_ONLY("2024-speakers"), AMPS_ONLY("2024-amps"),
+//		WPI("2024-wpi");
+//
+//		private AprilTagLayoutType(String name)
+//		{
+//			if (PathConstants.disablePaths)
+//			{
+//				layout = null;
+//			}
+//			else
+//			{
+//				try
+//				{
+//					layout = new AprilTagFieldLayout(
+//							Path.of(Filesystem.getDeployDirectory().getPath(), "apriltags",
+//									name + ".json"));
+///				}
+//				catch (IOException e)
+//				{
+//					throw new RuntimeException(e);
+//				}
+//			}
+///			if (layout == null)
+//	/		{
+//				layoutString = "";
+//			}
+//			else
+//			{
+//				try
+//				{
+//					layoutString = new ObjectMapper().writeValueAsString(layout);
+//				}
+//				catch (JsonProcessingException e)
+//				{
+//					throw new RuntimeException("Failed to serialize AprilTag layout JSON "
+//							+ toString() + "for Northstar");
+//				}
+//			}
+//		}
+//
+//	}
 }

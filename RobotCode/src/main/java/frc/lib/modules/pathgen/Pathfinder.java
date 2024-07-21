@@ -17,6 +17,7 @@ import java.util.Set;
 
 import frc.lib.core.Autonomous;
 import frc.lib.core.util.CTREConfigs;
+import frc.lib.modules.pathgen.Constants.timedRobotState;
 import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.VisionSubsystem;
@@ -37,6 +38,10 @@ public class Pathfinder
 	{
 
 	}
+
+	//put robot model stuff here at some point
+
+	
 
 	public void completedPaths(SwerveDriveSubsystem swerve, SwervePaths swervePaths)
 	{
@@ -134,9 +139,10 @@ public class Pathfinder
 			Path path;
 			double startingTime = System.currentTimeMillis();
 
-			if (generateSwervePath != null)
+			if (generateSwervePath == null)
 			{
-
+				//path =
+				//Path.buildPaths().addStates(timedRobotState.build()).build();
 			}
 			else
 			{

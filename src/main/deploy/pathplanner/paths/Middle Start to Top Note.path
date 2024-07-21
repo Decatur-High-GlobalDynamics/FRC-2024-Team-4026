@@ -1,0 +1,54 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.681248725726151,
+        "y": 7.436223661684991
+      },
+      "prevControl": null,
+      "nextControl": {
+<<<<<<<< HEAD:RobotCode/src/main/deploy/pathplanner/paths/Middle Start to Top Note.path
+        "x": 1.7566125160740347,
+        "y": 5.87046553010485
+========
+        "x": 6.089086976380232,
+        "y": 7.574272368275679
+>>>>>>>> dev:RobotCode/src/main/deploy/pathplanner/paths/Copy of Example Path.path
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.0917237977973722,
+        "y": 6.635541163459008
+      },
+      "prevControl": {
+        "x": 2.278942674477277,
+        "y": 7.132516507185481
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Top Note"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -122.4711922908485,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}
