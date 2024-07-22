@@ -8,6 +8,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,6 +34,7 @@ import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.constants.VisionConstants;
+import frc.lib.modules.pathgen.Constants.FieldConstants;
 import frc.lib.modules.pathgen.Constants.RobotState;
 
 import java.util.HashMap;
@@ -219,14 +221,43 @@ public abstract class Autonomous implements ILogSource
 		return smartAuto2(isInfinite, robotReturn, cancelFirstIntake, cancelSecondIntake);
 	}
 
-	public static Command resetPosition(RobotState robotState)
+	/**@param resetPose Switches pose for alliances */
+
+	public static Command resetPose(Pose2d pose)
 	{
 		return Commands.runOnce(() ->
 		{
+			RobotState.getInstance().resetPose(Path.apply(pose));
+			RobotState.getInstance().setTrajectorySetpoint(Path.apply(pose));
+		});
 
-		}
-
-		);
 	}
+
+	public static Command resetPose(Path path){
+		return resetPose(path.getStartingPose());
+	}
+
+	public static boolean xCrossed(double xPosition, boolean towardsCenterline) {
+    Pose2d robotPose = RobotState.getInstance().getTrajectorySetpoint();
+    if (Path.shouldFlip()) {
+      if (towardsCenterline) {
+        return robotPose.getX() < FieldConstants.fieldLength - xPosition;
+      } else {
+        return robotPose.getX() > FieldConstants.fieldLength - xPosition;
+      }
+    } else {
+      if (towardsCenterline) {
+        return robotPose.getX() > xPosition;
+      } else {
+        return robotPose.getX() < xPosition;
+      }
+    }
+  }
+
+  public static Command waitUntilXCrossed(double xPosition, boolean towardsCenterline) {
+    return Commands.waitUntil(() -> xCrossed(xPosition, towardsCenterline));
+  }
+
+
 
 }

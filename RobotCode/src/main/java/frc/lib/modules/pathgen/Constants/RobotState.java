@@ -81,7 +81,8 @@ public class RobotState
 	private Pose2d estimatedPose = new Pose2d();
 	private final TimeInterpolatableBuffer<Pose2d> poseBuffer =
 		TimeInterpolatableBuffer.createBuffer(poseBufferSizeSeconds);
-private Pose2d trajectorySetpoint = new Pose2d();
+	
+	private Pose2d trajectorySetpoint = new Pose2d();
 	private final Matrix<N3, N1> qStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
 	// Odometry
 	private final SwerveDriveKinematics kinematics;
@@ -345,5 +346,13 @@ private Pose2d trajectorySetpoint = new Pose2d();
 	(key = "RobotState/OdometryPose")
 	public Pose2d getOdometryPose() {
 	  return odometryPose;
+	}
+
+    public Pose2d getTrajectorySetpoint() {
+        return trajectorySetpoint;
+    }
+
+	public void setTrajectorySetpoint(Pose2d trajectorySetpoint) {
+		this.trajectorySetpoint = trajectorySetpoint;
 	}
 }
