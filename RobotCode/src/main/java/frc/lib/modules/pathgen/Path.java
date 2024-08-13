@@ -106,6 +106,8 @@ public class Path
 		}
 	}
 
+	
+
 	// public RobotState sample()
 	{
 		// timedRobotState before = null;

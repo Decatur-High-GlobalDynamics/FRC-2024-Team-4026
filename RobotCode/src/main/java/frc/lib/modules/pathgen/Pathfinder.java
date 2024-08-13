@@ -129,6 +129,11 @@ public class Pathfinder
 		var Note = vision;
 	}
 
+	public static PathSegment ContinuationPoint(Path path, SwerveDriveSubsystem swerve){
+		Pose2d endPose2d = swerve.getPose();
+		return PathSegment.build().setStartPose(path.getStartingPose()).setEndPose(endPose2d).build();
+	}
+
 	public void generateOptimalPath(SwervePaths swervePaths, Map<String, String> pathQueue)
 	{
 		String generateSwervePath = System.getenv("generateSwervePath");
@@ -141,8 +146,8 @@ public class Pathfinder
 
 			if (generateSwervePath == null)
 			{
-				//path =
-				//Path.buildPaths().addStates(timedRobotState.build()).build();
+				path =
+				path.buildPaths().addStates(timedRobotState.build()).build();
 			}
 			else
 			{
