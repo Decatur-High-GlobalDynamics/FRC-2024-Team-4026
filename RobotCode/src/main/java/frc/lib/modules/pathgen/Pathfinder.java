@@ -6,8 +6,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,6 +24,7 @@ import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.lib.modules.swervedrive.SwervePaths;
+import frc.lib.modules.pathgen.Constants.RobotModel;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathSegment;
 
@@ -39,8 +42,11 @@ public class Pathfinder
 
 	}
 
-	//put robot model stuff here at some point
 
+	RobotModel model = RobotModel.setMass(0).setMoi(0).setRobotLength().setRobotWidth()
+			.setWheelRadius(Units.inchesToMeters(1.95225)).setMaxWheelTorque(0.0);
+	// SwerveConstants.moduleLimitsFree.@maxDriveVelocity(Units.inchesToMeter(1.95225)*
+	// 0.75.build());
 	
 
 	public void completedPaths(SwerveDriveSubsystem swerve, SwervePaths swervePaths)
@@ -134,6 +140,10 @@ public class Pathfinder
 		return PathSegment.build().setStartPose(path.getStartingPose()).setEndPose(endPose2d).build();
 	}
 
+	public static PathSegment AddTranslationPoint(){
+		
+	}
+
 	public void generateOptimalPath(SwervePaths swervePaths, Map<String, String> pathQueue)
 	{
 		String generateSwervePath = System.getenv("generateSwervePath");
@@ -147,7 +157,7 @@ public class Pathfinder
 			if (generateSwervePath == null)
 			{
 				path =
-				path.buildPaths().addStates(timedRobotState.build()).build();
+				path.buildPaths()
 			}
 			else
 			{
@@ -159,5 +169,27 @@ public class Pathfinder
 		}
 
 	}
+
+	private static String getHashCodes(RobotModel model, List<PathSegment> segments)
+        {
+            StringBuilder hashString = new StringBuilder();
+            DecimalFormat format = new DecimalFormat("#.000000");
+            format.setRoundingMode(RoundingMode.HALF_DOWN);
+            hashString.append(format.format(model.getMass()));
+            hashString.append(format.format(model.getMoi()));
+            hashString.append(format.format(model.getRobotLength()));
+            hashString.append(format.format(model.getRobotWidth()));
+            hashString.append(format.format(model.getWheelRadius()));
+            hashString.append(format.format(model.getMaxWheelTorque()));
+            hashString.append(format.format(model.getMaxWheelOmega()));
+
+			//for (PathSegment segment : segments){
+			//	for(Waypoint waypoint : segment.getWaypoints()){
+			//		hashString.append(format.format(waypoint.getX()));
+			//hashString.append(format.format(waypoint.getY()));
+			//	}
+			//
+		//}
+        }
 
 }

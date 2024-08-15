@@ -228,7 +228,7 @@ public class RobotState
 				//placeholder
 				: getPredictedPose(0.0, 0.0);
 	  }
-	  Logger.recordOutput("RobotState/AimingParameters/PredictedPose", fieldToPredictedVehicle);
+	  //Logger.recordOutput("RobotState/AimingParameters/PredictedPose", fieldToPredictedVehicle);
   
 	  Pose2d fieldToPredictedVehicleFixed =
 		  new Pose2d(fieldToPredictedVehicle.getTranslation(), new Rotation2d());
