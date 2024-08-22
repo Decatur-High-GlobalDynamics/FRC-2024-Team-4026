@@ -1,4 +1,4 @@
-package frc.lib.modules.pathgen.Constants;
+package frc.lib.modules.pathgen.Utils;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -24,6 +24,10 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.lib.modules.pathgen.Path;
+import frc.lib.modules.pathgen.Constants.FieldConstants;
+import frc.lib.modules.pathgen.Constants.FieldConstants.Speaker;
+import frc.lib.modules.pathgen.Constants.FieldConstants.Stage;
+import frc.lib.modules.pathgen.Utils.GeomUitl;
 
 public class RobotState
 {

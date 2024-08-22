@@ -35,7 +35,7 @@ import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.constants.VisionConstants;
 import frc.lib.modules.pathgen.Constants.FieldConstants;
-import frc.lib.modules.pathgen.Constants.RobotState;
+import frc.lib.modules.pathgen.Utils.RobotState;
 
 import java.util.HashMap;
 import java.util.Map;

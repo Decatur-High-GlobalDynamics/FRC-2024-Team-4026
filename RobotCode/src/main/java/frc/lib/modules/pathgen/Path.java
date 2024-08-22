@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Filesystem;
 import frc.lib.modules.pathgen.Constants.PathConstants;
 import frc.lib.modules.pathgen.Constants.Paths;
-import frc.lib.modules.pathgen.Constants.RobotState;
 import frc.lib.modules.pathgen.Constants.timedRobotState;
 import frc.lib.modules.pathgen.Constants.FieldConstants;
 import frc.lib.modules.pathgen.Constants.FieldConstants.Speaker;
+import frc.lib.modules.pathgen.Utils.RobotState;
 
 import java.io.File;
 import java.io.FileInputStream;
