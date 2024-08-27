@@ -217,9 +217,7 @@ public class RobotState
   
 	  Transform2d fieldToTarget =
 		  Path.apply(FieldConstants.Speaker.centerSpeakerOpening)
-			  .toTranslation2d()
-			  .toTransform2d()
-			  .plus();
+			  .toTranslation2d().toTransform2d().plus();
 	  Pose2d fieldToPredictedVehicle;
 	  if (DriverStation.isAutonomousEnabled()) {
 		//placeholder
@@ -324,7 +322,6 @@ public class RobotState
   
 
   
-	(key = "RobotState/EstimatedPose")
 	public Pose2d getEstimatedPose() {
 	  return estimatedPose;
 	}
@@ -347,7 +344,7 @@ public class RobotState
 				  Rotation2d.fromRadians(velocity.dtheta * rotationLookaheadS)));
 	}
   
-	(key = "RobotState/OdometryPose")
+
 	public Pose2d getOdometryPose() {
 	  return odometryPose;
 	}

@@ -25,15 +25,15 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.lib.modules.swervedrive.SwervePaths;
 import frc.lib.modules.pathgen.Constants.RobotModel;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathSegment;
+
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 
-public class Pathfinder
+public class Pathfinder<PathSegment>
 {
 	private double pathPaths;
 
@@ -135,12 +135,12 @@ public class Pathfinder
 		var Note = vision;
 	}
 
-	public static PathSegment ContinuationPoint(Path path, SwerveDriveSubsystem swerve){
+	public static <PathSegment> PathSegment ContinuationPoint(Path path, SwerveDriveSubsystem swerve){
 		Pose2d endPose2d = swerve.getPose();
 		return PathSegment.build().setStartPose(path.getStartingPose()).setEndPose(endPose2d).build();
 	}
 
-	public static PathSegment AddTranslationPoint(){
+	public static <PathSegment> PathSegment AddTranslationPoint(){
 		
 	}
 
@@ -170,7 +170,7 @@ public class Pathfinder
 
 	}
 
-	private static String getHashCodes(RobotModel model, List<PathSegment> segments)
+	private static <PathSegment> String getHashCodes(RobotModel model, List<PathSegment> segments)
         {
             StringBuilder hashString = new StringBuilder();
             DecimalFormat format = new DecimalFormat("#.000000");
