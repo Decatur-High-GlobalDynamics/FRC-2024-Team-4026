@@ -1,12 +1,13 @@
-package frc.robot.subsystems;
+package frc.lib.modules.indexer;
 
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.core.motors.TeamSparkMAX;
 import frc.robot.constants.Constants;
 import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.Ports;
@@ -17,7 +18,7 @@ public class IndexerSubsystem extends SubsystemBase
     private double desiredIndexerVelocity;
 
     private SparkPIDController indexerPid;
-    private TeamSparkMAX indexerMotorMain, indexerMotorSub;
+    private CANSparkFlex indexerMotorMain, indexerMotorSub;
 // beambreak is what we use to detect if there is a note
     private DigitalInput beamBreak;
 
@@ -28,8 +29,8 @@ public class IndexerSubsystem extends SubsystemBase
 
         beamBreak = new DigitalInput(Ports.BEAM_BREAK);
 
-        indexerMotorMain = new TeamSparkMAX("Left Shooter Motor Sub", Ports.INDEXER_MOTOR_MAIN);
-        indexerMotorSub = new TeamSparkMAX("Right Shooter Motor Sub", Ports.INDEXER_MOTOR_SUB);
+        indexerMotorMain = new CANSparkFlex(Ports.INDEXER_MOTOR_RIGHT, MotorType.kBrushless);
+        indexerMotorSub = new CANSparkFlex(Ports.INDEXER_MOTOR_LEFT, MotorType.kBrushless);
 
         indexerMotorSub.follow(indexerMotorMain, true);
 
@@ -37,10 +38,10 @@ public class IndexerSubsystem extends SubsystemBase
         indexerMotorSub.enableVoltageCompensation(Constants.MAX_VOLTAGE);
         indexerMotorMain.setIdleMode(IdleMode.kBrake);
         indexerMotorSub.setIdleMode(IdleMode.kBrake);
-        indexerMotorMain.setSmartCurrentLimit(Constants.MAX_CURRENT);
-        indexerMotorSub.setSmartCurrentLimit(Constants.MAX_CURRENT);
+        indexerMotorMain.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
+        indexerMotorSub.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
 
-        indexerPid = indexerMotorMain.getPidController();
+        indexerPid = indexerMotorMain.getPIDController();
 
         indexerPid.setP(IndexerConstants.INDEXER_KP);
         indexerPid.setI(IndexerConstants.INDEXER_KI);
