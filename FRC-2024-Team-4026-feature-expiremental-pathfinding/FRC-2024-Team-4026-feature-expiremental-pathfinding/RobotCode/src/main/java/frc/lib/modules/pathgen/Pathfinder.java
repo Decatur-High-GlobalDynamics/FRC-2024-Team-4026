@@ -437,7 +437,7 @@ public class Pathfinder{
 
 	}
 
-	private static String getHashCodes(RobotModel model, List<PathSegment> segments,)
+	private static String getHashCodes(RobotModel model, List<PathSegment> segments)
         {
             StringBuilder hashString = new StringBuilder();
             DecimalFormat format = new DecimalFormat("#.000000");
