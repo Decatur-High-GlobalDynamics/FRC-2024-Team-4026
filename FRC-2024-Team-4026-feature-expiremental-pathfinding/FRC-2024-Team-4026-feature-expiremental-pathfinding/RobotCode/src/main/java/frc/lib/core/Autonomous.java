@@ -172,18 +172,18 @@ public abstract class Autonomous implements ILogSource
 	}
 
 	// return Commands.runOnce(null, null).andThen(
-	// Commands.either(
-	// Commands.sequence(
-	// intake.initialize().andThen(() -> autonTimer.hasElapsed(firstNoteTime)),
-	// intake.initialize().andThen(() -> autonTimer.hasElapsed(secondNoteTime)),
-	// intake.initialize().andThen(() -> autonTimer.hasElapsed(thirdNoteTime))
-	// ),
-	// Commands.sequence(
-	// intake.initialize().andThen(() -> autonTimer.hasElapsed(firstNoteTime)),
-	// intake.initialize().andThen(() -> autonTimer.hasElapsed(secondNoteTime))
+	//	 Commands.either(
+	//	 Commands.sequence(
+	//	 intake.initialize().andThen(() -> autonTimer.hasElapsed(firstNoteTime)),
+	//	intake.initialize().andThen(() -> autonTimer.hasElapsed(secondNoteTime)),
+	 //intake.initialize().andThen(() -> autonTimer.hasElapsed(thirdNoteTime))
+	 //),
+	 //Commands.sequence(
+	 //intake.initialize().andThen(() -> autonTimer.hasElapsed(firstNoteTime)),
+	 //intake.initialize().andThen(() -> autonTimer.hasElapsed(secondNoteTime))
 	//
-	// )
-	// )
+	 //)
+	 //)
 	// );
 
 	public SequentialCommandGroup smartAuto1(Pathfinder pathfinder, IndexerSubsystem indexer,

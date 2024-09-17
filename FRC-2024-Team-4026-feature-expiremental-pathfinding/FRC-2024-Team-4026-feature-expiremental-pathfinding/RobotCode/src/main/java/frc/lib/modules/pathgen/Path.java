@@ -29,17 +29,16 @@ public class Path
 
 	public Path(String name, PathConstants pathConstants)
 	{
-		// Path deployment = disablePaths() ? Path.of("src", "main", "deploy")
-		// : Filesystem.getDeployDirectory().toPath();
-		// File file = Path.of(deployment.toString(), "pathplanner", name + ".path").toFile();
-		// try
-		// {
-		// InputStream stream = new FileInputStream(file);
-		// }
-		// finally
-		// {
-		//
-		// }
+		 Path deployment = disablePaths() ? Path.of("src", "main", "deploy") : Filesystem.getDeployDirectory().toPath();
+		 File file = Path.of(deployment.toString(), "pathplanner", name + ".path").toFile();
+		 try
+		 {
+		 InputStream stream = new FileInputStream(file);
+		 }
+		 finally
+		 {
+		
+		 }
 	}
 
 	public double getTimeLength()
@@ -108,27 +107,27 @@ public class Path
 
 	
 
-	// public RobotState sample()
+	 public RobotState sample()
 	{
-		// timedRobotState before = null;
-		// timedRobotState after = null;
-		// for (timedRobotState state : state.getStates())
-		// {
-		// if (state.getTimeLength == 0)
-		// {
-		// return state.getStates();
-		// }
+		 timedRobotState before = null;
+		 timedRobotState after = null;
+		 for (timedRobotState state : state.getStates())
+		 {
+		 if (state.getTimeLength == 0)
+		 {
+		 return state.getStates();
+		 }
 
-		// if (state.getTimeLength <= 0)
-		// {
-		// before = state;
-		// }
-		// else
-		// {
-		// after = state;
-		// break;
-		// }
-		// }
+		 if (state.getTimeLength <= 0)
+		 {
+		 before = state;
+		 }
+		 else
+		 {
+		 after = state;
+		 break;
+		 }
+		 }
 	}
 
 

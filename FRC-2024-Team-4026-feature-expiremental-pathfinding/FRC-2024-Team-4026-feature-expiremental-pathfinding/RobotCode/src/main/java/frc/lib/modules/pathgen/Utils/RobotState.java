@@ -274,13 +274,13 @@ public class RobotState
 	  // Return empty optional if no demo tag pose.
 	  if (demoTagPose == null) return Optional.empty();
   
-	  // Calculate target pose.
-	  //Pose2d targetPose =
-	///	  demoTagPose
-	//		  .toPose2d()
-	//		  .transformBy(
-	//			  new Transform2d(
-	//				  new Translation2d(demoTargetDistance.get(), 0.0), new Rotation2d(Math.PI)));
+	 //  Calculate target pose.
+	  Pose2d targetPose =
+		  demoTagPose
+			  .toPose2d()
+			  .transformBy(
+				  new Transform2d(
+					  new Translation2d(demoTargetDistance.get(), 0.0), new Rotation2d(Math.PI)));
   
 	  // Calculate heading without movement.
 	  Translation2d demoTagFixed = demoTagPose.getTranslation().toTranslation2d();
@@ -298,14 +298,14 @@ public class RobotState
 	  }
 	}
   
-//	public boolean inCloseShootingZone() {
-//	  return getEstimatedPose()
-//			  .getTranslation()
-//			  .getDistance(
-//				  Path.apply(
-//					  FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d()))
-//		  < Units.feetToMeters(closeShootingZoneFeet.get());
-//	}
+	public boolean inCloseShootingZone() {
+	  return getEstimatedPose()
+			  .getTranslation()
+			  .getDistance(
+				  Path.apply(
+					  FieldConstants.Speaker.centerSpeakerOpening.toTranslation2d()))
+		  < Units.feetToMeters(closeShootingZoneFeet.get());
+	}
   
 	/**
 	 * Reset estimated pose and odometry pose to pose <br>

@@ -428,8 +428,7 @@ public class Pathfinder{
 			}
 			else
 			{
-				// targetPoint(newBuilder().setModel(model))
-				// .addAllSegments(entry.getValue()).build();
+				 targetPoint(newBuilder().setModel(model)).addAllSegments(entry.getValue()).build();
 
 			}
 

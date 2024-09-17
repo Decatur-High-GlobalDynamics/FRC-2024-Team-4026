@@ -9,6 +9,7 @@ public class RobotModel {
     double Wheel_radius = 4;
     double max_wheel_tourque = 5;
     double MaxWheelOmega = 6;
+    double Moi = 7;
     public static Object newBuilder() {
         return null;
     }
@@ -16,8 +17,7 @@ public class RobotModel {
        return Mass;
     }
     public Object getMoi() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMoi'");
+        return Moi;
     }
     public Object getRobotLength() {
         return Robot_Length;
