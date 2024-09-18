@@ -251,9 +251,11 @@ public class Pathfinder{
 					desiredModuleStates[i].speedMetersPerSecond = 0.0;
 		}
 	}
+		//Odometry variables
 		double[] prev_vx = new double[modules.length];
    		double[] prev_vy = new double[modules.length];
     	Rotation2d[] prev_heading = new Rotation2d[modules.length];
+	//Desired point variables
     	double[] desired_vx = new double[modules.length];
     	double[] desired_vy = new double[modules.length];
     	Rotation2d[] desired_heading = new Rotation2d[modules.length];
@@ -407,6 +409,7 @@ public class Pathfinder{
 		return PathSegment.build().setStartPose(path.getStartingPose()).setEndPose(endPose2d).build();
 	}
 
+	//forgot to finish
 	public static PathSegment AddTranslationPoint(){
 		
 	}
