@@ -1,10 +1,16 @@
 package frc.robot;
 
 import java.util.Optional;
+import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -103,12 +109,14 @@ public class RobotContainer
 
 		LedSubsystem.setAllPixels(TeamColor.Blue);
 
-		Autonomous = new SideBasedAuto(this);
-
 		SwerveLogger = new Telemetry(SwerveConstants.MAX_SPEED);
 
 		// Start swerve telemetry
 		SwerveSubsystem.registerTelemetry(SwerveLogger::telemeterize);
+
+		Autonomous = new SideBasedAuto(this);
+
+		SwerveSubsystem.seedFieldRelative(null);
 
 		// Configure the button bindings
 		configurePrimaryBindings();

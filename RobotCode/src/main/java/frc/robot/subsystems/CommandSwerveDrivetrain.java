@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix6.Utils;
@@ -7,14 +9,21 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.constants.SwerveConstants;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements
@@ -32,17 +41,70 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean hasAppliedOperatorPerspective = false;
 
+    private SwerveRequest.ApplyChassisSpeeds robotRelativeDrive;
+
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
         if (Utils.isSimulation()) {
             startSimThread();
         }
+
+        robotRelativeDrive = new SwerveRequest.ApplyChassisSpeeds();
+
+        ConfigureAutoBuilder();
     }
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
         if (Utils.isSimulation()) {
             startSimThread();
         }
+
+        robotRelativeDrive = new SwerveRequest.ApplyChassisSpeeds();
+
+        ConfigureAutoBuilder();
+    }
+
+    public void ConfigureAutoBuilder() {
+        HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
+				new PIDConstants(SwerveConstants.DRIVE_KP, SwerveConstants.DRIVE_KI,
+						SwerveConstants.DRIVE_KD),
+				new PIDConstants(SwerveConstants.ANGLE_KP, SwerveConstants.ANGLE_KI,
+						SwerveConstants.ANGLE_KD),
+				SwerveConstants.MAX_SPEED, SwerveConstants.DRIVE_BASE_RADIUS_METERS,
+				new ReplanningConfig());
+
+		BooleanSupplier isRedAlliance = () ->
+		{
+			Optional<Alliance> alliance = DriverStation.getAlliance();
+			return alliance.isPresent() && alliance.get() == Alliance.Red;
+		};
+
+        // "this.m_poseMeters" is null
+        AutoBuilder.configureHolonomic(this::getPose,
+                this::resetPose,
+                this::getRobotRelativeSpeeds,
+                this::driveRobotRelative,
+                pathFollowerConfig,
+                isRedAlliance,
+                this
+        );
+    }
+
+    public Pose2d getPose() {
+        return this.getState().Pose;
+    }
+
+    public void resetPose(Pose2d location) {
+        this.seedFieldRelative(location);
+    }
+
+    public ChassisSpeeds getRobotRelativeSpeeds() {
+        return this.m_kinematics.toChassisSpeeds(this.getState().ModuleStates);
+    }
+
+    public void driveRobotRelative(ChassisSpeeds speeds)
+    {
+        this.setControl(robotRelativeDrive.withSpeeds(speeds));
     }
 
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {

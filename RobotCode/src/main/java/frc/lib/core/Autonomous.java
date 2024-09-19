@@ -2,6 +2,8 @@ package frc.lib.core;
 
 import java.util.Optional;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -11,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.modules.leds.LedSubsystem;
 import frc.robot.RobotContainer;
+import frc.robot.Telemetry;
 import frc.robot.commands.AutoShooterOverrideCommand;
 import frc.lib.modules.intake.Commands.IntakeCommand;
 import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
@@ -78,16 +81,19 @@ public abstract class Autonomous implements ILogSource
                 new AutoShooterOverrideCommand(ShooterMount, Shooter, Indexer, Leds,
                         ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
 
-        // NamedCommands.registerCommand("Aim from Note Center",
-        // Swerve.getAutoAimSwerveCommand(
-        // AutoConstants.CHASSIS_ROTATION_NOTE_CENTER));
+        
 
-        // NamedCommands.registerCommand("Aim from Note Source",
-        // Swerve.getAutoAimSwerveCommand(
-        // AutoConstants.CHASSIS_ROTATION_NOTE_SOURCE));
+        NamedCommands.registerCommand("Aim from Note Center",
+                new AutoShooterOverrideCommand(ShooterMount, Shooter, Indexer, Leds,
+                        ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
 
-        // NamedCommands.registerCommand("Aim from Note Amp", Swerve
-        // .getAutoAimSwerveCommand(AutoConstants.CHASSIS_ROTATION_NOTE_AMP));
+        NamedCommands.registerCommand("Aim from Note Source",
+                new AutoShooterOverrideCommand(ShooterMount, Shooter, Indexer, Leds,
+                        ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
+
+        NamedCommands.registerCommand("Aim from Note Amp", 
+                new AutoShooterOverrideCommand(ShooterMount, Shooter, Indexer, Leds,
+                        ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
 
         // Populate rotation commands
         for (double rot : AutoConstants.AutoShooterMountRotations)
@@ -124,7 +130,6 @@ public abstract class Autonomous implements ILogSource
     protected static Command getPathPlannerAuto(final String PathName)
     {
         return new PathPlannerAuto(PathName);
-
     }
 
     public abstract Optional<Command> buildAutoCommand();
