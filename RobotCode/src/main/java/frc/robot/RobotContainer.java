@@ -3,8 +3,11 @@ package frc.robot;
 import java.util.Optional;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -17,8 +20,6 @@ import frc.lib.modules.leds.TeamColor;
 import frc.lib.modules.elevator.ElevatorSubsystem;
 import frc.lib.modules.elevator.commands.Elevator.ElevatorSpeedCommand;
 import frc.lib.modules.leds.LedSubsystem;
-import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
-import frc.lib.modules.swervedrive.Commands.ZeroGyroCommand;
 import frc.lib.core.Autonomous;
 import frc.lib.core.LogitechControllerButtons;
 import frc.robot.commands.AmpCommand;
@@ -29,9 +30,12 @@ import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
 import frc.lib.modules.shooter.Commands.ShooterOverrideCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.Ports;
+import frc.robot.constants.SwerveConstants;
 import frc.lib.modules.shooter.ShooterConstants;
 import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.robot.constants.VisionConstants;
+import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.lib.modules.intake.IntakeSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
@@ -48,7 +52,6 @@ public class RobotContainer
 
 	private final ShuffleboardTab ShuffleboardTab;
 
-	private final SwerveDriveSubsystem SwerveDrive;
 	private final ElevatorSubsystem ClimberSubsystem;
 	private final ShooterSubsystem ShooterSubsystem;
 	private final ShooterMountSubsystem ShooterMountSubsystem;
@@ -56,12 +59,17 @@ public class RobotContainer
 	private final IndexerSubsystem IndexerSubsystem;
 	private final IntakeSubsystem IntakeSubsystem;
 	private final LedSubsystem LedSubsystem;
+	private final CommandSwerveDrivetrain SwerveSubsystem;
 
 	private final Autonomous Autonomous;
 
-	private final Pigeon2 gyro;
-
 	private final PowerDistribution pdh;
+
+	private final Telemetry SwerveLogger;
+
+	private final SwerveRequest.FieldCentric Drive;
+	private final SwerveRequest.FieldCentricFacingAngle DriveFacingAngle;
+	private final SwerveRequest.SwerveDriveBrake Brake;
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -75,23 +83,34 @@ public class RobotContainer
 
 		ShuffleboardTab = Shuffleboard.getTab("Tab 1");
 
-		gyro = new Pigeon2(Ports.PIGEON_GYRO, Constants.CANIVORE_NAME);
-		gyro.optimizeBusUtilization();
-		gyro.getYaw().setUpdateFrequency(20);
-
 		// Instantiate subsystems
-		SwerveDrive = new SwerveDriveSubsystem();
+		SwerveSubsystem = TunerConstants.DriveTrain;
 		ClimberSubsystem = new ElevatorSubsystem();
 		ShooterSubsystem = new ShooterSubsystem();
 		ShooterMountSubsystem = new ShooterMountSubsystem();
-		VisionSubsystem = new VisionSubsystem(SwerveDrive);
+		VisionSubsystem = new VisionSubsystem(SwerveSubsystem);
 		IndexerSubsystem = new IndexerSubsystem();
 		IntakeSubsystem = new IntakeSubsystem();
 		LedSubsystem = new LedSubsystem();
 
+		// Swerve drive request
+		Drive = new SwerveRequest.FieldCentric().withDeadband(SwerveConstants.MAX_SPEED * 0.05)
+				.withRotationalDeadband(SwerveConstants.MAX_ANGULAR_SPEED * 0.05)
+				.withDriveRequestType(DriveRequestType.Velocity);
+		DriveFacingAngle = new SwerveRequest.FieldCentricFacingAngle()
+				.withDeadband(SwerveConstants.MAX_SPEED * 0.05)
+				.withRotationalDeadband(SwerveConstants.MAX_ANGULAR_SPEED * 0.05)
+				.withDriveRequestType(DriveRequestType.Velocity);
+		Brake = new SwerveRequest.SwerveDriveBrake();
+
 		LedSubsystem.setAllPixels(TeamColor.Blue);
 
 		Autonomous = new SideBasedAuto(this);
+
+		SwerveLogger = new Telemetry(SwerveConstants.MAX_SPEED);
+
+		// Start swerve telemetry
+		SwerveSubsystem.registerTelemetry(SwerveLogger::telemeterize);
 
 		// Configure the button bindings
 		configurePrimaryBindings();
@@ -112,24 +131,21 @@ public class RobotContainer
 				LogitechControllerButtons.y);
 
 		// Swerve
-		SwerveDrive.setDefaultCommand(SwerveDrive.getDefaultCommand(PrimaryController));
+		SwerveSubsystem.setDefaultCommand(SwerveSubsystem.applyRequest(() -> Drive
+				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
+				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
+				.withRotationalRate(
+						-PrimaryController.getTwist() * SwerveConstants.MAX_ANGULAR_SPEED)));
 
-		// Aim to amp
-		LeftTrigger.whileTrue(
-				SwerveDrive.getTeleopAimToPositionCommand(PrimaryController, -(Math.PI / 2.0)));
+		// Aim to joystick direction
+		RightTrigger.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
+				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
+				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
+				.withTargetDirection(new Rotation2d(-PrimaryController.getTwist(),
+						-PrimaryController.getThrottle()))));
 
-		// Aim to speaker subwoofer
-		RightTrigger.whileTrue(
-				SwerveDrive.getTeleopAimToPositionAllianceRelativeCommand(PrimaryController, 0));
-		// RightTrigger.whileTrue(SwerveDrive.getTeleopAimCommand(PrimaryController,
-		// ShooterMountSubsystem, IndexerSubsystem))
-
-		// Aim to speaker podium
-		LeftBumper.whileTrue(
-				SwerveDrive.getTeleopAimToPositionAllianceRelativeCommand(PrimaryController, -0.5));
-
-		// Zero chassis rotation
-		YButton.onTrue(new ZeroGyroCommand(SwerveDrive));
+		// Reset the field-centric heading
+		YButton.onTrue(SwerveSubsystem.runOnce(() -> SwerveSubsystem.seedFieldRelative()));
 	}
 
 	private void configureSecondaryBindings()
@@ -210,14 +226,9 @@ public class RobotContainer
 						: VisionConstants.RED_SPEAKER_TAG_ID);
 	}
 
-	public static Pigeon2 getGyro()
+	public CommandSwerveDrivetrain getSwerve()
 	{
-		return instance.gyro;
-	}
-
-	public SwerveDriveSubsystem getSwerveDrive()
-	{
-		return SwerveDrive;
+		return SwerveSubsystem;
 	}
 
 	public ShooterSubsystem getShooter()
@@ -252,7 +263,6 @@ public class RobotContainer
 
 	public Autonomous getAutonomous()
 	{
-
 		return Autonomous;
 	}
 

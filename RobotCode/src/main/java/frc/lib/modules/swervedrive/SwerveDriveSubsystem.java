@@ -60,7 +60,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ILogSource
 
 	public SwerveDriveSubsystem()
 	{
-		gyro = RobotContainer.getGyro();
+		gyro = null;
 
 		zeroGyro();
 
