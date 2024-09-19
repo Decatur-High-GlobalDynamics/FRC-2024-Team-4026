@@ -65,6 +65,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     }
 
     public void ConfigureAutoBuilder() {
+        resetPose(new Pose2d());
+
         HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
 				new PIDConstants(SwerveConstants.DRIVE_KP, SwerveConstants.DRIVE_KI,
 						SwerveConstants.DRIVE_KD),
@@ -79,7 +81,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 			return alliance.isPresent() && alliance.get() == Alliance.Red;
 		};
 
-        // "this.m_poseMeters" is null
         AutoBuilder.configureHolonomic(this::getPose,
                 this::resetPose,
                 this::getRobotRelativeSpeeds,
