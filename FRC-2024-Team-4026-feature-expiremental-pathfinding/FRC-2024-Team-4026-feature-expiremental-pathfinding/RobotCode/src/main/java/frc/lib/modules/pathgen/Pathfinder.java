@@ -31,6 +31,7 @@ import com.pathplanner.lib.path.PathSegment;
 import frc.lib.modules.pathgen.Setpoint;
 import frc.lib.modules.pathgen.ModuleLimits;
 
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -38,7 +39,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
-public class Pathfinder{
+public class Pathfinder extends SwerveDriveSubsystem{
 	private double pathPaths;
 
 	private final SwerveDriveKinematics kinematics;
@@ -46,25 +47,71 @@ public class Pathfinder{
 
 	public Pathfinder()
 	{
-
+		
 	}
 
+	public void targetPoint(){
+		// represents the goal holonomic rotation
+		Pose2d targetPose = new Pose2d(10, 5, Rotation2d.fromDegrees(180));
 
-	RobotModel model = RobotModel.setMass(0).setMoi(0).setRobotLength().setRobotWidth()
-			.setWheelRadius(Units.inchesToMeters(1.95225)).setMaxWheelTorque(0.0);
-	// SwerveConstants.moduleLimitsFree.@maxDriveVelocity(Units.inchesToMeter(1.95225)*
-	// 0.75.build());
+		// Create the constraints to use while pathfinding
+		PathConstraints constraints = new PathConstraints(
+        3.0, 4.0,
+        Units.degreesToRadians(540), Units.degreesToRadians(720));
 
-	private double unwrapAngle(double ref, double angle) {
-		double diff = angle - ref;
-		if (diff > Math.PI) {
-		  return angle - 2.0 * Math.PI;
-		} else if (diff < -Math.PI) {
-		  return angle + 2.0 * Math.PI;
-		} else {
-		  return angle;
-		}
-	  }
+		// Since AutoBuilder is configured, we can use it to build pathfinding commands
+		Command pathfindingCommand = AutoBuilder.pathfindToPose(
+        	targetPose,
+    		constraints,
+        	0.0, // Goal end velocity in meters/sec
+        	0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+		);
+	}
+
+	public void targetPathPoint(){
+		// Create the constraints to use while pathfinding. The constraints defined in the path will only be used for the path.
+		PathConstraints constraints = new PathConstraints(
+			3.0, 4.0,
+			Units.degreesToRadians(540), Units.degreesToRadians(720));
+
+		// Since AutoBuilder is configured, we can use it to build pathfinding commands
+		Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
+			path,
+			constraints,
+			3.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+		);
+	}
+
+	public void pathOnTheFly(){
+				// Create a list of bezier points from poses. Each pose represents one waypoint.
+		// The rotation component of the pose should be the direction of travel. Do not use holonomic rotation.
+		List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(
+			new Pose2d(1.0, 1.0, Rotation2d.fromDegrees(0)),
+			new Pose2d(3.0, 1.0, Rotation2d.fromDegrees(0)),
+			new Pose2d(5.0, 3.0, Rotation2d.fromDegrees(90))
+		);
+
+		// Create the path using the bezier points created above
+		PathPlannerPath path = new PathPlannerPath(
+			bezierPoints,
+			new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), // The constraints for this path. If using a differential drivetrain, the angular constraints have no effect.
+			new GoalEndState(0.0, Rotation2d.fromDegrees(-90)) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
+		);
+
+		// Prevent the path from being flipped if the coordinates are already correct
+		path.preventFlipping =true;
+	}
+
+	// private double unwrapAngle(double ref, double angle) {
+	// 	double diff = angle - ref;
+	// 	if (diff > Math.PI) {
+	// 	  return angle - 2.0 * Math.PI;
+	// 	} else if (diff < -Math.PI) {
+	// 	  return angle + 2.0 * Math.PI;
+	// 	} else {
+	// 	  return angle;
+	// 	}
+	//   }
 	
 	private double findRoot(
       Function2d func,
@@ -94,50 +141,53 @@ public class Pathfinder{
     }
   }
 
-  protected double findSteeringMaxS(
-      double x_0,
-      double y_0,
-      double f_0,
-      double x_1,
-      double y_1,
-      double f_1,
-      double max_deviation,
-      int max_iterations) {
-    f_1 = unwrapAngle(f_0, f_1);
-    double diff = f_1 - f_0;
-    if (Math.abs(diff) <= max_deviation) {
-      // Can go all the way to s=1.
-      return 1.0;
-    }
-    double offset = f_0 + Math.signum(diff) * max_deviation;
-    Function2d func =
-        (x, y) -> {
-          return unwrapAngle(f_0, Math.atan2(y, x)) - offset;
-        };
-    return findRoot(func, x_0, y_0, f_0 - offset, x_1, y_1, f_1 - offset, max_iterations);
-  }
 
-  protected double findDriveMaxS(
-      double x_0,
-      double y_0,
-      double f_0,
-      double x_1,
-      double y_1,
-      double f_1,
-      double max_vel_step,
-      int max_iterations) {
-    double diff = f_1 - f_0;
-    if (Math.abs(diff) <= max_vel_step) {
-      // Can go all the way to s=1.
-      return 1.0;
-    }
-    double offset = f_0 + Math.signum(diff) * max_vel_step;
-    Function2d func =
-        (x, y) -> {
-          return Math.hypot(x, y) - offset;
-        };
-    return findRoot(func, x_0, y_0, f_0 - offset, x_1, y_1, f_1 - offset, max_iterations);
-}
+
+
+//   protected double findSteeringMaxS(
+//       double x_0,
+//       double y_0,
+//       double f_0,
+//       double x_1,
+//       double y_1,
+//       double f_1,
+//       double max_deviation,
+//       int max_iterations) {
+//     f_1 = unwrapAngle(f_0, f_1);
+//     double diff = f_1 - f_0;
+//     if (Math.abs(diff) <= max_deviation) {
+//       // Can go all the way to s=1.
+//       return 1.0;
+//     }
+//     double offset = f_0 + Math.signum(diff) * max_deviation;
+//     Function2d func =
+//         (x, y) -> {
+//           return unwrapAngle(f_0, Math.atan2(y, x)) - offset;
+//         };
+//     return findRoot(func, x_0, y_0, f_0 - offset, x_1, y_1, f_1 - offset, max_iterations);
+//   }
+
+//   protected double findDriveMaxS(
+//       double x_0,
+//       double y_0,
+//       double f_0,
+//       double x_1,
+//       double y_1,
+//       double f_1,
+//       double max_vel_step,
+//       int max_iterations) {
+//     double diff = f_1 - f_0;
+//     if (Math.abs(diff) <= max_vel_step) {
+//       // Can go all the way to s=1.
+//       return 1.0;
+//     }
+//     double offset = f_0 + Math.signum(diff) * max_vel_step;
+//     Function2d func =
+//         (x, y) -> {
+//           return Math.hypot(x, y) - offset;
+//         };
+//     return findRoot(func, x_0, y_0, f_0 - offset, x_1, y_1, f_1 - offset, max_iterations);
+// }
 
 	public void completedPaths(SwerveDriveSubsystem swerve, SwervePaths swervePaths)
 	{
@@ -193,25 +243,25 @@ public class Pathfinder{
 
 	}
 
-	public void possiblePaths(SwervePaths swervePaths)
-	{
-		Map<String, List<PathSegment>> pathQueue = new HashMap<>();
+	// public void possiblePaths(SwervePaths swervePaths)
+	// {
+	// 	Map<String, List<PathSegment>> pathQueue = new HashMap<>();
 
-		for (String intakeName : List.of("1", "2", "3"))
-		{
+	// 	for (String intakeName : List.of("1", "2", "3"))
+	// 	{
 
-			final double minDistance = 0.15;
+	// 		final double minDistance = 0.15;
 
-			Map<String, List<PathSegment>> returnPaths = new HashMap<>();
-			var intakeTrajectory = new SwervePaths();
-			int index = -1;
-			int validIndex = -1;
-			Translation2d lastTranslation = new Translation2d();
+	// 		Map<String, List<PathSegment>> returnPaths = new HashMap<>();
+	// 		var intakeTrajectory = new SwervePaths();
+	// 		int index = -1;
+	// 		int validIndex = -1;
+	// 		Translation2d lastTranslation = new Translation2d();
 
-			;
-		}
+	// 		;
+	// 	}
 
-	}
+	// }
 
 	//probably defunct
 	public void visionInput(VisionSubsystem vision)
@@ -228,175 +278,177 @@ public class Pathfinder{
 		double f(double x, double y);
 	  }
 
-	//Generates to target point for a path to generated to
-	public Setpoint TargetPoint(final RobotContainer robotContainer, VisionSubsystem vision,
-			Autonomous auto, final ModuleLimits limits, double dt){
-		final Translation2d[] modules = moduleLocations;
+	
+	// public Setpoint TargetPoint(final RobotContainer robotContainer, VisionSubsystem vision,
+	// 		Autonomous auto, final ModuleLimits limits, double dt){
+	// 	final Translation2d[] modules = moduleLocations;
 
-		Setpoint previousSetpoint;
+	// 	Setpoint previousSetpoint;
 
-		SwerveModuleState[] desiredModuleStates = kinematics.toSwerveModuleStates(desiredState);
+	// 	SwerveModuleState[] desiredModuleStates = kinematics.toSwerveModuleStates(desiredState);
 
-		if(limits.maxDriveVelocity > 0.0) {
-			SwerveDriveKinematics.desaturateWheelSpeeds(desiredSwerveModuleStates, limits.maxDriveVelocity());
-			//add driving thingy
-			desiredState = kinematics.toChassisSpeeds(desiredModuleStates);
-			}
+	// 	if(limits.maxDriveVelocity > 0.0) {
+	// 		SwerveDriveKinematics.desaturateWheelSpeeds(desiredSwerveModuleStates, limits.maxDriveVelocity());
+	// 		//add driving thingy
+	// 		desiredState = kinematics.toChassisSpeeds(desiredModuleStates);
+	// 		}
 		
 
-		if (desiredState.toTwist2d()){
-				//add driving thingy, but false
-				for(int i = 0; i < modules.length; ++i){
-					desiredModuleStates[i].angle = previousSetpoint.moduleStates()[i].angle;
-					desiredModuleStates[i].speedMetersPerSecond = 0.0;
-		}
-	}
-		//Odometry variables
-		double[] prev_vx = new double[modules.length];
-   		double[] prev_vy = new double[modules.length];
-    	Rotation2d[] prev_heading = new Rotation2d[modules.length];
-	//Desired point variables
-    	double[] desired_vx = new double[modules.length];
-    	double[] desired_vy = new double[modules.length];
-    	Rotation2d[] desired_heading = new Rotation2d[modules.length];
-		boolean all_modules_should_flip = true;
-		for(int i = 0; i < modules.length; i++){
-			prev_vx[i] = previousSetpoint.moduleStates()[i].angle.getCos()*previousSetpoint.moduleStates()[i].speedMetersPerSecond;
-			prev_vy[i] = previousSetpoint.moduleStates()[i].angle.getSin()*previousSetpoint.moduleStates()[i].speedMetersPerSecond;
-			prev_heading[i] = prevSetpoint.moduleStates()[i].angle;
-			if (prevSetpoint.moduleStates()[i].speedMetersPerSecond < 0.0) {
-				prev_heading[i] = prev_heading[i].rotateBy(Rotation2d.fromRadians(Math.PI));
-			  }
+	// 	if (desiredState.toTwist2d()){
+	// 			//add driving thingy, but false
+	// 			for(int i = 0; i < modules.length; ++i){
+	// 				desiredModuleStates[i].angle = previousSetpoint.moduleStates()[i].angle;
+	// 				desiredModuleStates[i].speedMetersPerSecond = 0.0;
+	// 	}
+	// }
+	// //Calculating vectors for modules
+	// 	double[] prev_vx = new double[modules.length];
+   	// 	double[] prev_vy = new double[modules.length];
+    // 	Rotation2d[] prev_heading = new Rotation2d[modules.length];
+    // 	double[] desired_vx = new double[modules.length];
+    // 	double[] desired_vy = new double[modules.length];
+    // 	Rotation2d[] desired_heading = new Rotation2d[modules.length];
+	// 	boolean all_modules_should_flip = true;
+	// 	for(int i = 0; i < modules.length; i++){
+	// 		prev_vx[i] = previousSetpoint.moduleStates()[i].angle.getCos()*previousSetpoint.moduleStates()[i].speedMetersPerSecond;
+	// 		prev_vy[i] = previousSetpoint.moduleStates()[i].angle.getSin()*previousSetpoint.moduleStates()[i].speedMetersPerSecond;
+	// 		prev_heading[i] = prevSetpoint.moduleStates()[i].angle;
+	// 		if (prevSetpoint.moduleStates()[i].speedMetersPerSecond < 0.0) {
+	// 			prev_heading[i] = prev_heading[i].rotateBy(Rotation2d.fromRadians(Math.PI));
+	// 		  }
 
-			desired_vx[i] = desiredModuleStates[i].angle.getCos() * desiredModuleStates[i].speedMetersPerSecond;
-    		desired_vy[i] = desiredModuleStates[i].angle.getSin() * desiredModuleStates[i].speedMetersPerSecond;
-			desired_heading[i] = desiredModuleStates[i].angle;
+	// 		desired_vx[i] = desiredModuleStates[i].angle.getCos() * desiredModuleStates[i].speedMetersPerSecond;
+    // 		desired_vy[i] = desiredModuleStates[i].angle.getSin() * desiredModuleStates[i].speedMetersPerSecond;
+	// 		desired_heading[i] = desiredModuleStates[i].angle;
 
-			if(desiredModuleStates[i].speedMetersPerSecond < 0.0){
-				desired_heading[i] = desired_heading[i].rotateBy(Rotation2d.fromRadians(Math.PI));
-			}
+	// 		if(desiredModuleStates[i].speedMetersPerSecond < 0.0){
+	// 			desired_heading[i] = desired_heading[i].rotateBy(Rotation2d.fromRadians(Math.PI));
+	// 		}
 
-			if(all_modules_should_flip){
-				double required_rotation_rad = Math.abs(prev_heading[i].unaryMinus().rotateBy(desired_heading[i]).getRadians());
-				if(required_rotation_rad < Math.PI / 2.0){
-					all_modules_should_flip = false;
-				}
-			}
+	// 		if(all_modules_should_flip){
+	// 			double required_rotation_rad = Math.abs(prev_heading[i].unaryMinus().rotateBy(desired_heading[i]).getRadians());
+	// 			if(required_rotation_rad < Math.PI / 2.0){
+	// 				all_modules_should_flip = false;
+	// 			}
+	// 		}
 			
-			if (all_modules_should_flip && !prevSetpoint.chassisSpeeds().toTwist2d().epsilonEquals(new Twist2d()) && !desiredState.toTwist2d().epsilonEquals(new Twist2d())) {
-				return generateSetpoint(limits, prevSetpoint, new ChassisSpeeds(), dt);
-			}
-		}
+	// 		if (all_modules_should_flip && !prevSetpoint.chassisSpeeds().toTwist2d().epsilonEquals(new Twist2d()) && !desiredState.toTwist2d().epsilonEquals(new Twist2d())) {
+	// 			return generateSetpoint(limits, prevSetpoint, new ChassisSpeeds(), dt);
+	// 		}
+	// 	}
 			
-			//Does all the Deltas between the start and end point
-			double dx = desiredState.vxMetersPerSecond - prevSetpoint.chassisSpeeds().vxMetersPerSecond;
-			double dy = desiredState.vyMetersPerSecond - prevSetpoint.chassisSpeeds().vyMetersPerSecond;
-			double dtheta = desiredState.omegaRadiansPerSecond - prevSetpoint.chassisSpeeds().omegaRadiansPerSecond;
+	// 		//Does all the Deltas between the start and end point
+	// 		double dx = desiredState.vxMetersPerSecond - prevSetpoint.chassisSpeeds().vxMetersPerSecond;
+	// 		double dy = desiredState.vyMetersPerSecond - prevSetpoint.chassisSpeeds().vyMetersPerSecond;
+	// 		double dtheta = desiredState.omegaRadiansPerSecond - prevSetpoint.chassisSpeeds().omegaRadiansPerSecond;
 
 
-			double min_s = 1.0;
+	// 		double min_s = 1.0;
 
-			//When an individual module stops
-			List<Optional<Rotation2d>> overrideSteering = new ArrayList<>(modules.length);
+	// 		//When an individual module stops
+	// 		List<Optional<Rotation2d>> overrideSteering = new ArrayList<>(modules.length);
 
-			final double max_theta_step = dt * limits.maxSteeringVelocity();
-
-   			for (i = 0; i < modules.length; ++i) {
-				//add drive
-				overrideSteering.add(Optional.empty());
-				if(epsilonEquals(previousSetpoint.moduleStates()[i].speedMetersPerSecond, 0.0)){
-					if(epsilonEquals(desiredModuleStates[i].speedMetersPerSecond, 0.0)){
-						overrideSteering.set(i, Optional.of(previousSetpoint.moduleStates()[i].angle));
-						continue;
-					}
-				}
+	// 		final double max_theta_step = dt * limits.maxSteeringVelocity();
+			
+   	// 		for (i = 0; i < modules.length; ++i) {
+	// 			//add drive
+	// 			overrideSteering.add(Optional.empty());
+	// 			//for if a module is stopped
+	// 			if(epsilonEquals(previousSetpoint.moduleStates()[i].speedMetersPerSecond, 0.0)){
+	// 				if(epsilonEquals(desiredModuleStates[i].speedMetersPerSecond, 0.0)){
+	// 					overrideSteering.set(i, Optional.of(previousSetpoint.moduleStates()[i].angle));
+	// 					continue;
+	// 				}
+	// 			}
 			
 
-			var necessaryRotation =
-				previousSetpoint.moduleStates()[i].angle.unaryMinus().rotateBy(desiredModuleStates[i].angle);
+	// 		var necessaryRotation =
+	// 			previousSetpoint.moduleStates()[i].angle.unaryMinus().rotateBy(desiredModuleStates[i].angle);
 
-			if(flipHeading(necessaryRotation)){
-				necessaryRotation = necessaryRotation.rotateBy(Rotation2d.fromRadians(Math.PI));
-			}
+	// 		if(flipHeading(necessaryRotation)){
+	// 			necessaryRotation = necessaryRotation.rotateBy(Rotation2d.fromRadians(Math.PI));
+	// 		}
 
-			final double numStepsNeeded = Math.abs(necessaryRotation.getRadians()) / max_theta_step;
+	// 		final double numStepsNeeded = Math.abs(necessaryRotation.getRadians()) / max_theta_step;
 
-			if(numStepsNeeded <= 0.0){
-				overrideSteering.set(i, Optional.of(desiredModuleStates[i].angle));
-				continue;
-			}
-			else{
-				overrideSteering.set(i, Optional.of(previousSetpoint.moduleStates)[i].angle.rotateBy(Rotation2d.fromRadians(Math.signum(necessaryRotation.getRadians))*max_theta_step));
-				min_s = 0.0;
-				continue;
-			}
-		}
-		if(min_s == 0.0){
-			continue;
-		}
+	// 		if(numStepsNeeded <= 0.0){
+	// 			//Steer to desired angle
+	// 			overrideSteering.set(i, Optional.of(desiredModuleStates[i].angle));
+	// 			continue;
+	// 		}
+	// 		else{
+	// 			//A little bit of steering adjustment
+	// 			overrideSteering.set(i, Optional.of(previousSetpoint.moduleStates)[i].angle.rotateBy(Rotation2d.fromRadians(Math.signum(necessaryRotation.getRadians))*max_theta_step));
+	// 			min_s = 0.0;
+	// 			continue;
+	// 		}
+	// 	}
+	// 	if(min_s == 0.0){
+	// 		continue;
+	// 	}
 
-		final int kMaxIterations = 8;
+	// 	final int kMaxIterations = 8;
 
-		double s =
-		findSteeringMaxS(
-			prev_vx[i],
-			prev_vy[i],
-			prev_heading[i].getRadians(),
-			desired_vx[i],
-			desired_vy[i],
-			desired_heading[i].getRadians(),
-			max_theta_step,
-			kMaxIterations);
-		min_s = Math.min(min_s, s);
-		final double max_vel_step = dt * limits.maxDriveAcceleration();
-		for (i = 0; i < modules.length; ++i) {
-		  if (min_s == 0.0){
-			break;
-		  }
-		}
-		double vx_min_s = min_s == 1.0 ? desired_vx[i] : (desired_vx[i] - prev_vx[i]) * min_s + prev_vx[i];
-		double vy_min_s = min_s == 1.0 ? desired_vy[i] : (desired_vy[i] - prev_vy[i]) * min_s + prev_vy[i];
+	// 	double s =
+	// 	findSteeringMaxS(
+	// 		prev_vx[i],
+	// 		prev_vy[i],
+	// 		prev_heading[i].getRadians(),
+	// 		desired_vx[i],
+	// 		desired_vy[i],
+	// 		desired_heading[i].getRadians(),
+	// 		max_theta_step,
+	// 		kMaxIterations);
+	// 	min_s = Math.min(min_s, s);
+	// 	final double max_vel_step = dt * limits.maxDriveAcceleration();
+	// 	for (i = 0; i < modules.length; ++i) {
+	// 	  if (min_s == 0.0){
+	// 		break;
+	// 	  }
+	// 	}
+	// 	double vx_min_s = min_s == 1.0 ? desired_vx[i] : (desired_vx[i] - prev_vx[i]) * min_s + prev_vx[i];
+	// 	double vy_min_s = min_s == 1.0 ? desired_vy[i] : (desired_vy[i] - prev_vy[i]) * min_s + prev_vy[i];
 
-		final int kMaxIterations2 = 10;
-		double ds =
-			min_s
-				* findDriveMaxS(
-					prev_vx[i],
-					prev_vy[i],
-					Math.hypot(prev_vx[i], prev_vy[i]),
-					vx_min_s,
-					vy_min_s,
-					Math.hypot(vx_min_s, vy_min_s),
-					max_vel_step,
-					kMaxIterations2);
-		min_s = Math.min(min_s, ds);
+	// 	final int kMaxIterations2 = 10;
+	// 	double ds =
+	// 		min_s
+	// 			* findDriveMaxS(
+	// 				prev_vx[i],
+	// 				prev_vy[i],
+	// 				Math.hypot(prev_vx[i], prev_vy[i]),
+	// 				vx_min_s,
+	// 				vy_min_s,
+	// 				Math.hypot(vx_min_s, vy_min_s),
+	// 				max_vel_step,
+	// 				kMaxIterations2);
+	// 	min_s = Math.min(min_s, ds);
 
-		ChassisSpeeds retSpeeds =
-        new ChassisSpeeds(
-            prevSetpoint.chassisSpeeds().vxMetersPerSecond + min_s * dx,
-            prevSetpoint.chassisSpeeds().vyMetersPerSecond + min_s * dy,
-            prevSetpoint.chassisSpeeds().omegaRadiansPerSecond + min_s * dtheta);
-    	var retStates = kinematics.toSwerveModuleStates(retSpeeds);
+	// 	ChassisSpeeds retSpeeds =
+    //     new ChassisSpeeds(
+    //         prevSetpoint.chassisSpeeds().vxMetersPerSecond + min_s * dx,
+    //         prevSetpoint.chassisSpeeds().vyMetersPerSecond + min_s * dy,
+    //         prevSetpoint.chassisSpeeds().omegaRadiansPerSecond + min_s * dtheta);
+    // 	var retStates = kinematics.toSwerveModuleStates(retSpeeds);
 
-		for(i = 0; i < modules.length; ++i){
-			final var maybeOverride = overrideSteering.get(i);
-			if(maybeOverride.isPresent()){
-				var override = maybeOverride.get();
-    			if (flipHeading(retStates[i].angle.unaryMinus().rotateBy(override))) {
-         	 		retStates[i].speedMetersPerSecond *= -1.0;
-       		 }
-			}
-			retStates[i].angle = override;
-		}
-		final var deltaRotation =
-          prevSetpoint.moduleStates()[i].angle.unaryMinus().rotateBy(retStates[i].angle);
+	// 	// for(i = 0; i < modules.length; ++i){
+	// 	// 	final var maybeOverride = overrideSteering.get(i);
+	// 	// 	if(maybeOverride.isPresent()){
+	// 	// 		var override = maybeOverride.get();
+    // 	// 		if (flipHeading(retStates[i].angle.unaryMinus().rotateBy(override))) {
+    //     //  	 		retStates[i].speedMetersPerSecond *= -1.0;
+    //    	// 	 }
+	// 	// 	}
+	// 	// 	retStates[i].angle = override;
+	// 	// }
+	// 	final var deltaRotation =
+    //       prevSetpoint.moduleStates()[i].angle.unaryMinus().rotateBy(retStates[i].angle);
 
-		  if (flipHeading(deltaRotation)) {
-			retStates[i].angle = retStates[i].angle.rotateBy(Rotation2d.fromRadians(Math.PI));
-			retStates[i].speedMetersPerSecond *= -1.0;
-		  }
-		  return new Setpoint(retSpeeds, retStates);
-	 	 }
+	// 	  if (flipHeading(deltaRotation)) {
+	// 		retStates[i].angle = retStates[i].angle.rotateBy(Rotation2d.fromRadians(Math.PI));
+	// 		retStates[i].speedMetersPerSecond *= -1.0;
+	// 	  }
+	// 	  return new Setpoint(retSpeeds, retStates);
+	//  	 }
 
 		
 
@@ -404,90 +456,89 @@ public class Pathfinder{
 	
 			
 
-	public static PathSegment ContinuationPoint(Path path, SwerveDriveSubsystem swerve){
-		Pose2d endPose2d = swerve.getPose();
-		return PathSegment.build().setStartPose(path.getStartingPose()).setEndPose(endPose2d).build();
-	}
+	// public static PathSegment ContinuationPoint(Path path, SwerveDriveSubsystem swerve){
+	// 	Pose2d endPose2d = swerve.getPose();
+	// 	return PathSegment.build().setStartPose(path.getStartingPose()).setEndPose(endPose2d).build();
+	// }
 
-	//forgot to finish
-	public static PathSegment AddTranslationPoint(){
+	// public static PathSegment AddTranslationPoint(){
 		
-	}
+	// }
 
-	public void generateOptimalPath(SwervePaths swervePaths, Map<String, String> pathQueue)
-	{
-		String generateSwervePath = System.getenv("generateSwervePath");
+	// public void generateOptimalPath(SwervePaths swervePaths, Map<String, String> pathQueue)
+	// {
+	// 	String generateSwervePath = System.getenv("generateSwervePath");
 
-		for (Map.Entry<String, String> entry : pathQueue.entrySet())
-		{
-			// Pathpath continues
-			Path path;
-			double startingTime = System.currentTimeMillis();
+	// 	for (Map.Entry<String, String> entry : pathQueue.entrySet())
+	// 	{
+	// 		// Pathpath continues
+	// 		Path path;
+	// 		double startingTime = System.currentTimeMillis();
 
-			if (generateSwervePath == null)
-			{
-				path =
-				path.buildPaths();
-			}
-			else
-			{
-				 targetPoint(newBuilder().setModel(model)).addAllSegments(entry.getValue()).build();
+	// 		if (generateSwervePath == null)
+	// 		{
+	// 			path =
+	// 			path.buildPaths();
+	// 		}
+	// 		else
+	// 		{
+	// 			 targetPoint(newBuilder().setModel(model)).addAllSegments(entry.getValue()).build();
 
-			}
+	// 		}
 
-		}
+	// 	}
 
-	}
+	// }
 
-	private static String getHashCodes(RobotModel model, List<PathSegment> segments)
-        {
-            StringBuilder hashString = new StringBuilder();
-            DecimalFormat format = new DecimalFormat("#.000000");
-            format.setRoundingMode(RoundingMode.HALF_DOWN);
-            hashString.append(format.format(model.getMass()));
-            hashString.append(format.format(model.getMoi()));
-            hashString.append(format.format(model.getRobotLength()));
-            hashString.append(format.format(model.getRobotWidth()));
-            hashString.append(format.format(model.getWheelRadius()));
-            hashString.append(format.format(model.getMaxWheelTorque()));
-            hashString.append(format.format(model.getMaxWheelOmega()));
+	// private static String getHashCodes(RobotModel model, List<PathSegment> segments)
+    //     {
+    //         StringBuilder hashString = new StringBuilder();
+    //         DecimalFormat format = new DecimalFormat("#.000000");
+    //         format.setRoundingMode(RoundingMode.HALF_DOWN);
+    //         hashString.append(format.format(model.getMass()));
+    //         hashString.append(format.format(model.getMoi()));
+    //         hashString.append(format.format(model.getRobotLength()));
+    //         hashString.append(format.format(model.getRobotWidth()));
+    //         hashString.append(format.format(model.getWheelRadius()));
+    //         hashString.append(format.format(model.getMaxWheelTorque()));
+    //         hashString.append(format.format(model.getMaxWheelOmega()));
 
-			for (PathSegment segment : segments){
-				for(Waypoint waypoint : segment.getWaypoints()){
-					hashString.append(format.format(waypoint.getX()));
-			hashString.append(format.format(waypoint.getY()));
+	// 		for (PathSegment segment : segments){
+	// 			for(Waypoint waypoint : segment.getWaypoints()){
+	// 				hashString.append(format.format(waypoint.getX()));
+	// 		hashString.append(format.format(waypoint.getY()));
 
-			if (waypoint.hasHeadingConstraint()) {
-				hashString.append(format.format(waypoint.getHeadingConstraint()));
-			  }
+	// 		if (waypoint.hasHeadingConstraint()) {
+	// 			hashString.append(format.format(waypoint.getHeadingConstraint()));
+	// 		  }
 	  
-			  if (waypoint.hasSamples()) {
-				hashString.append(waypoint.getSamples());
-			  }
+	// 		  if (waypoint.hasSamples()) {
+	// 			hashString.append(waypoint.getSamples());
+	// 		  }
 	  
-			  switch (waypoint.getVelocityConstraintCase()) {
-				case ZERO_VELOCITY -> {
-				  hashString.append(format.format(0));
-				}
-				case VEHICLE_VELOCITY -> {
-				  hashString.append(format.format(waypoint.getVehicleVelocity().getVx()));
-				  hashString.append(format.format(waypoint.getVehicleVelocity().getVy()));
-				  hashString.append(format.format(waypoint.getVehicleVelocity().getOmega()));
-				}
-				case VELOCITYCONSTRAINT_NOT_SET -> {}
-			  }
-				}
+	// 		  switch (waypoint.getVelocityConstraintCase()) {
+	// 			case ZERO_VELOCITY -> {
+	// 			  hashString.append(format.format(0));
+	// 			}
+	// 			case VEHICLE_VELOCITY -> {
+	// 			  hashString.append(format.format(waypoint.getVehicleVelocity().getVx()));
+	// 			  hashString.append(format.format(waypoint.getVehicleVelocity().getVy()));
+	// 			  hashString.append(format.format(waypoint.getVehicleVelocity().getOmega()));
+	// 			}
+	// 			case VELOCITYCONSTRAINT_NOT_SET -> {}
+	// 		  }
+	// 			}
 			
-		}
-		if (segment.hasMaxVelocity()) {
-			hashString.append(format.format(segment.getMaxVelocity()));
-		  }
-		  if (segment.hasMaxOmega()) {
-			hashString.append(format.format(segment.getMaxOmega()));
-		  }
+	// 	}
+	// 	if (segment.hasMaxVelocity()) {
+	// 		hashString.append(format.format(segment.getMaxVelocity()));
+	// 	  }
+	// 	  if (segment.hasMaxOmega()) {
+	// 		hashString.append(format.format(segment.getMaxOmega()));
+	// 	  }
 	
-		  hashString.append(segment.getStraightLine());
+	// 	  hashString.append(segment.getStraightLine());
 		
-        }
+    //     }
 }
 	

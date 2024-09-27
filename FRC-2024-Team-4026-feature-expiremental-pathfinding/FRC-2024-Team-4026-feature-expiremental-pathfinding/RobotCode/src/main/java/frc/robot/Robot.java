@@ -34,6 +34,9 @@ public class Robot extends TimedRobot implements ILogSource
 	@Override
 	public void robotInit()
 	{
+
+		Pathfinding.setPathfinder(new LocalADStarAK());
+		
 		if (instance != null)
 			System.err.println("WARNING: Robot instance already exists!");
 
@@ -46,6 +49,8 @@ public class Robot extends TimedRobot implements ILogSource
 		/* Initialize robot container last */
 		robotContainer = new RobotContainer();
 		RobotContainer.getShuffleboardTab().add(CommandScheduler.getInstance());
+
+		
 	}
 
 	/**
