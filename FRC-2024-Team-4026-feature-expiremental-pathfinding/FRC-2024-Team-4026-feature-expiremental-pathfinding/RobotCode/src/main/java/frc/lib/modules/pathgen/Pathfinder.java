@@ -68,7 +68,8 @@ public class Pathfinder extends SwerveDriveSubsystem{
 		);
 	}
 
-	public void targetPathPoint(){
+	//TODO: make sure it works with both sides of field
+	public void targetPathAmp(){
 		// Create the constraints to use while pathfinding. The constraints defined in the path will only be used for the path.
 		PathConstraints constraints = new PathConstraints(
 			3.0, 4.0,
@@ -80,6 +81,17 @@ public class Pathfinder extends SwerveDriveSubsystem{
 			constraints,
 			3.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
 		);
+	}
+
+	public void targetPathPodium1(){
+		PathConstraints constraints = new PathConstraints(
+			3.0, 4.0,
+			Units.degreesToRadians(540), Units.degreesToRadians(720));
+
+			Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(
+			path,
+			constraints,
+			3.0 );
 	}
 
 	public void pathOnTheFly(){
@@ -102,6 +114,9 @@ public class Pathfinder extends SwerveDriveSubsystem{
 		path.preventFlipping =true;
 	}
 
+	//TODO: ALL THE CODE BELOW THIS COMMENT IS IN THE CASE THE PATHGEN CODE VIA PATHPLANNER FAILS AT THE MOMENT
+
+
 	// private double unwrapAngle(double ref, double angle) {
 	// 	double diff = angle - ref;
 	// 	if (diff > Math.PI) {
@@ -113,33 +128,33 @@ public class Pathfinder extends SwerveDriveSubsystem{
 	// 	}
 	//   }
 	
-	private double findRoot(
-      Function2d func,
-      double x_0,
-      double y_0,
-      double f_0,
-      double x_1,
-      double y_1,
-      double f_1,
-      int iterations_left) {
-    if (iterations_left < 0 || epsilonEquals(f_0, f_1)) {
-      return 1.0;
-    }
-    var s_guess = Math.max(0.0, Math.min(1.0, -f_0 / (f_1 - f_0)));
-    var x_guess = (x_1 - x_0) * s_guess + x_0;
-    var y_guess = (y_1 - y_0) * s_guess + y_0;
-    var f_guess = func.f(x_guess, y_guess);
-    if (Math.signum(f_0) == Math.signum(f_guess)) {
-      // 0 and guess on same side of root, so use upper bracket.
-      return s_guess
-          + (1.0 - s_guess)
-              * findRoot(func, x_guess, y_guess, f_guess, x_1, y_1, f_1, iterations_left - 1);
-    } else {
-      // Use lower bracket.
-      return s_guess
-          * findRoot(func, x_0, y_0, f_0, x_guess, y_guess, f_guess, iterations_left - 1);
-    }
-  }
+// 	private double findRoot(
+//       Function2d func,
+//       double x_0,
+//       double y_0,
+//       double f_0,
+//       double x_1,
+//       double y_1,
+//       double f_1,
+//       int iterations_left) {
+//     if (iterations_left < 0 || epsilonEquals(f_0, f_1)) {
+//       return 1.0;
+//     }
+//     var s_guess = Math.max(0.0, Math.min(1.0, -f_0 / (f_1 - f_0)));
+//     var x_guess = (x_1 - x_0) * s_guess + x_0;
+//     var y_guess = (y_1 - y_0) * s_guess + y_0;
+//     var f_guess = func.f(x_guess, y_guess);
+//     if (Math.signum(f_0) == Math.signum(f_guess)) {
+//       // 0 and guess on same side of root, so use upper bracket.
+//       return s_guess
+//           + (1.0 - s_guess)
+//               * findRoot(func, x_guess, y_guess, f_guess, x_1, y_1, f_1, iterations_left - 1);
+//     } else {
+//       // Use lower bracket.
+//       return s_guess
+//           * findRoot(func, x_0, y_0, f_0, x_guess, y_guess, f_guess, iterations_left - 1);
+//     }
+//   }
 
 
 
@@ -189,59 +204,59 @@ public class Pathfinder extends SwerveDriveSubsystem{
 //     return findRoot(func, x_0, y_0, f_0 - offset, x_1, y_1, f_1 - offset, max_iterations);
 // }
 
-	public void completedPaths(SwerveDriveSubsystem swerve, SwervePaths swervePaths)
-	{
-		Set<String> completedPaths = new HashSet<>();
-		Set<String> originalKeys = new HashSet<>();
+	// public void completedPaths(SwerveDriveSubsystem swerve, SwervePaths swervePaths)
+	// {
+	// 	Set<String> completedPaths = new HashSet<>();
+	// 	Set<String> originalKeys = new HashSet<>();
 
-		for (String name : originalKeys)
-		{
-			if (completedPaths.contains(name))
-			{
-				completedPaths.remove(name);
-			}
-			else
-			{
-				completedPaths.add(name);
-			}
-		}
+	// 	for (String name : originalKeys)
+	// 	{
+	// 		if (completedPaths.contains(name))
+	// 		{
+	// 			completedPaths.remove(name);
+	// 		}
+	// 		else
+	// 		{
+	// 			completedPaths.add(name);
+	// 		}
+	// 	}
 
-		try
-		{
-			Files.list(Path.of("src", "main", "deploy", "pathplanner")).forEach((path) ->
-			{
-				String filename = path.getFileName().toString();
-				if (!filename.endsWith(".path"))
-					return;
-				String[] components = filename.split("\\.");
-				if (components.length == 2 && !completedPaths.contains(components[0]))
-				{
-					path.toFile().delete();
-					System.out.println(components[0] + " -paths are kill");
-				}
-			});
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		System.out.println("-path is not kill");
+	// 	try
+	// 	{
+	// 		Files.list(Path.of("src", "main", "deploy", "pathplanner")).forEach((path) ->
+	// 		{
+	// 			String filename = path.getFileName().toString();
+	// 			if (!filename.endsWith(".path"))
+	// 				return;
+	// 			String[] components = filename.split("\\.");
+	// 			if (components.length == 2 && !completedPaths.contains(components[0]))
+	// 			{
+	// 				path.toFile().delete();
+	// 				System.out.println(components[0] + " -paths are kill");
+	// 			}
+	// 		});
+	// 	}
+	// 	catch (IOException e)
+	// 	{
+	// 		e.printStackTrace();
+	// 	}
+	// 	System.out.println("-path is not kill");
 
-		while (true)
-		{
-			var allSwervePaths = swervePaths;
-			boolean hasAllSwervePaths = true;
-			for (var supplier : swervePaths.pathPaths)
-			{
+	// 	while (true)
+	// 	{
+	// 		var allSwervePaths = swervePaths;
+	// 		boolean hasAllSwervePaths = true;
+	// 		for (var supplier : swervePaths.pathPaths)
+	// 		{
 
-				if (pathPaths == 0)
-				{
-					hasAllSwervePaths = false;
-				}
-			}
-		}
+	// 			if (pathPaths == 0)
+	// 			{
+	// 				hasAllSwervePaths = false;
+	// 			}
+	// 		}
+	// 	}
 
-	}
+	// }
 
 	// public void possiblePaths(SwervePaths swervePaths)
 	// {
@@ -264,19 +279,19 @@ public class Pathfinder extends SwerveDriveSubsystem{
 	// }
 
 	//probably defunct
-	public void visionInput(VisionSubsystem vision)
-	{
-		var apriltag = vision;
-	}
+	// public void visionInput(VisionSubsystem vision)
+	// {
+	// 	var apriltag = vision;
+	// }
 
 	
-	private boolean flipHeading(Rotation2d prevToGoal) {
-		return Math.abs(prevToGoal.getRadians()) > Math.PI / 2.0;
-	}
+	// private boolean flipHeading(Rotation2d prevToGoal) {
+	// 	return Math.abs(prevToGoal.getRadians()) > Math.PI / 2.0;
+	// }
 
-	private interface Function2d {
-		double f(double x, double y);
-	  }
+	// private interface Function2d {
+	// 	double f(double x, double y);
+	//   }
 
 	
 	// public Setpoint TargetPoint(final RobotContainer robotContainer, VisionSubsystem vision,

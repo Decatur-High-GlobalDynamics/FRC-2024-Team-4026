@@ -96,6 +96,8 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ILogSource
 		autoAimPidController = new ProfiledPIDController(SwerveConstants.ANGULAR_AIMING_KP,
 				SwerveConstants.ANGULAR_AIMING_KI, SwerveConstants.ANGULAR_AIMING_KD,
 				SwerveConstants.ANGULAR_VELOCITY_CONSTRAINTS);
+
+		PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetOverride);
 	}
 
 	private void configureAutoBuilder()
