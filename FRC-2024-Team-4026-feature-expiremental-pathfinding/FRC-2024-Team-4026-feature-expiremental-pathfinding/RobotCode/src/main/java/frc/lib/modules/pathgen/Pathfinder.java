@@ -26,9 +26,12 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.lib.modules.swervedrive.SwervePaths;
 import frc.lib.modules.pathgen.Constants.RobotModel;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathSegment;
-import frc.lib.modules.pathgen.Setpoint;
 import frc.lib.modules.pathgen.ModuleLimits;
 
 
@@ -38,12 +41,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class Pathfinder extends SwerveDriveSubsystem{
 	private double pathPaths;
-
-	private final SwerveDriveKinematics kinematics;
-	private final Translation2d[] moduleLocations;
 
 	public Pathfinder()
 	{
