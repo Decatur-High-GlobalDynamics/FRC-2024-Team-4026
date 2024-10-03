@@ -70,6 +70,8 @@ public class Pathfinder extends SwerveDriveSubsystem{
 
 	//TODO: make sure it works with both sides of field
 	public void targetPathAmp(){
+
+		PathPlannerPath path = new PathPlannerPath.fromPathFile("");
 		// Create the constraints to use while pathfinding. The constraints defined in the path will only be used for the path.
 		PathConstraints constraints = new PathConstraints(
 			3.0, 4.0,
@@ -84,6 +86,8 @@ public class Pathfinder extends SwerveDriveSubsystem{
 	}
 
 	public void targetPathPodium1(){
+		PathPlannerPath path = new PathPlannerPath.fromPathFile("");
+		
 		PathConstraints constraints = new PathConstraints(
 			3.0, 4.0,
 			Units.degreesToRadians(540), Units.degreesToRadians(720));
