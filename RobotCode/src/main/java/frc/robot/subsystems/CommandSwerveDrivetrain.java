@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.RobotContainer;
 import frc.robot.constants.SwerveConstants;
 
 /**
@@ -62,6 +63,11 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         robotRelativeDrive = new SwerveRequest.ApplyChassisSpeeds();
 
         ConfigureAutoBuilder();
+
+        RobotContainer.getShuffleboardTab().addDouble("Module Angle State", () -> getModule(0).getCurrentState().angle.getDegrees());
+        RobotContainer.getShuffleboardTab().addDouble("Module Angle Target", () -> getModule(0).getTargetState().angle.getDegrees());
+        RobotContainer.getShuffleboardTab().addDouble("Module Speed State", () -> getModule(0).getCurrentState().speedMetersPerSecond);
+        RobotContainer.getShuffleboardTab().addDouble("Module Speed Target", () -> getModule(0).getTargetState().speedMetersPerSecond);
     }
 
     public void ConfigureAutoBuilder() {

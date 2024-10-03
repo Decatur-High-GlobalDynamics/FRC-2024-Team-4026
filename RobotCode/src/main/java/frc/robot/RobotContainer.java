@@ -116,7 +116,7 @@ public class RobotContainer
 
 		Autonomous = new SideBasedAuto(this);
 
-		SwerveSubsystem.seedFieldRelative(null);
+		SwerveSubsystem.seedFieldRelative(new Pose2d());
 
 		// Configure the button bindings
 		configurePrimaryBindings();
