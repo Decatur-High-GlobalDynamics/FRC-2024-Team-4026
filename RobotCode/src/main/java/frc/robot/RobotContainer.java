@@ -129,6 +129,18 @@ public class RobotContainer
 
 		final JoystickButton RightTrigger = new JoystickButton(PrimaryController,
 				LogitechControllerButtons.triggerRight);
+		final JoystickButton LeftTrigger = new JoystickButton(PrimaryController,
+				LogitechControllerButtons.triggerLeft);
+		final JoystickButton RightBumper = new JoystickButton(PrimaryController,
+				LogitechControllerButtons.bumperRight);
+		final JoystickButton LeftBumper = new JoystickButton(PrimaryController,
+				LogitechControllerButtons.bumperLeft);
+		final JoystickButton AButton = new JoystickButton(PrimaryController,
+				LogitechControllerButtons.a);
+		final JoystickButton BButton = new JoystickButton(PrimaryController,
+				LogitechControllerButtons.b);
+		final JoystickButton XButton = new JoystickButton(PrimaryController,
+				LogitechControllerButtons.x);
 		final JoystickButton YButton = new JoystickButton(PrimaryController,
 				LogitechControllerButtons.y);
 
@@ -140,14 +152,47 @@ public class RobotContainer
 						-PrimaryController.getTwist() * SwerveConstants.MAX_ANGULAR_SPEED)));
 
 		// Aim to joystick direction
-		RightTrigger.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
+		// RightBumper.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
+		// 		.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
+		// 		.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
+		// 		.withTargetDirection(new Rotation2d(-PrimaryController.getTwist(),
+		// 				-PrimaryController.getThrottle()))));
+
+		// Aim to subwoofer
+		YButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
 				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
 				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
-				.withTargetDirection(new Rotation2d(-PrimaryController.getTwist(),
-						-PrimaryController.getThrottle()))));
+				.withTargetDirection(new Rotation2d(0))));
+
+		// Aim to amp
+		XButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
+				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
+				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
+				.withTargetDirection(new Rotation2d((-Math.PI / 2) + 
+						(isRedAlliance() ? 0 : Math.PI)))));
 
 		// Reset the field-centric heading
-		YButton.onTrue(SwerveSubsystem.runOnce(() -> SwerveSubsystem.seedFieldRelative()));
+		AButton.onTrue(SwerveSubsystem.runOnce(() -> SwerveSubsystem.seedFieldRelative()));
+
+		// Intake
+		LeftBumper.whileTrue(new IntakeCommand(IntakeSubsystem, IndexerSubsystem,
+		 		ShooterMountSubsystem, ShooterSubsystem, LedSubsystem));
+
+		// Shoot subwoofer
+		RightTrigger.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
+				LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
+		RightTrigger.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
+				ShooterMountConstants.SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET));
+
+		// Amp
+		LeftTrigger.whileTrue(new AmpCommand(ShooterMountSubsystem, ShooterSubsystem, IndexerSubsystem,
+				LedSubsystem));
+
+		// Pass
+		RightBumper.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
+				LedSubsystem, ShooterConstants.SHOOTER_PASSING_VELOCITY, false));
+		RightBumper.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
+				ShooterMountConstants.SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET));
 	}
 
 	private void configureSecondaryBindings()
@@ -174,36 +219,36 @@ public class RobotContainer
 				() -> (SecondaryController.getY()), () -> (SecondaryController.getThrottle())));
 
 		// Shoot subwoofer
-		LeftTrigger.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
-				LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
-		LeftTrigger.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
-				ShooterMountConstants.SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET));
+		// LeftTrigger.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
+		// 		LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
+		// LeftTrigger.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
+		// 		ShooterMountConstants.SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET));
 		// LeftTrigger.whileTrue(new AimShooterCommand(ShooterSubsystem, ShooterMountSubsystem,
 		// SwerveDrive));
 
 		// Shoot podium
-		LeftBumper.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
-				LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
-		LeftBumper.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
-				ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
+		// LeftBumper.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
+		// 		LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
+		// LeftBumper.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
+		// 		ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
 
 		// Passing
-		YButton.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
-				LedSubsystem, ShooterConstants.SHOOTER_PASSING_VELOCITY, false));
-		YButton.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
-				ShooterMountConstants.SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET));
+		// YButton.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
+		// 		LedSubsystem, ShooterConstants.SHOOTER_PASSING_VELOCITY, false));
+		// YButton.whileTrue(new RotateShooterMountToPositionCommand(ShooterMountSubsystem,
+		// 		ShooterMountConstants.SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET));
 
 		// Amp
-		AButton.whileTrue(new AmpCommand(ShooterMountSubsystem, ShooterSubsystem, IndexerSubsystem,
-				LedSubsystem));
+		// AButton.whileTrue(new AmpCommand(ShooterMountSubsystem, ShooterSubsystem, IndexerSubsystem,
+		// 		LedSubsystem));
 
 		// Outtake
 		BButton.whileTrue(
 				new IntakeReverseCommand(IntakeSubsystem, IndexerSubsystem, ShooterSubsystem));
 
 		// Intake
-		XButton.whileTrue(new IntakeCommand(IntakeSubsystem, IndexerSubsystem,
-				ShooterMountSubsystem, ShooterSubsystem, LedSubsystem));
+		// XButton.whileTrue(new IntakeCommand(IntakeSubsystem, IndexerSubsystem,
+		// 		ShooterMountSubsystem, ShooterSubsystem, LedSubsystem));
 
 		// Override indexer
 		RightTrigger.whileTrue(new IndexerCommand(IndexerSubsystem));
@@ -264,6 +309,11 @@ public class RobotContainer
 	public Autonomous getAutonomous()
 	{
 		return Autonomous;
+	}
+
+	public boolean isRedAlliance()
+	{
+		return DriverStation.getAlliance().get() == Alliance.Red;
 	}
 
 }

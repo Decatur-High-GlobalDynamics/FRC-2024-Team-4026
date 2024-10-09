@@ -6,6 +6,7 @@ import frc.lib.modules.leds.LedSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.lib.modules.shooter.ShooterConstants;
 import frc.robot.subsystems.IndexerSubsystem;
+import frc.lib.modules.indexer.IndexerConstants;
 
 public class ShooterOverrideCommand extends Command {
 	// Initializes the subsystem objects
@@ -25,7 +26,7 @@ public class ShooterOverrideCommand extends Command {
 		this.shooter = shooter;
 		this.indexer = indexer;
 		this.leds = leds;
-		addRequirements(shooter, leds);
+		addRequirements(shooter, indexer, leds);
 	}
 
 	@Override
@@ -34,9 +35,9 @@ public class ShooterOverrideCommand extends Command {
 		shooter.setShooterMotorVelocity(desiredShooterVelocity);
 
 		// If-statement to see if motor is spun up
-		// if (shooter.isUpToSpeed()) {
-		// 	indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_SHOOT_VELOCITY);
-		// }
+		if (shooter.isUpToSpeed()) {
+			indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_SHOOT_VELOCITY);
+		}
 
 		if (!indexer.hasNote() && leds != null) {
 			leds.flashAllPixels(TeamColor.Blue, 5);
@@ -46,7 +47,7 @@ public class ShooterOverrideCommand extends Command {
 	@Override
 	public void end(boolean interrupted) {
 		shooter.setShooterMotorVelocity(ShooterConstants.SHOOTER_REST_VELOCITY);
-		// indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_REST_VELOCITY);
+		indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_REST_VELOCITY);
 	}
 
 	@Override
