@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.954552215410737,
-        "y": 6.961261490090548
+        "x": 7.826510788156711,
+        "y": 5.777939483806896
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.572375270876667,
-        "y": 7.451230758317373
+        "x": 8.31691462791618,
+        "y": 6.289397089552714
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.826510788156711,
-        "y": 7.441986055143282
+        "x": 8.122341289727624,
+        "y": 6.915037974220092
       },
       "prevControl": {
-        "x": 6.707901704091696,
-        "y": 7.377273132924644
+        "x": 7.917225651811466,
+        "y": 6.539893515165165
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,6 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
+  "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
@@ -39,14 +40,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": 74.05460409907705
   },
   "reversed": false,
-  "folder": null,
-  "previewStartingState": {
-    "rotation": 32.7352262721076,
-    "velocity": 0
+  "folder": "Smart Autos",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
