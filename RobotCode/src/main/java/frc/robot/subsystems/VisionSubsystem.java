@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.NoSuchElementException;
+
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -12,8 +14,8 @@ import frc.robot.constants.VisionConstants;
 public class VisionSubsystem extends SubsystemBase
 {
 
-	// private final PhotonCamera Camera;
-	// private PhotonPoseEstimator robotPoseEstimator;
+	private final PhotonCamera Camera;
+	private PhotonPoseEstimator robotPoseEstimator;
 
 	private final CommandSwerveDrivetrain Swerve;
 
@@ -21,24 +23,26 @@ public class VisionSubsystem extends SubsystemBase
 	{
 		Swerve = swerve;
 
-		// Camera = new PhotonCamera(VisionConstants.CAMERA_TABLE_NAME);
+		Camera = new PhotonCamera(VisionConstants.CAMERA_TABLE_NAME);
 
-		// robotPoseEstimator = new PhotonPoseEstimator(Constants.AprilTagFieldLayout,
-		// 		PoseStrategy.LOWEST_AMBIGUITY, Camera,
-		// 		VisionConstants.ROBOT_TO_CAMERA_OFFSET);
+		robotPoseEstimator = new PhotonPoseEstimator(Constants.AprilTagFieldLayout,
+				PoseStrategy.LOWEST_AMBIGUITY, Camera,
+				VisionConstants.ROBOT_TO_CAMERA_OFFSET);
 	}
 
 	@Override
 	public void periodic()
 	{
-		// Swerve.updatePoseWithVision(robotPoseEstimator.update());
-		// try {
-		// 	EstimatedRobotPose estimatedRobotPose = robotPoseEstimator.update().get();
-		// 	Swerve.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
-		// }
-		// finally {
+		try {
+			EstimatedRobotPose estimatedRobotPose = robotPoseEstimator.update().get();
+			Swerve.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
+		}
+		catch (NoSuchElementException e) {
+			
+		}
+		finally {
 
-		// }
+		}
 	}
 
 }

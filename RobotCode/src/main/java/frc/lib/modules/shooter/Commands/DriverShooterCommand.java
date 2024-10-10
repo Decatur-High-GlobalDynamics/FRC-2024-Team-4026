@@ -8,7 +8,8 @@ import frc.lib.modules.shootermount.ShooterMountConstants;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
 import frc.lib.modules.shooter.ShooterConstants;
 import frc.robot.subsystems.IndexerSubsystem;
-import frc.lib.modules.indexer.IndexerConstants;
+import frc.robot.constants.IndexerConstants;
+
 
 public class DriverShooterCommand extends Command {
 	// Initializes the subsystem objects

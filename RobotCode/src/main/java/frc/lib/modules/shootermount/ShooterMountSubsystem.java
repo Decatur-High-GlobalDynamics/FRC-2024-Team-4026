@@ -12,6 +12,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.constants.Constants;
 import frc.robot.constants.Ports;
 import frc.lib.modules.shootermount.ShooterMountConstants;
 
@@ -162,7 +163,7 @@ public class ShooterMountSubsystem extends SubsystemBase
 
 	public boolean isAtTargetRotation()
 	{
-		return Math.abs((shooterMountMotorLeft.getRotorPosition().getValueAsDouble())
+		return Math.abs((gyro.getRoll().getValueAsDouble() / 360)
 				- (targetRotation + offset)) < ShooterMountConstants.AIMING_DEADBAND;
 	}
 }

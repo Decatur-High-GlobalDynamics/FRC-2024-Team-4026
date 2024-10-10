@@ -88,8 +88,8 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 	//checks if shooter is at speed needed
 	public boolean isUpToSpeed() {
-		return Math.abs(shooterMotorLeft.getRotorVelocity().getValueAsDouble()
-				- desiredShooterVelocity) < ShooterConstants.SHOOTER_VELOCITY_TOLERANCE;
+		return Math.abs(shooterMotorLeft.getRotorVelocity().getValueAsDouble())
+				- Math.abs(desiredShooterVelocity) < ShooterConstants.SHOOTER_VELOCITY_TOLERANCE;
 	}
 
 }
