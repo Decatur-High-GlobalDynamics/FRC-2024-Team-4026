@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -106,6 +107,7 @@ public class RobotContainer
 				.withDeadband(SwerveConstants.MAX_SPEED * 0.05)
 				.withRotationalDeadband(SwerveConstants.MAX_ANGULAR_SPEED * 0.05)
 				.withDriveRequestType(DriveRequestType.Velocity);
+		DriveFacingAngle.HeadingController = new PhoenixPIDController(0.3, 0, 0.02); // Needs tuning
 		Brake = new SwerveRequest.SwerveDriveBrake();
 
 		LedSubsystem.setAllPixels(TeamColor.Blue);
