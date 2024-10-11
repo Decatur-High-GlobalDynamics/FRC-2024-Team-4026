@@ -232,6 +232,11 @@ public class RobotContainer
 		ClimberSubsystem.setDefaultCommand(new ElevatorSpeedCommand(ClimberSubsystem,
 				() -> (SecondaryController.getY()), () -> (SecondaryController.getThrottle())));
 
+		// Shoot from subwoofer
+		RightTrigger.whileTrue(new DriverShooterCommand(ShooterSubsystem, IndexerSubsystem,
+				ShooterMountSubsystem, LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY,
+				ShooterMountConstants.SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET, false));
+
 		// Shoot subwoofer
 		// LeftTrigger.whileTrue(new ShooterOverrideCommand(ShooterSubsystem, IndexerSubsystem,
 		// LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY, false));
@@ -266,7 +271,7 @@ public class RobotContainer
 		// ShooterMountSubsystem, ShooterSubsystem, LedSubsystem));
 
 		// Override indexer
-		RightTrigger.whileTrue(new IndexerCommand(IndexerSubsystem));
+		LeftTrigger.whileTrue(new IndexerCommand(IndexerSubsystem));
 	}
 
 	public static ShuffleboardTab getShuffleboardTab()
