@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 import com.pathplanner.lib.path.PathConstraints;
 
 import frc.robot.generated.TunerConstants;
@@ -30,6 +31,8 @@ public final class SwerveConstants
     public static final double DRIVE_KA = 0;
 
     public static final double DRIVE_BASE_RADIUS_METERS = 0.33;
+
+    public static final PhoenixPIDController ROTATIONAL_AIMING_PID_CONTROLLER = new PhoenixPIDController(0.3, 0, 0.02); // Needs tuning
 
     public static final PathConstraints PathConstraints = new PathConstraints(MAX_SPEED,
             MAX_ACCELERATION, MAX_ANGULAR_SPEED, MAX_ANGULAR_ACCELERATION);

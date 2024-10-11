@@ -14,6 +14,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -34,6 +35,7 @@ import frc.lib.modules.intake.Commands.IntakeCommand;
 import frc.lib.modules.intake.Commands.IntakeReverseCommand;
 import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
 import frc.lib.modules.shooter.Commands.DriverShooterCommand;
+import frc.lib.modules.shooter.Commands.ShootFromDistance;
 import frc.lib.modules.shooter.Commands.ShooterOverrideCommand;
 import frc.robot.constants.Constants;
 import frc.robot.constants.SwerveConstants;
@@ -45,6 +47,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.lib.modules.intake.IntakeSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
+import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -107,7 +110,7 @@ public class RobotContainer
 				.withDeadband(SwerveConstants.MAX_SPEED * 0.05)
 				.withRotationalDeadband(SwerveConstants.MAX_ANGULAR_SPEED * 0.05)
 				.withDriveRequestType(DriveRequestType.Velocity);
-		DriveFacingAngle.HeadingController = new PhoenixPIDController(0.3, 0, 0.02); // Needs tuning
+		DriveFacingAngle.HeadingController = SwerveConstants.ROTATIONAL_AIMING_PID_CONTROLLER;
 		Brake = new SwerveRequest.SwerveDriveBrake();
 
 		LedSubsystem.setAllPixels(TeamColor.Blue);
@@ -161,7 +164,7 @@ public class RobotContainer
 		// .withTargetDirection(new Rotation2d(-PrimaryController.getTwist(),
 		// -PrimaryController.getThrottle()))));
 
-		// Aim to subwoofer
+		// Aim to 0
 		YButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
 				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
 				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
@@ -174,6 +177,12 @@ public class RobotContainer
 				.withTargetDirection(
 						new Rotation2d((-Math.PI / 2) + (isRedAlliance() ? 0 : Math.PI)))));
 
+		// Aim at speaker with odometry
+		BButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
+				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
+				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
+				.withTargetDirection(getRotationToSpeaker())));
+
 		// Reset the field-centric heading
 		AButton.onTrue(SwerveSubsystem.runOnce(() -> SwerveSubsystem.seedFieldRelative()));
 
@@ -181,10 +190,14 @@ public class RobotContainer
 		LeftBumper.whileTrue(new IntakeCommand(IntakeSubsystem, IndexerSubsystem,
 				ShooterMountSubsystem, ShooterSubsystem, LedSubsystem));
 
-		// Shoot subwoofer
+		// Shoot from subwoofer
 		RightTrigger.whileTrue(new DriverShooterCommand(ShooterSubsystem, IndexerSubsystem,
 				ShooterMountSubsystem, LedSubsystem, ShooterConstants.SHOOTER_SPEAKER_VELOCITY,
 				ShooterMountConstants.SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET, false));
+
+		// Shoot from distance with pose estimation
+		// RightTrigger.whileTrue(new ShootFromDistance(ShooterSubsystem, IndexerSubsystem,
+		// 		ShooterMountSubsystem, LedSubsystem));
 
 		// Amp
 		LeftTrigger.whileTrue(new AmpCommand(ShooterMountSubsystem, ShooterSubsystem,
@@ -316,6 +329,29 @@ public class RobotContainer
 	public boolean isRedAlliance()
 	{
 		return DriverStation.getAlliance().get() == Alliance.Red;
+	}
+
+	public static Rotation2d getRotationToSpeaker() {
+		Translation2d robotPose = instance.SwerveSubsystem.getPose().getTranslation();
+
+		Optional<Pose3d> speakerPoseOptional = getSpeakerPose();
+		Translation2d speakerPose = !speakerPoseOptional.isEmpty() ? new Translation2d(
+				speakerPoseOptional.get().getX(), speakerPoseOptional.get().getY())
+				: new Translation2d();
+
+		return new Rotation2d(robotPose.getX() - speakerPose.getX(), 
+				robotPose.getY() - speakerPose.getY());
+	}
+
+	public static double getDistanceToSpeaker() {
+		Translation2d robotPose = instance.SwerveSubsystem.getPose().getTranslation();
+
+		Optional<Pose3d> speakerPoseOptional = getSpeakerPose();
+		Translation2d speakerPose = !speakerPoseOptional.isEmpty() ? new Translation2d(
+				speakerPoseOptional.get().getX(), speakerPoseOptional.get().getY())
+				: new Translation2d();
+
+		return robotPose.getDistance(speakerPose);
 	}
 
 }
