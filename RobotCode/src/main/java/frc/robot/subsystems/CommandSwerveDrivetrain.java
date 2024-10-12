@@ -64,6 +64,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
         ConfigureAutoBuilder();
 
+        RobotContainer.getShuffleboardTab().addDouble("Gyro", () -> getPigeon2().getAngle());
+
         RobotContainer.getShuffleboardTab().addDouble("Module Angle State", () -> getModule(0).getCurrentState().angle.getDegrees());
         RobotContainer.getShuffleboardTab().addDouble("Module Angle Target", () -> getModule(0).getTargetState().angle.getDegrees());
         RobotContainer.getShuffleboardTab().addDouble("Module Speed State", () -> getModule(0).getCurrentState().speedMetersPerSecond);

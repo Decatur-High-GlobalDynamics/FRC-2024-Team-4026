@@ -26,7 +26,7 @@ public class ShooterConstants
 	/**
 	 * Velocity for shooting at amp in RPS
 	 */
-	public static final double SHOOTER_AMP_VELOCITY = -11.5;
+	public static final double SHOOTER_AMP_VELOCITY = -10.5;
 	/**
 	 * Velocity when not in use in RPS
 	 */

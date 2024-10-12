@@ -20,11 +20,11 @@ public class IntakeConstants {
     public static final double INTAKE_SPIN_ROTATION = 1000;
     public static final double INTAKE_DEPLOYED_ROTATION = 3000;
     //K before something is hungarian notation for a constant
-    public static final double INTAKE_RETRACT_KP = 0.0003;
+    public static final double INTAKE_RETRACT_KP = 0.0002; // 0.0003
     public static final double INTAKE_RETRACT_KI = 0;
     public static final double INTAKE_RETRACT_KD = 0.00003;
-    public static final double INTAKE_RETRACT_KV = 0.00015;
-    public static final double INTAKE_RETRACT_KG = -0.106;
+    public static final double INTAKE_RETRACT_KV = 0.00015; // 0.00015
+    public static final double INTAKE_RETRACT_KG = -0.100; // -0.106
     public static final double INTAKE_RETRACT_CRUISE_VELOCITY = 4000;
     public static final double INTAKE_RETRACT_MAX_ACCELERATION = 6000;
     //rollers are the little wheels that you'll see on some robot's intakes.

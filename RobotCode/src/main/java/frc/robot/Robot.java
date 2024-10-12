@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.core.Autonomous;
 import frc.lib.core.ILogSource;
 import frc.lib.core.ModeBasedSubsystem;
-import frc.lib.core.util.CTREConfigs;
 import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
 
 public class Robot extends TimedRobot implements ILogSource
@@ -21,7 +20,6 @@ public class Robot extends TimedRobot implements ILogSource
 	private static Robot instance;
 
 	private Optional<Command> autonomousCommand;
-	private CTREConfigs ctreConfigs;
 
 	private RobotContainer robotContainer;
 
@@ -38,8 +36,6 @@ public class Robot extends TimedRobot implements ILogSource
 			System.err.println("WARNING: Robot instance already exists!");
 
 		instance = this;
-
-		ctreConfigs = new CTREConfigs();
 
 		autonomousCommand = Optional.empty();
 
@@ -173,10 +169,5 @@ public class Robot extends TimedRobot implements ILogSource
 	public static void addSubsystem(ModeBasedSubsystem subsystem)
 	{
 		instance.subsystems.add(subsystem);
-	}
-
-	public static CTREConfigs getCtreConfigs()
-	{
-		return instance.ctreConfigs;
 	}
 }

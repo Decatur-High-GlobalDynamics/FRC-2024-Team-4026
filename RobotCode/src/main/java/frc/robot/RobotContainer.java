@@ -47,7 +47,6 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.lib.modules.intake.IntakeSubsystem;
 import frc.lib.modules.shootermount.ShooterMountSubsystem;
-import frc.lib.modules.swervedrive.SwerveDriveSubsystem;
 import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -168,14 +167,14 @@ public class RobotContainer
 		YButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
 				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
 				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
-				.withTargetDirection(new Rotation2d(0))));
+				.withTargetDirection(new Rotation2d(Math.PI + (isRedAlliance() ? 0 : Math.PI)))));
 
 		// Aim to amp
 		XButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
 				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
 				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
 				.withTargetDirection(
-						new Rotation2d((-Math.PI / 2) + (isRedAlliance() ? 0 : Math.PI)))));
+						new Rotation2d((-Math.PI / 2)))));
 
 		// Aim at speaker with odometry
 		BButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
@@ -186,9 +185,7 @@ public class RobotContainer
 		// Reset the field-centric heading
 		AButton.onTrue(SwerveSubsystem.runOnce(() -> SwerveSubsystem.seedFieldRelative()));
 
-		// Intake
-		LeftBumper.whileTrue(new IntakeCommand(IntakeSubsystem, IndexerSubsystem,
-				ShooterMountSubsystem, ShooterSubsystem, LedSubsystem));
+		
 
 		// Shoot from subwoofer
 		RightTrigger.whileTrue(new DriverShooterCommand(ShooterSubsystem, IndexerSubsystem,
@@ -267,8 +264,8 @@ public class RobotContainer
 				new IntakeReverseCommand(IntakeSubsystem, IndexerSubsystem, ShooterSubsystem));
 
 		// Intake
-		// XButton.whileTrue(new IntakeCommand(IntakeSubsystem, IndexerSubsystem,
-		// ShooterMountSubsystem, ShooterSubsystem, LedSubsystem));
+		XButton.whileTrue(new IntakeCommand(IntakeSubsystem, IndexerSubsystem,
+				ShooterMountSubsystem, ShooterSubsystem, LedSubsystem));
 
 		// Override indexer
 		LeftTrigger.whileTrue(new IndexerCommand(IndexerSubsystem));

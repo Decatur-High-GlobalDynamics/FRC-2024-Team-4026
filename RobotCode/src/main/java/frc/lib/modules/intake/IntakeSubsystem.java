@@ -71,14 +71,14 @@ public class IntakeSubsystem extends SubsystemBase
 		desiredRotation = IntakeConstants.INTAKE_RETRACTED_ROTATION;
 		desiredVelocity = IntakeConstants.INTAKE_REST_VELOCITY;
 		//shuffleboard is basically logging software for status and stuff
-		RobotContainer.getShuffleboardTab().addDouble("Actual Intake Velocity",
-				() -> intakeRollerMotor.getEncoder().getVelocity());
-		RobotContainer.getShuffleboardTab().addDouble("Desired Intake Velocity",
-				() -> desiredVelocity);
-		RobotContainer.getShuffleboardTab().addDouble("Actual Intake Rotation",
-				() -> encoder.getRaw());
-		RobotContainer.getShuffleboardTab().addDouble("Desired Intake Rotation",
-				() -> desiredRotation);
+		// RobotContainer.getShuffleboardTab().addDouble("Actual Intake Velocity",
+		// 		() -> intakeRollerMotor.getEncoder().getVelocity());
+		// RobotContainer.getShuffleboardTab().addDouble("Desired Intake Velocity",
+		// 		() -> desiredVelocity);
+		// RobotContainer.getShuffleboardTab().addDouble("Actual Intake Rotation",
+		// 		() -> encoder.getRaw());
+		// RobotContainer.getShuffleboardTab().addDouble("Desired Intake Rotation",
+		// 		() -> desiredRotation);
 	}
 
 	@Override

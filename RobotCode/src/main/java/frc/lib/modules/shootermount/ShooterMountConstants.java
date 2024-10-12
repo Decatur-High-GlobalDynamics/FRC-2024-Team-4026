@@ -10,10 +10,10 @@ public class ShooterMountConstants
 	public static final double SHOOTER_MOUNT_MIN_ANGLE_IN_RADIANS = Math.toRadians(9.57);
 
 	/** Angle in rotations for shooting at amp */
-	public static final double SHOOTER_MOUNT_INITIAL_AMP_ANGLE_OFFSET = 0.16;
-	public static final double SHOOTER_MOUNT_ENDING_AMP_ANGLE_OFFSET = 0.05;
+	public static final double SHOOTER_MOUNT_INITIAL_AMP_ANGLE_OFFSET = 0.17;
+	public static final double SHOOTER_MOUNT_ENDING_AMP_ANGLE_OFFSET = 0.06;
 	/** Angle in rotations for shooting at speaker */
-	public static final double SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET = 0.125;
+	public static final double SHOOTER_MOUNT_SPEAKER_ANGLE_FIXED_OFFSET = 0.12;
 	public static final double SHOOTER_MOUNT_NOTE_CENTER_ANGLE_FIXED_OFFSET = 0.071;
 	public static final double SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET = 0.066;
 	public static final double SHOOTER_MOUNT_PASSING_ANGLE_FIXED_OFFSET = 0.11;

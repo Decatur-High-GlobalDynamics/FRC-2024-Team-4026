@@ -23,7 +23,7 @@ public final class SwerveConstants
     public static final double ANGLE_KV = 1.5;
     public static final double ANGLE_KA = 0;
 
-    public static final double DRIVE_KP = 0; // 3;
+    public static final double DRIVE_KP = 0.1; // 3;
     public static final double DRIVE_KI = 0;
     public static final double DRIVE_KD = 0;
     public static final double DRIVE_KS = 0.12;
@@ -32,7 +32,7 @@ public final class SwerveConstants
 
     public static final double DRIVE_BASE_RADIUS_METERS = 0.33;
 
-    public static final PhoenixPIDController ROTATIONAL_AIMING_PID_CONTROLLER = new PhoenixPIDController(0.3, 0, 0.02); // Needs tuning
+    public static final PhoenixPIDController ROTATIONAL_AIMING_PID_CONTROLLER = new PhoenixPIDController(5, 0, 0.02); // Needs tuning
 
     public static final PathConstraints PathConstraints = new PathConstraints(MAX_SPEED,
             MAX_ACCELERATION, MAX_ANGULAR_SPEED, MAX_ANGULAR_ACCELERATION);
