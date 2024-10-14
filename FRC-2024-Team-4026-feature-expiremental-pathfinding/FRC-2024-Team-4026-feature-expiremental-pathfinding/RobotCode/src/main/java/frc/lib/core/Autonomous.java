@@ -191,24 +191,26 @@ public abstract class Autonomous implements ILogSource
 			RotateShooterMountToPositionCommand shootermount, IndexerCommand index)
 	{
 		Timer autonTimer = new Timer();
-		final double firstNoteTime = 0;
-		final double secondNoteTime = 0;
-		final double thirdNoteTime = 0;
+		final double FIRST_NOTE_TIME = 4.0;
+		final double SECOND_NOTE_TIME = 6.0;
+		final double THIRD_NOTE_TIME = 8.0;
 
 		Command smart2 = Commands.sequence(Commands.runOnce(() ->
 		{
 
 		}));
 
+		PathPlannerPath note1Path = new PathPlannerPath.fromPathFile("Smart Auto N1 to N2");
+		PathPlannerPath note2Path = new PathPlannerPath.fromPathFile("Smart Auto N2 to N3");
 		return Commands.runOnce(autonTimer::restart)
 				.andThen(
-						followPath(getLoggerName()).alongWith(Commands
-								.sequence(Commands.waitUntil(() -> autonTimer.get() > firstNoteTime)
+						followPath(note1Path).alongWith(Commands
+								.sequence(Commands.waitUntil(() -> autonTimer.get() > FIRST_NOTE_TIME)
 										.andThen(Commands.waitUntil(
-												() -> autonTimer.hasElapsed(firstNoteTime))))),
-						followPath(getLoggerName()).alongWith(Commands.sequence(Commands
-								.waitUntil(() -> autonTimer.get() > secondNoteTime).andThen(Commands
-										.waitUntil(() -> autonTimer.hasElapsed(secondNoteTime))))))
+												() -> autonTimer.hasElapsed(FIRST_NOTE_TIME))))),
+						followPath(note2Path).alongWith(Commands.sequence(Commands
+								.waitUntil(() -> autonTimer.get() > SECOND_NOTE_TIME).andThen(Commands
+										.waitUntil(() -> autonTimer.hasElapsed(SECOND_NOTE_TIME))))))
 		// THE SACRED SEMICOLON LINE, DONT MOVE IT
 		;
 
@@ -227,36 +229,35 @@ public abstract class Autonomous implements ILogSource
 	{
 		return Commands.runOnce(() ->
 		{
-			RobotState.getInstance().resetPose(Path.apply(pose));
-			RobotState.getInstance().setTrajectorySetpoint(Path.apply(pose));
+			
 		});
 
 	}
 
-	public static Command resetPose(Path path){
-		return resetPose(path.getStartingPose());
-	}
+	// public static Command resetPose(Path path){
+	// 	return resetPose(path.getStartingPose());
+	// }
 
-	public static boolean xCrossed(double xPosition, boolean towardsCenterline) {
-    Pose2d robotPose = RobotState.getInstance().getTrajectorySetpoint();
-    if (Path.shouldFlip()) {
-      if (towardsCenterline) {
-        return robotPose.getX() < FieldConstants.fieldLength - xPosition;
-      } else {
-        return robotPose.getX() > FieldConstants.fieldLength - xPosition;
-      }
-    } else {
-      if (towardsCenterline) {
-        return robotPose.getX() > xPosition;
-      } else {
-        return robotPose.getX() < xPosition;
-      }
-    }
-  }
+// 	public static boolean xCrossed(double xPosition, boolean towardsCenterline) {
+//     Pose2d robotPose = RobotState.getInstance().getTrajectorySetpoint();
+//     if (Path.shouldFlip()) {
+//       if (towardsCenterline) {
+//         return robotPose.getX() < FieldConstants.fieldLength - xPosition;
+//       } else {
+//         return robotPose.getX() > FieldConstants.fieldLength - xPosition;
+//       }
+//     } else {
+//       if (towardsCenterline) {
+//         return robotPose.getX() > xPosition;
+//       } else {
+//         return robotPose.getX() < xPosition;
+//       }
+//     }
+//   }
 
-  public static Command waitUntilXCrossed(double xPosition, boolean towardsCenterline) {
-    return Commands.waitUntil(() -> xCrossed(xPosition, towardsCenterline));
-  }
+//   public static Command waitUntilXCrossed(double xPosition, boolean towardsCenterline) {
+//     return Commands.waitUntil(() -> xCrossed(xPosition, towardsCenterline));
+//   }
 
 
 
