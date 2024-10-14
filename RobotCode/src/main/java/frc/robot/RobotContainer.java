@@ -151,8 +151,8 @@ public class RobotContainer
 
 		// Swerve
 		SwerveSubsystem.setDefaultCommand(SwerveSubsystem.applyRequest(() -> Drive
-				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
-				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
+				.withVelocityX(PrimaryController.getY() * SwerveConstants.MAX_SPEED)
+				.withVelocityY(PrimaryController.getX() * SwerveConstants.MAX_SPEED)
 				.withRotationalRate(
 						-PrimaryController.getTwist() * SwerveConstants.MAX_ANGULAR_SPEED)));
 

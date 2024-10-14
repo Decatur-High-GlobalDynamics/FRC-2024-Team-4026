@@ -77,8 +77,8 @@ public class TunerConstants {
     private static final double kSteerGearRatio = 21.428571428571427;
     private static final double kWheelRadiusInches = 2;
 
-    private static final boolean kInvertLeftSide = false;
-    private static final boolean kInvertRightSide = true;
+    private static final boolean kInvertLeftSide = true; // false
+    private static final boolean kInvertRightSide = false; // true
 
     private static final String kCANbusName = "CANivore 0";
     private static final int kPigeonId = 25;

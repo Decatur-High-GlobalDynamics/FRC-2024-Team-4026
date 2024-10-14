@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.RobotContainer;
 import frc.robot.constants.SwerveConstants;
+import frc.robot.generated.TunerConstants;
 
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements
@@ -36,9 +38,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private double m_lastSimTime;
 
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
-    private final Rotation2d BlueAlliancePerspectiveRotation = Rotation2d.fromDegrees(0);
+    private final Rotation2d BlueAlliancePerspectiveRotation = Rotation2d.fromDegrees(180); // 180
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
-    private final Rotation2d RedAlliancePerspectiveRotation = Rotation2d.fromDegrees(180);
+    private final Rotation2d RedAlliancePerspectiveRotation = Rotation2d.fromDegrees(0); // 0
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean hasAppliedOperatorPerspective = false;
 
@@ -46,25 +48,26 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
-
-        robotRelativeDrive = new SwerveRequest.ApplyChassisSpeeds();
-
-        ConfigureAutoBuilder();
+        
+        ConfigureSubsystem();
     }
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
+        
+        ConfigureSubsystem();
+    }
+
+    public void ConfigureSubsystem() {
         if (Utils.isSimulation()) {
             startSimThread();
         }
 
-        robotRelativeDrive = new SwerveRequest.ApplyChassisSpeeds();
+        robotRelativeDrive = new SwerveRequest.ApplyChassisSpeeds()
+                .withDriveRequestType(DriveRequestType.Velocity);
 
         ConfigureAutoBuilder();
 
-        RobotContainer.getShuffleboardTab().addDouble("Gyro", () -> getPigeon2().getAngle());
+        RobotContainer.getShuffleboardTab().addDouble("Gyro", () -> getPose().getRotation().getDegrees());
 
         RobotContainer.getShuffleboardTab().addDouble("Module Angle State", () -> getModule(0).getCurrentState().angle.getDegrees());
         RobotContainer.getShuffleboardTab().addDouble("Module Angle Target", () -> getModule(0).getTargetState().angle.getDegrees());
@@ -76,11 +79,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         resetPose(new Pose2d());
 
         HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
-				new PIDConstants(SwerveConstants.DRIVE_KP, SwerveConstants.DRIVE_KI,
-						SwerveConstants.DRIVE_KD),
-				new PIDConstants(SwerveConstants.ANGLE_KP, SwerveConstants.ANGLE_KI,
-						SwerveConstants.ANGLE_KD),
-				SwerveConstants.MAX_SPEED, SwerveConstants.DRIVE_BASE_RADIUS_METERS,
+				new PIDConstants(5, 0, 0),
+				new PIDConstants(5, 0, 0),
+				SwerveConstants.MAX_SPEED, 
+                SwerveConstants.DRIVE_BASE_RADIUS_METERS,
 				new ReplanningConfig());
 
 		BooleanSupplier isRedAlliance = () ->
