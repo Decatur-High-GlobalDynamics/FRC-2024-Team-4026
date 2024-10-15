@@ -52,6 +52,9 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ILogSource
 	private SwerveModule[] swerveMods;
 	private Pigeon2 gyro;
 
+	private final SwerveSetpointGenerator setpointGenerator;
+    private SwerveSetpoint previousSetpoint;
+
 	private double gyroOffset = 0;
 
 	private Optional<DoubleSupplier> rotationController;
@@ -61,6 +64,7 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ILogSource
 	public SwerveDriveSubsystem()
 	{
 		gyro = RobotContainer.getGyro();
+
 
 		zeroGyro();
 
@@ -98,6 +102,19 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ILogSource
 				SwerveConstants.ANGULAR_VELOCITY_CONSTRAINTS);
 
 		PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetOverride);
+
+		RobotConfig config;
+		try{
+			config = RobotConfig.fromGUISettings();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+
+		setpointGenerator = new SwerveSetpointGenerator(config, Units.rotationsToRadians(10.0));
+
+		ChassisSpeeds currentSpeeds = getCurrentSpeeds(); // Method to get current robot-relative chassis speeds
+        SwerveModuleState[] currentStates = getCurrentModuleStates(); // Method to get the current swerve module states
+        previousSetpoint = new SwerveSetpoint(currentSpeeds, currentStates);
 	}
 
 	private void configureAutoBuilder()
@@ -188,6 +205,18 @@ public class SwerveDriveSubsystem extends SubsystemBase implements ILogSource
 				-speeds.omegaRadiansPerSecond);
 
 		drive(speeds, false);
+	}
+
+	 /**
+     * This method will take in desired robot-relative chassis speeds,
+     * generate a swerve setpoint, then set the target state for each module
+     *
+     * @param speeds The desired robot-relative speeds
+     */
+	public void driveRobotRelative(ChassisSpeeds speeds){
+		previousSetpoint = setpointGenerator.generateSetpoint(previousSetpoint, speeds, 0.02);
+
+		setModuleStates(previousSetpoint.moduleStates());
 	}
 
 	/* Used by SwerveControllerCommand in Auto */
