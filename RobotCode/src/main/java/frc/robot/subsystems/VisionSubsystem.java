@@ -8,6 +8,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.constants.Constants;
 import frc.robot.constants.VisionConstants;
 
@@ -35,7 +36,9 @@ public class VisionSubsystem extends SubsystemBase
 	{
 		try {
 			EstimatedRobotPose estimatedRobotPose = robotPoseEstimator.update().get();
-			Swerve.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
+			// Swerve.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);1
+
+			// System.out.println(estimatedRobotPose.estimatedPose.toPose2d().toString());
 		}
 		catch (NoSuchElementException e) {
 			

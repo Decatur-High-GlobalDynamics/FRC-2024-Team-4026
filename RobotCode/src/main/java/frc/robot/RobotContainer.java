@@ -154,7 +154,7 @@ public class RobotContainer
 				.withVelocityX(PrimaryController.getY() * SwerveConstants.MAX_SPEED)
 				.withVelocityY(PrimaryController.getX() * SwerveConstants.MAX_SPEED)
 				.withRotationalRate(
-						-PrimaryController.getTwist() * SwerveConstants.MAX_ANGULAR_SPEED)));
+						PrimaryController.getTwist() * SwerveConstants.MAX_ANGULAR_SPEED)));
 
 		// Aim to joystick direction
 		// Button.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle

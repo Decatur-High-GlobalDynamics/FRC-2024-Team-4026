@@ -71,7 +71,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
         RobotContainer.getShuffleboardTab().addDouble("Module Angle State", () -> getModule(0).getCurrentState().angle.getDegrees());
         RobotContainer.getShuffleboardTab().addDouble("Module Angle Target", () -> getModule(0).getTargetState().angle.getDegrees());
-        RobotContainer.getShuffleboardTab().addDouble("Module Speed State", () -> getModule(0).getCurrentState().speedMetersPerSecond);
+        RobotContainer.getShuffleboardTab().addDouble("Module Speed State 0", () -> getModule(0).getCurrentState().speedMetersPerSecond);
+        RobotContainer.getShuffleboardTab().addDouble("Module Speed State 1", () -> getModule(1).getCurrentState().speedMetersPerSecond);
+        RobotContainer.getShuffleboardTab().addDouble("Module Speed State 2", () -> getModule(2).getCurrentState().speedMetersPerSecond);
+        RobotContainer.getShuffleboardTab().addDouble("Module Speed State 3", () -> getModule(3).getCurrentState().speedMetersPerSecond);
         RobotContainer.getShuffleboardTab().addDouble("Module Speed Target", () -> getModule(0).getTargetState().speedMetersPerSecond);
     }
 
