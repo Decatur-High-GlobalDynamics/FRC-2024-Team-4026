@@ -177,10 +177,10 @@ public class RobotContainer
 						new Rotation2d((-Math.PI / 2)))));
 
 		// Aim at speaker with odometry
-		BButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
-				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
-				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
-				.withTargetDirection(getRotationToSpeaker())));
+		// BButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
+		// 		.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
+		// 		.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
+		// 		.withTargetDirection(getRotationToSpeaker())));
 
 		// Reset the field-centric heading
 		AButton.onTrue(SwerveSubsystem.runOnce(() -> SwerveSubsystem.seedFieldRelative()));
@@ -328,7 +328,7 @@ public class RobotContainer
 		return Autonomous;
 	}
 
-	public boolean isRedAlliance()
+	public static boolean isRedAlliance()
 	{
 		return DriverStation.getAlliance().get() == Alliance.Red;
 	}

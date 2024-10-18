@@ -84,16 +84,13 @@ public abstract class Autonomous implements ILogSource
         
 
         NamedCommands.registerCommand("Aim from Note Center",
-                new AutoShooterOverrideCommand(ShooterMount, Shooter, Indexer, Leds,
-                        ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
+                Swerve.getAutoAimSwerveCommand(AutoConstants.CHASSIS_ROTATION_NOTE_CENTER));
 
         NamedCommands.registerCommand("Aim from Note Source",
-                new AutoShooterOverrideCommand(ShooterMount, Shooter, Indexer, Leds,
-                        ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
+                Swerve.getAutoAimSwerveCommand(AutoConstants.CHASSIS_ROTATION_NOTE_SOURCE));
 
         NamedCommands.registerCommand("Aim from Note Amp", 
-                new AutoShooterOverrideCommand(ShooterMount, Shooter, Indexer, Leds,
-                        ShooterMountConstants.SHOOTER_MOUNT_PODIUM_ANGLE_FIXED_OFFSET));
+                Swerve.getAutoAimSwerveCommand(AutoConstants.CHASSIS_ROTATION_NOTE_AMP));
 
         // Populate rotation commands
         for (double rot : AutoConstants.AutoShooterMountRotations)
