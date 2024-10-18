@@ -44,8 +44,8 @@ public class IntakeSubsystem extends SubsystemBase
 		
 		// Configure deployment motors
 		intakeDeployMotorLeft.follow(intakeDeployMotorRight, true);
-		intakeDeployMotorRight.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
-		intakeDeployMotorLeft.setSmartCurrentLimit(Constants.NEO_MAX_CURRENT);
+		intakeDeployMotorRight.setSmartCurrentLimit(40);
+		intakeDeployMotorLeft.setSmartCurrentLimit(40);
 		intakeDeployMotorRight.setIdleMode(IdleMode.kBrake);
 		intakeDeployMotorLeft.setIdleMode(IdleMode.kBrake);
 

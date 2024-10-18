@@ -39,7 +39,7 @@ public class AmpCommand extends Command
 				.setTargetRotation(ShooterMountConstants.SHOOTER_MOUNT_INITIAL_AMP_ANGLE_OFFSET);
 		shooter.setShooterMotorVelocity(ShooterConstants.SHOOTER_AMP_VELOCITY);
 
-		startCountdown = new TeamCountdown(500);
+		startCountdown = new TeamCountdown(700);
 		finishCountdown = null;
 	}
 

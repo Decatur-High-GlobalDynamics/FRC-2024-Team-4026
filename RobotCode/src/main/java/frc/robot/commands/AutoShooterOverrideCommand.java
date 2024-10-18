@@ -47,7 +47,7 @@ public class AutoShooterOverrideCommand extends Command
         shooter.setShooterMotorVelocity(ShooterConstants.SHOOTER_SPEAKER_VELOCITY);
 
         // If-statement to see if motor is spun up
-        if (shooter.isUpToSpeed())
+        if (shooter.isUpToSpeed() && shooterMount.isAtTargetRotation())
         {
             indexer.setIndexerMotorVelocity(IndexerConstants.INDEXER_SHOOT_VELOCITY);
         }

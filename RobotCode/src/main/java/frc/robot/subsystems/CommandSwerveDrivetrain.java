@@ -105,8 +105,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         resetPose(new Pose2d());
 
         HolonomicPathFollowerConfig pathFollowerConfig = new HolonomicPathFollowerConfig(
-                new PIDConstants(5, 0, 0),
-                new PIDConstants(5, 0, 0),
+                new PIDConstants(2, 0, 0),
+                new PIDConstants(0.5, 0, 0),
                 SwerveConstants.MAX_SPEED,
                 SwerveConstants.DRIVE_BASE_RADIUS_METERS,
                 new ReplanningConfig());
@@ -138,6 +138,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     }
 
     public void driveRobotRelative(ChassisSpeeds speeds) {
+        speeds.omegaRadiansPerSecond = -speeds.omegaRadiansPerSecond;
         this.setControl(robotRelativeDrive.withSpeeds(speeds));
     }
 
