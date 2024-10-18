@@ -167,7 +167,7 @@ public class RobotContainer
 		YButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle
 				.withVelocityX(-PrimaryController.getY() * SwerveConstants.MAX_SPEED)
 				.withVelocityY(-PrimaryController.getX() * SwerveConstants.MAX_SPEED)
-				.withTargetDirection(new Rotation2d(Math.PI + (isRedAlliance() ? 0 : Math.PI)))));
+				.withTargetDirection(new Rotation2d(Math.PI + (isRedAlliance() ? Math.PI : 0)))));
 
 		// Aim to amp
 		XButton.whileTrue(SwerveSubsystem.applyRequest(() -> DriveFacingAngle

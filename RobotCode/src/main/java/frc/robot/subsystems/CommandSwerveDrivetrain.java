@@ -43,6 +43,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean hasAppliedOperatorPerspective = false;
 
+    private boolean pathPlannerControl;
+
     private SwerveRequest.ApplyChassisSpeeds robotRelativeDrive;
     private SwerveRequest.FieldCentricFacingAngle DriveFacingAngle;
 
@@ -63,6 +65,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         if (Utils.isSimulation()) {
             startSimThread();
         }
+
+        pathPlannerControl = true;
 
         robotRelativeDrive = new SwerveRequest.ApplyChassisSpeeds()
                 .withDriveRequestType(DriveRequestType.Velocity);
@@ -91,6 +95,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         // getModule(3).getCurrentState().speedMetersPerSecond);
         RobotContainer.getShuffleboardTab().addDouble("Module Speed Target",
                 () -> getModule(0).getTargetState().speedMetersPerSecond);
+    }
+
+    public void setPathPlannerControl(boolean control) {
+        pathPlannerControl = control;
     }
 
     public void ConfigureAutoBuilder() {
@@ -141,7 +149,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         return this.applyRequest(() -> DriveFacingAngle
                 .withVelocityX(0)
                 .withVelocityY(0)
-                .withTargetDirection(new Rotation2d(RobotContainer.isRedAlliance() ? (Math.PI - angle) : angle)));
+                .withTargetDirection(new Rotation2d(RobotContainer.isRedAlliance() ? (Math.PI - angle) : angle)))
+                .onlyWhile(() -> (this.getPose().getRotation().getRadians() < angle + 0.1
+                        && this.getPose().getRotation().getRadians() > angle - 0.1));
     }
 
     private void startSimThread() {

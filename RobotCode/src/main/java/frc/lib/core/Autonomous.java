@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.modules.leds.LedSubsystem;
 import frc.robot.RobotContainer;
 import frc.robot.Telemetry;
+import frc.robot.commands.AutoAimSwerveCommand;
 import frc.robot.commands.AutoShooterOverrideCommand;
 import frc.lib.modules.intake.Commands.IntakeCommand;
 import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;
@@ -85,12 +86,15 @@ public abstract class Autonomous implements ILogSource
 
         NamedCommands.registerCommand("Aim from Note Center",
                 Swerve.getAutoAimSwerveCommand(AutoConstants.CHASSIS_ROTATION_NOTE_CENTER));
+                // new AutoAimSwerveCommand(Swerve, AutoConstants.CHASSIS_ROTATION_NOTE_CENTER));
 
         NamedCommands.registerCommand("Aim from Note Source",
                 Swerve.getAutoAimSwerveCommand(AutoConstants.CHASSIS_ROTATION_NOTE_SOURCE));
+                // new AutoAimSwerveCommand(Swerve, AutoConstants.CHASSIS_ROTATION_NOTE_SOURCE));
 
         NamedCommands.registerCommand("Aim from Note Amp", 
                 Swerve.getAutoAimSwerveCommand(AutoConstants.CHASSIS_ROTATION_NOTE_AMP));
+                // new AutoAimSwerveCommand(Swerve, AutoConstants.CHASSIS_ROTATION_NOTE_AMP));
 
         // Populate rotation commands
         for (double rot : AutoConstants.AutoShooterMountRotations)
