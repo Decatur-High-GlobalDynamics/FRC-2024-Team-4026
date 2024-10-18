@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.modules.leds.LedSubsystem;
 import frc.robot.RobotContainer;
 import frc.robot.Telemetry;
-import frc.robot.commands.AutoAimSwerveCommand;
 import frc.robot.commands.AutoShooterOverrideCommand;
 import frc.lib.modules.intake.Commands.IntakeCommand;
 import frc.lib.modules.shootermount.RotateShooterMountToPositionCommand;

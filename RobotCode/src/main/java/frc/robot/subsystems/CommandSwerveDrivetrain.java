@@ -149,7 +149,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         return this.applyRequest(() -> DriveFacingAngle
                 .withVelocityX(0)
                 .withVelocityY(0)
-                .withTargetDirection(new Rotation2d(RobotContainer.isRedAlliance() ? (Math.PI - angle) : angle)))
+                .withTargetDirection(new Rotation2d(RobotContainer.isRedAlliance() ? angle : (Math.PI - angle))))
                 .onlyWhile(() -> (this.getPose().getRotation().getRadians() < angle + 0.1
                         && this.getPose().getRotation().getRadians() > angle - 0.1));
     }

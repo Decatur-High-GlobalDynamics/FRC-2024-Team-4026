@@ -128,7 +128,7 @@ public class ShooterMountSubsystem extends SubsystemBase
 	 */
 	public void setTargetRotation(double targetRotation)
 	{
-		System.out.println(targetRotation);
+		// System.out.println(targetRotation);
 
 		this.targetRotation = Math.max(
 				Math.min(targetRotation, ShooterMountConstants.SHOOTER_MOUNT_MAX_ANGLE_OFFSET),
