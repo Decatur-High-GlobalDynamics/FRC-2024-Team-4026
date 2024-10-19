@@ -55,7 +55,7 @@ public class SideBasedAuto extends Autonomous {
         SideChooser.addOption(Side.Source.autoName, Side.Source);
 
         AutoModeChooser = new SendableChooser<>();
-        AutoModeChooser.setDefaultOption(AutoMode.OneNote.autoName, AutoMode.OneNote);
+        AutoModeChooser.setDefaultOption(AutoMode.SubwooferDisrupt.autoName, AutoMode.SubwooferDisrupt);
         AutoModeChooser.addOption(AutoMode.OnlyShoot.autoName, AutoMode.OnlyShoot);
         AutoModeChooser.addOption(AutoMode.OneNote.autoName, AutoMode.OneNote);
         AutoModeChooser.addOption(AutoMode.TwoNote.autoName, AutoMode.TwoNote);
