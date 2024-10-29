@@ -51,7 +51,7 @@ import frc.lib.modules.shooter.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
 /**
- * p The container for the robot. Contains subsystems, OI devices, and commands.
+ * p The container for the robot. Contains subsystems, OI devices, and commands
  */
 public class RobotContainer
 {
