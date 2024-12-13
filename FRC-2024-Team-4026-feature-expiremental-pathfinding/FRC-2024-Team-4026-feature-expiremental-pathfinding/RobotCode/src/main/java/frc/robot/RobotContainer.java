@@ -3,6 +3,8 @@ package frc.robot;
 import java.util.Optional;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -12,6 +14,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lib.modules.leds.TeamColor;
 import frc.lib.modules.elevator.ElevatorSubsystem;
@@ -63,6 +67,8 @@ public class RobotContainer
 
 	private final PowerDistribution pdh;
 
+	private final Field2d field;
+
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
@@ -93,10 +99,31 @@ public class RobotContainer
 
 		Autonomous = new SideBasedAuto(this);
 
+		field = new Field2d();
+		SmartDashboard.putData("Field",field);
+
+		
 		// Configure the button bindings
 		configurePrimaryBindings();
 		configureSecondaryBindings();
-	}
+
+		PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
+			field.setRobotPose(pose);
+		});
+		    // Logging callback for target robot pose
+			PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+				// Do whatever you want with the pose here
+				field.getObject("target pose").setPose(pose);
+			});
+	
+			// Logging callback for the active path, this is sent as a list of poses
+			PathPlannerLogging.setLogActivePathCallback((poses) -> {
+				// Do whatever you want with the poses here
+				field.getObject("path").setPoses(poses);
+			});
+		};
+
+	
 
 	private void configurePrimaryBindings()
 	{
